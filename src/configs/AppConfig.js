@@ -2,9 +2,9 @@ import { SIDE_NAV_LIGHT, NAV_TYPE_SIDE, DIR_LTR } from 'constants/ThemeConstant'
 import { env } from './EnvironmentConfig'
 
 export const APP_NAME = 'ArredoBimboDashboard';
-export const API_BASE_URL = env.API_ENDPOINT_URL
-export const APP_PREFIX_PATH = '/ArredoBimbo/Dashboard/app';
-export const AUTH_PREFIX_PATH = '/ArredoBimbo/Dashboard/auth';
+export const API_BASE_URL = 'https://arredobimbo.github.io/Dashboard/'
+export const APP_PREFIX_PATH = '/Dashboard/app';
+export const AUTH_PREFIX_PATH = '/Dashboard/auth';
 export const IP = 'http://localhost:8000';
 
 export const THEME_CONFIG = {
