@@ -13,7 +13,7 @@ export const AppViews = () => {
         <Route path={`${APP_PREFIX_PATH}/gestione-foto`} component={lazy(() => import(`./handle-images`))} />
         <Route path={`${APP_PREFIX_PATH}/info-liste-regalo`} component={lazy(() => import(`./liste-regalo`))} />
         
-        <Redirect from={`${APP_PREFIX_PATH}`} to={`${APP_PREFIX_PATH}/home`} />
+        <Redirect from={`${APP_PREFIX_PATH}`} to={`https://arredobimbo.github.io/Dashboard${APP_PREFIX_PATH}home`} />
       </Switch>
     </Suspense>
   )

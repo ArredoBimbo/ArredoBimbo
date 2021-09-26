@@ -35,6 +35,7 @@ export const AppLayout = ({ navCollapsed, navType, location, direction }) => {
   const isNavSide = navType === NAV_TYPE_SIDE
   const isNavTop = navType === NAV_TYPE_TOP
   const getLayoutGutter = () => {
+    console.log("dentro layout")
     if(isNavTop || isMobile) {
       return 0
     }

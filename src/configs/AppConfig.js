@@ -3,8 +3,10 @@ import { env } from './EnvironmentConfig'
 
 export const APP_NAME = 'ArredoBimboDashboard';
 export const API_BASE_URL = 'https://arredobimbo.github.io/Dashboard/'
-export const APP_PREFIX_PATH = '/app';
-export const AUTH_PREFIX_PATH = '/auth';
+
+export const APP_PREFIX_PATH = '/';
+
+export const AUTH_PREFIX_PATH = '/Dashboard/auth';
 export const IP = 'http://localhost:8000';
 
 export const THEME_CONFIG = {
