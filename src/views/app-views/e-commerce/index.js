@@ -6,6 +6,7 @@ import EditProduct from './edit-product'
 
 const Ecommerce = props => {
   const { match } = props
+  console.log("match",match)
 	return (
 		<Switch>
 			<Redirect exact from={`${match.url}`} to={`${match.url}/lista-prodotti`} />

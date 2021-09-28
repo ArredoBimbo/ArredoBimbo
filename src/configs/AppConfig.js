@@ -4,10 +4,10 @@ import { env } from './EnvironmentConfig'
 export const APP_NAME = 'ArredoBimboDashboard';
 export const API_BASE_URL = 'https://arredobimbo.github.io/Dashboard/'
 
-export const APP_PREFIX_PATH = '/';
+export const APP_PREFIX_PATH = '/Dashboard/app';
 
 export const AUTH_PREFIX_PATH = '/Dashboard/auth';
-export const IP = 'http://localhost:8000';
+export const IP = 'https://arredobimbo.com:8443';
 
 export const THEME_CONFIG = {
 	navCollapsed: false,

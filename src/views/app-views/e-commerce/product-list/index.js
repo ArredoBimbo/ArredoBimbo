@@ -82,12 +82,12 @@ const ProductList = () => {
 	);
 
 	const addProduct = () => {
-		history.push(`/app/ecommerce/aggiungi-prodotto`)
+		history.push(`/Dashboard/app/ecommerce/aggiungi-prodotto`)
 	}
 
 	//qui al click di Views Details parte la modifica dell'i-esimo prodotto
 	const viewDetails = row => {
-		history.push(`/app/ecommerce/modifica-prodotto/${row.id}`)
+		history.push(`/Dashboard/app/ecommerce/modifica-prodotto/${row.id}`)
 	}
 
 
