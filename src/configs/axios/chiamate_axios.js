@@ -38,7 +38,8 @@ const getAcquisti = function (all_prodotti, callback) {
                         nomearticolo: res.data[i].nomeArticolo,
                         articoloCompleto: res.data[i],
                         tracking: res.data[i].nrtracking,
-                        idordine: res.data[i].idordine
+                        idordine: res.data[i].idordine,
+                        personalizzazione: res.data[i].personalizzazione
                     })
                     if (i == res.data.length - 1) {
                         callback(filtraggio)

@@ -974,6 +974,10 @@ const ProductForm = props => {
 				}
 				if (mode === EDIT) {
 					console.log("values-EDIT-conferma:", values)
+					let appoggio_foto = []
+					let appoggio_colori_disabilitati = []
+					let appoggio_lista_colori = []
+
 					getListaProdotti(lista_prodotti => {
 						//se sto in "EDIT" allora mi devo prendere tutti i campi del prodotto e settarli nelle form come campi già compilati
 						//console.log('is edit')
@@ -983,7 +987,15 @@ const ProductForm = props => {
 						const product = productData[0]
 						console.log("[PRIMA-UPDATE-EDIT] prodotto-selezionato-edit: ", product)
 						setProdotto(lista_prodotti.filter(product => product.idArticolo === productId)[0])
-						updateArticolo(idArticolo, vettFoto, values, res => {
+						for (let i = 0; i < product.coloriDisp.length; i++) {
+							appoggio_foto.push({ colore: product.colore.split(",")[i], foto: [] })
+						}
+						for (let i = 0; i < product.coloriDisp.length; i++) {
+							for (let j = 0; j < product.coloriDisp[i].image.length; j++) {
+								appoggio_foto[i].foto.push(product.coloriDisp[i].image[j])
+							}
+						}
+						updateArticolo(idArticolo, appoggio_foto, values, res => {
 							console.log("[RISPOSTA AXIOS UPDATE] articolo:", res)
 							if (res.status === 200) {
 								set_disabilita_bottone(true)

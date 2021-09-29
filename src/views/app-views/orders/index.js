@@ -40,6 +40,9 @@ const getColore = colore => {
   if (colore === 'blu') {
     return 'blue'
   }
+  if (colore === 'Albicocca') {
+    return '#b1191c'
+  }
   if (colore === 'verde') {
     return 'green'
   }
@@ -109,7 +112,6 @@ const Orders = () => {
               })
               for (let j = 0; j < acquisti.length; j++) {
                 if (unique[z] == acquisti[j].idordine) {
-
                   dict[z].id = z
                   dict[z].nome_carrello = unique[z]
                   dict[z].data = acquisti[j].articoloCompleto.data_acquisto.split('T')[0]
@@ -215,7 +217,8 @@ const Orders = () => {
           <Tabs defaultActiveKey="1">
             <TabPane tab={"Descrizione prodotto acquistato"} key={1}>
               <p> id dell'articolo: {prodottoSelezionato.articoloCompleto.idArticoloAcquistato} </p>
-              <p> foto dell'articolo:
+              <p> personalizzazione del cliente: {prodottoSelezionato.personalizzazione} </p>
+              <p> foto dell'articolo scelto:
                 <Upload
                   listType="picture-card"
                   fileList={vettoreFoto}
