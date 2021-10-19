@@ -26,7 +26,9 @@ export function* signInWithFBEmail() {
 			if (user.message) {
 				yield put(showAuthMessage(user.message));
 			} else {
+        //SEGNAPOSTO MAIL
 				localStorage.setItem(AUTH_TOKEN, user.user.uid);
+				localStorage.setItem('email', document.getElementById("email_form_login")[0].value);
 				yield put(authenticated(user.user.uid));
 			}
 		} catch (err) {

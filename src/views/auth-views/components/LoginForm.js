@@ -35,8 +35,8 @@ export const LoginForm = props => {
 	} = props
 
 	const initialCredential = {
-		email: 'arredobimbo@gmail.com',
-		password: 'ArredoBimbo.Gmail2021'
+		email: '',
+		password: ''
 	}
 
 	const onLogin = values => {
@@ -67,6 +67,8 @@ export const LoginForm = props => {
 				<Alert type="error" showIcon message={message}></Alert>
 			</motion.div>
 			<Form
+							id="email_form_login"
+
 				layout="vertical"
 				name="login-form"
 				initialValues={initialCredential}
@@ -75,6 +77,7 @@ export const LoginForm = props => {
 				<Form.Item
 					name="email"
 					label="Email"
+					
 					rules={[
 						{
 							required: true,
@@ -106,7 +109,7 @@ export const LoginForm = props => {
 					rules={[
 						{
 							required: true,
-							message: 'Please input your password',
+							message: 'Inserire una password',
 						}
 					]}
 				>
