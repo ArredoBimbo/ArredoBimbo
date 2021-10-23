@@ -27,7 +27,7 @@ const GeneralField = props => {
 
 
 	useEffect(() => {
-		
+
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
@@ -46,7 +46,8 @@ const GeneralField = props => {
 
 
 	const onChangePersonalizzazione = event => {
-		setPersonalizza(!personalizza)
+		console.log("event personalizza", event)
+		setPersonalizza(event)
 	}
 
 	const handleChange = event => {
@@ -432,7 +433,7 @@ const GeneralField = props => {
 					{label}
 				</Tag>
 			);
-		}else if (value == "Bronzoantico") {
+		} else if (value == "Bronzoantico") {
 			return (
 				<Tag color={"#75663F"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
 					{label}
@@ -466,7 +467,7 @@ const GeneralField = props => {
 					{label}
 				</Tag>
 			);
-		}else if (value == "Cartadazucchero") {
+		} else if (value == "Cartadazucchero") {
 			return (
 				<Tag color={"#E0FFFF"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
 					{label}
@@ -1314,7 +1315,7 @@ const GeneralField = props => {
 				</Tag>
 			);
 		}
-		
+
 		else if (value == "Scarlatto") {
 			return (
 				<Tag color={"#FF2400"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
@@ -1666,13 +1667,13 @@ const GeneralField = props => {
 			);
 		}
 
-		
 
 
-		
-	
+
+
+
 	}
-//NELLONETAVER
+	//NELLONETAVER
 
 	return (
 		<Row gutter={16}>
@@ -1692,7 +1693,7 @@ const GeneralField = props => {
 								<InputNumber
 									min={1}
 									className="w-100"
-									formatter={value => `€${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+									formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 									parser={value => value.replace(/\€\s?|(,*)/g, '')}
 								/>
 							</Form.Item>
@@ -1853,6 +1854,16 @@ const GeneralField = props => {
 							}
 						</Select>
 					</Form.Item>
+					{personalizza == "Si" &&
+						<Form.Item name="price" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
+							<InputNumber
+								min={1}
+								className="w-100"
+								formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+								parser={value => value.replace(/\€\s?|(,*)/g, '')}
+							/>
+						</Form.Item>
+					}
 					<Form.Item name="correlati" label="Prodotti correlati" rules={rules.correlati} >
 						<Select mode="multiple" id="corr" className="w-100" placeholder="Correlati">
 							{

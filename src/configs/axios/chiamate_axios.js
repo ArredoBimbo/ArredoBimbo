@@ -2,8 +2,25 @@ import axios from "axios"
 import { IP } from 'configs/AppConfig';
 import ls from 'local-storage'
 
-const uploadFoto = function (id, indice, vettore_url, callback) {
-    axios.post(IP + "/uploadFoto", { url: vettore_url, id: id, indice: indice })
+import firebase from 'firebase/app';
+
+const createToken = async () => {
+    const user = firebase.auth().currentUser;
+    console.log(user)
+
+    const token = user && (await user.getIdToken());
+    const payloadHeader = {
+        headers: {
+            "Authorization": "Bearer " + token,
+        },
+    };
+    return payloadHeader;
+}
+
+
+const uploadFoto = async function (id, indice, vettore_url, callback) {
+    const header = await createToken();
+    axios.post(IP + "/uploadFoto", { url: vettore_url, id: id, indice: indice }, header)
         .then(response => {
             callback(response.data);
         }).catch(err => {
@@ -11,8 +28,9 @@ const uploadFoto = function (id, indice, vettore_url, callback) {
         })
 }
 
-const getListaProdotti = function (callback) {
-    axios.get(IP + '/lista-prodotti-dashboard').then(response => {
+const getListaProdotti = async function (callback) {
+    const header = await createToken();
+    axios.get(IP + '/lista-prodotti-dashboard', header).then(response => {
         ls.set('lista_prodotti', response.data)
         callback(response.data);
     }).catch(err => {
@@ -20,8 +38,9 @@ const getListaProdotti = function (callback) {
     })
 }
 
-const getAcquisti = function (all_prodotti, callback) {
-    axios.get(IP + '/lista-acquisti').then(res => {
+const getAcquisti = async function (all_prodotti, callback) {
+    const header = await createToken();
+    axios.get(IP + '/lista-acquisti', header).then(res => {
         let filtraggio = []
         for (let i = 0; i < res.data.length; i++) {
             for (let j = 0; j < all_prodotti.length; j++) {
