@@ -26,6 +26,7 @@ const ProductForm = props => {
 	const [numColori, setDispColori] = useState([])
 	const [vettFoto, setVettFoto] = useState([])
 	const [numUltimiArrivi, setNumUltimiArrivi] = useState([])
+	const [personalizzazione, set_personalizzazione] = useState([])
 	const [gratis, setGratis] = useState([])
 	const [ultimiArrivi, setUltimiArrivi] = useState([])
 	const [listaColori, setListaColori] = useState([])
@@ -72,6 +73,7 @@ const ProductForm = props => {
 		if (numColori == 1) {
 			form.setFieldsValue({
 				cost: product.prezzo,
+				costo_personalizzazione: product.costo_personalizzazione,
 				description: product.descrizione,
 				category: product.categoria,
 				Colori: listaColori,
@@ -96,6 +98,7 @@ const ProductForm = props => {
 			form.setFieldsValue({
 				cost: product.prezzo,
 				description: product.descrizione,
+				costo_personalizzazione: product.costo_personalizzazione,
 				category: product.categoria,
 				Colori: listaColori,
 				numColore0: stockColore[0],
@@ -121,6 +124,7 @@ const ProductForm = props => {
 			form.setFieldsValue({
 				cost: product.prezzo,
 				description: product.descrizione,
+				costo_personalizzazione: product.costo_personalizzazione,
 				category: product.categoria,
 				Colori: listaColori,
 				numColore0: stockColore[0],
@@ -147,6 +151,7 @@ const ProductForm = props => {
 			form.setFieldsValue({
 				cost: product.prezzo,
 				description: product.descrizione,
+				costo_personalizzazione: product.costo_personalizzazione,
 				category: product.categoria,
 				Colori: listaColori,
 				numColore0: stockColore[0],
@@ -174,6 +179,7 @@ const ProductForm = props => {
 			form.setFieldsValue({
 				cost: product.prezzo,
 				description: product.descrizione,
+				costo_personalizzazione: product.costo_personalizzazione,
 				category: product.categoria,
 				Colori: listaColori,
 				numColore0: stockColore[0],
@@ -204,6 +210,7 @@ const ProductForm = props => {
 				cost: product.prezzo,
 				description: product.descrizione,
 				category: product.categoria,
+				costo_personalizzazione: product.costo_personalizzazione,
 				Colori: listaColori,
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
@@ -233,6 +240,7 @@ const ProductForm = props => {
 				cost: product.prezzo,
 				description: product.descrizione,
 				category: product.categoria,
+				costo_personalizzazione: product.costo_personalizzazione,
 				Colori: listaColori,
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
@@ -263,6 +271,7 @@ const ProductForm = props => {
 				cost: product.prezzo,
 				description: product.descrizione,
 				category: product.categoria,
+				costo_personalizzazione: product.costo_personalizzazione,
 				Colori: listaColori,
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
@@ -295,6 +304,7 @@ const ProductForm = props => {
 				description: product.descrizione,
 				category: product.categoria,
 				Colori: listaColori,
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
 				numColore2: stockColore[2],
@@ -331,7 +341,7 @@ const ProductForm = props => {
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore2: stockColore[2],
 				numColore3: stockColore[3],
 				numColore4: stockColore[4],
@@ -371,7 +381,7 @@ const ProductForm = props => {
 				numColore7: stockColore[7],
 				numColore8: stockColore[8],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore9: stockColore[9],
 				numColore10: stockColore[10],
 				name: product.nomeArticolo,
@@ -402,7 +412,7 @@ const ProductForm = props => {
 				numColore4: stockColore[4],
 				numColore5: stockColore[5],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore6: stockColore[6],
 				numColore7: stockColore[7],
 				numColore8: stockColore[8],
@@ -433,7 +443,7 @@ const ProductForm = props => {
 				Colori: listaColori,
 				numColore0: stockColore[0],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore1: stockColore[1],
 				numColore2: stockColore[2],
 				numColore3: stockColore[3],
@@ -476,7 +486,7 @@ const ProductForm = props => {
 				numColore6: stockColore[6],
 				numColore7: stockColore[7],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore8: stockColore[8],
 				numColore9: stockColore[9],
 				numColore10: stockColore[10],
@@ -519,7 +529,7 @@ const ProductForm = props => {
 				numColore12: stockColore[12],
 				numColore13: stockColore[13],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore14: stockColore[14],
 				name: product.nomeArticolo,
 				price: product.prezzo,
@@ -553,7 +563,7 @@ const ProductForm = props => {
 				numColore8: stockColore[8],
 				numColore9: stockColore[9],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore10: stockColore[10],
 				numColore11: stockColore[11],
 				numColore12: stockColore[12],
@@ -588,7 +598,7 @@ const ProductForm = props => {
 				numColore4: stockColore[4],
 				numColore5: stockColore[5],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore6: stockColore[6],
 				numColore7: stockColore[7],
 				numColore8: stockColore[8],
@@ -628,7 +638,7 @@ const ProductForm = props => {
 				numColore3: stockColore[3],
 				numColore4: stockColore[4],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore5: stockColore[5],
 				numColore6: stockColore[6],
 				numColore7: stockColore[7],
@@ -680,7 +690,7 @@ const ProductForm = props => {
 				numColore14: stockColore[14],
 				numColore15: stockColore[15],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore16: stockColore[16],
 				numColore17: stockColore[17],
 				numColore18: stockColore[18],
@@ -726,7 +736,7 @@ const ProductForm = props => {
 				numColore17: stockColore[17],
 				numColore18: stockColore[18],
 				gratis: gratis,
-
+				costo_personalizzazione: product.costo_personalizzazione,
 				numColore19: stockColore[19],
 				name: product.nomeArticolo,
 				price: product.prezzo,
@@ -773,6 +783,7 @@ const ProductForm = props => {
 				}
 			}
 			setNumUltimiArrivi(somma)
+			
 			if (mode === EDIT) {
 				//se sto in "EDIT" allora mi devo prendere tutti i campi del prodotto e settarli nelle form come campi già compilati
 				//console.log('is edit')
@@ -844,7 +855,7 @@ const ProductForm = props => {
 		setidArticolo(product.idArticolo)
 		setDispColori(appoggio)
 		setCorrelati(correlati)
-
+		set_personalizzazione(product.costo_personalizzazione)
 
 		if (product.ultimiArrivi) {
 			setUltimiArrivi("Si")
@@ -1104,7 +1115,7 @@ const ProductForm = props => {
 						{mode == EDIT && colori.length != 0 && all_prodotti.length != 0 &&
 							colori.map((elem, key) =>
 								<TabPane tab={"Foto per il colore " + elem.colore} key={key}>
-									<UploadImages id={idArticolo} colore={elem.colore} vettFoto={vettFoto} indice={elem.indice} />
+									<UploadImages id={idArticolo} colore={elem.colore} vettFoto={vettFoto} indice={elem.indice} personalizzazione = {personalizzazione} />
 								</TabPane>
 							)
 

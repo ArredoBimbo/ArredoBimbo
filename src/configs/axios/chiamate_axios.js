@@ -6,8 +6,6 @@ import firebase from 'firebase/app';
 
 const createToken = async () => {
     const user = firebase.auth().currentUser;
-    console.log(user)
-
     const token = user && (await user.getIdToken());
     const payloadHeader = {
         headers: {
@@ -16,7 +14,6 @@ const createToken = async () => {
     };
     return payloadHeader;
 }
-
 
 const uploadFoto = async function (id, indice, vettore_url, callback) {
     const header = await createToken();
@@ -28,6 +25,15 @@ const uploadFoto = async function (id, indice, vettore_url, callback) {
         })
 }
 
+const deleteTmp = async function (callback) {
+    const header = await createToken();
+    axios.get(IP + '/delete-tmp', header).then(response => {
+        callback(response.data);
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
 const getListaProdotti = async function (callback) {
     const header = await createToken();
     axios.get(IP + '/lista-prodotti-dashboard', header).then(response => {
@@ -37,6 +43,16 @@ const getListaProdotti = async function (callback) {
         console.log(err);
     })
 }
+
+const getAcquistiTmp = async function (callback) {
+    const header = await createToken();
+    axios.get(IP + '/acquisti-tmp', header).then(response => {
+        callback(response.data);
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
 
 const getAcquisti = async function (all_prodotti, callback) {
     const header = await createToken();
@@ -71,107 +87,118 @@ const getAcquisti = async function (all_prodotti, callback) {
     })
 }
 
-const insertArticolo = function (values, callback) {
-    axios.post(IP + '/insertArticoli', values).then(response => {
+const insertArticolo = async function (values, callback) {
+    const header = await createToken();
+    axios.post(IP + '/insertArticoli', values, header).then(response => {
         callback(response);
     }).catch(err => {
         console.log(err);
     })
 }
 
-const updateArticolo = function (idArticolo, foto, values, callback) {
-    console.log("idArt", idArticolo)
-    console.log("listaFoto", foto)
-    console.log("values", values)
-    axios.put(IP + '/updateArticolo', { id: idArticolo, lista_foto: foto, values: values }).then(response => {
+const updateArticolo = async function (idArticolo, foto, values, callback) {
+    const header = await createToken();
+    axios.put(IP + '/updateArticolo', { id: idArticolo, lista_foto: foto, values: values }, header).then(response => {
         callback(response);
     }).catch(err => {
         console.log(err);
     })
 }
 
-const getFoto = function (callback) {
-    axios.get(IP + '/lista-foto').then(response => {
+const getFoto = async function (callback) {
+    const header = await createToken();
+    axios.get(IP + '/lista-foto', header).then(response => {
         callback(response.data);
     }).catch(err => {
         console.log(err);
     })
 }
 
-const getOrdiniOdierni = function (all_prodotti, callback) {
-    axios.get(IP + '/ordini-odierni').then(response => {
+const getOrdiniOdierni = async function (all_prodotti, callback) {
+    const header = await createToken();
+    axios.get(IP + '/ordini-odierni', header).then(response => {
         let appoggio = []
-        for (let i = 0; i < response.data.length; i++) {
-            for (let j = 0; j < all_prodotti.length; j++) {
-                if (all_prodotti[j].idArticolo === response.data[i].idArticoloAcquistato) {
-                    if (response.data.Nome != null && response.data.Cognome != null) {
-                        appoggio.push({
-                            id: i,
-                            name: response.data[i].Nome + ' ' + response.data[i].Cognome,
-                            amount: response.data[i].totalePrezzo,
-                            articolo: all_prodotti[j].nomeArticolo,
-                            numero_acquisti: response.data[i].numeroAcquisti
-                        })
-                    } else {
-                        appoggio.push({
-                            id: i,
-                            name: response.data[i].emailAcquirente,
-                            amount: response.data[i].totalePrezzo,
-                            articolo: all_prodotti[j].nomeArticolo,
-                            numero_acquisti: response.data[i].numeroAcquisti
-                        })
-                    }
-                    if (i == response.data.length - 1) {
-                        callback(appoggio);
+        if (response.data.length != 0) {
+            for (let i = 0; i < response.data.length; i++) {
+                for (let j = 0; j < all_prodotti.length; j++) {
+                    if (all_prodotti[j].idArticolo === response.data[i].idArticoloAcquistato) {
+                        if (response.data.Nome != null && response.data.Cognome != null) {
+                            appoggio.push({
+                                id: i,
+                                name: response.data[i].Nome + ' ' + response.data[i].Cognome,
+                                amount: response.data[i].totalePrezzo,
+                                articolo: all_prodotti[j].nomeArticolo,
+                                numero_acquisti: response.data[i].numeroAcquisti
+                            })
+                        } else {
+                            appoggio.push({
+                                id: i,
+                                name: response.data[i].emailAcquirente,
+                                amount: response.data[i].totalePrezzo,
+                                articolo: all_prodotti[j].nomeArticolo,
+                                numero_acquisti: response.data[i].numeroAcquisti
+                            })
+                        }
+                        if (i == response.data.length - 1) {
+                            callback(appoggio);
+                        }
                     }
                 }
             }
+        } else {
+            callback(appoggio);
         }
     }).catch(err => {
         console.log(err);
     })
 }
 
-const topAcquisti = function (all_prodotti, data, callback) {
-    axios.post(IP + '/top-acquisti', { periodo: data }).then(response => {
+const topAcquisti = async function (all_prodotti, data, callback) {
+    const header = await createToken();
+    axios.post(IP + '/top-acquisti', { periodo: data }, header).then(response => {
         let filtraggio = []
-        for (let i = 0; i < response.data.length; i++) {
-            for (let j = 0; j < all_prodotti.length; j++) {
-                if (all_prodotti[j].idArticolo == response.data[i].idArticoloAcquistato) {
-                    if (all_prodotti[j].coloriDisp[response.data[i].indiceColore].image.length == 0) {
-                        filtraggio.push({
-                            name: all_prodotti[j].nomeArticolo,
-                            image: '',
-                            category: all_prodotti[j].categoria,
-                            sales: response.data[i].sum,
-                            status: 'up',
-                            venduti: response.data[i].numerototaleacquisti
-                        })
+        if (response.data.length != 0) {
+            for (let i = 0; i < response.data.length; i++) {
+                for (let j = 0; j < all_prodotti.length; j++) {
+                    if (all_prodotti[j].idArticolo == response.data[i].idArticoloAcquistato) {
+                        if (all_prodotti[j].coloriDisp[response.data[i].indiceColore].image.length == 0) {
+                            filtraggio.push({
+                                name: all_prodotti[j].nomeArticolo,
+                                image: '',
+                                category: all_prodotti[j].categoria,
+                                sales: response.data[i].sum,
+                                status: 'up',
+                                venduti: response.data[i].numerototaleacquisti
+                            })
 
-                    } else {
-                        filtraggio.push({
-                            name: all_prodotti[j].nomeArticolo,
-                            image: all_prodotti[j].coloriDisp[response.data[i].indiceColore].image[0],
-                            category: all_prodotti[j].categoria,
-                            sales: response.data[i].sum,
-                            status: 'up',
-                            venduti: response.data[i].numerototaleacquisti
-                        })
-                    }
-                    if (i == response.data.length - 1) {
-                        callback(filtraggio);
+                        } else {
+                            filtraggio.push({
+                                name: all_prodotti[j].nomeArticolo,
+                                image: all_prodotti[j].coloriDisp[response.data[i].indiceColore].image[0],
+                                category: all_prodotti[j].categoria,
+                                sales: response.data[i].sum,
+                                status: 'up',
+                                venduti: response.data[i].numerototaleacquisti
+                            })
+                        }
+                        if (i == response.data.length - 1) {
+                            callback(filtraggio);
+                        }
                     }
                 }
             }
-
+        } else {
+            callback(filtraggio);
         }
+
     }).catch(err => {
         console.log(err);
     })
 }
 
-const updateTracking = function (track, id, callback) {
-    axios.put(IP + '/update-tracking', { tracking: track, indice: id  }).then(response => {
+const updateTracking = async function (track, id, callback) {
+    const header = await createToken();
+    axios.put(IP + '/update-tracking', { tracking: track, indice: id }, header).then(response => {
         callback(response);
     }).catch(err => {
         console.log(err);
@@ -179,17 +206,20 @@ const updateTracking = function (track, id, callback) {
 }
 
 
-const confermaTracking = function (id, callback) {
-    axios.put(IP + '/conferma-tracking', { indice: id  }).then(response => {
+const confermaTracking = async function (id, callback) {
+    const header = await createToken();
+
+    axios.put(IP + '/conferma-tracking', { indice: id }, header).then(response => {
         callback(response);
     }).catch(err => {
         console.log(err);
     })
 }
 
-const insertFotoECommerce = function (url, colonna, callback) {
+const insertFotoECommerce = async function (url, colonna, callback) {
+    const header = await createToken();
 
-    axios.post(IP + "/insert-foto-ecommerce", { url: url, colonna_db: colonna })
+    axios.post(IP + "/insert-foto-ecommerce", { url: url, colonna_db: colonna }, header)
         .then(response => {
             callback(response);
         }).catch(err => {
@@ -197,9 +227,10 @@ const insertFotoECommerce = function (url, colonna, callback) {
         })
 }
 
-const uploadFotoECommerce = function (url, colonna, callback) {
+const uploadFotoECommerce = async function (url, colonna, callback) {
+    const header = await createToken();
 
-    axios.put(IP + "/upload-foto-ecommerce", { url: url, colonna_db: colonna })
+    axios.put(IP + "/upload-foto-ecommerce", { url: url, colonna_db: colonna }, header)
         .then(response => {
             callback(response.data);
         }).catch(err => {
@@ -219,5 +250,7 @@ export {
     updateTracking,
     confermaTracking,
     insertFotoECommerce,
-    uploadFotoECommerce
+    uploadFotoECommerce,
+    getAcquistiTmp,
+    deleteTmp
 }

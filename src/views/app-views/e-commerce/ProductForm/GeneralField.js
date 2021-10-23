@@ -1846,7 +1846,7 @@ const GeneralField = props => {
 
 				<Card title="Personalizzazione">
 					<Form.Item name="personalizzazione" label="Personalizzazione" rules={rules.personalizzazione} >
-						<Select defaultValue={props.ultimiArrivi} className="w-100" placeholder="Scelta" onChange={(e) => onChangePersonalizzazione(e)} >
+						<Select defaultValue={props.personalizzazione} className="w-100" placeholder="Scelta" onChange={(e) => onChangePersonalizzazione(e)} >
 							{
 								personalizzazione.map(elm => (
 									<Option key={elm} value={elm}>{elm}</Option>
@@ -1854,8 +1854,8 @@ const GeneralField = props => {
 							}
 						</Select>
 					</Form.Item>
-					{personalizza == "Si" &&
-						<Form.Item name="price" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
+					{personalizza == "Si" || props.personalizzazione &&
+						<Form.Item name="costo_personalizzazione" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
 							<InputNumber
 								min={1}
 								className="w-100"
