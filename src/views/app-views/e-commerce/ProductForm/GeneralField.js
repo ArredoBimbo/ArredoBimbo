@@ -1854,7 +1854,7 @@ const GeneralField = props => {
 							}
 						</Select>
 					</Form.Item>
-					{personalizza == "Si" || props.personalizzazione &&
+					{(personalizza == "Si" || props.personalizzazione =="Si") &&
 						<Form.Item name="costo_personalizzazione" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
 							<InputNumber
 								min={1}

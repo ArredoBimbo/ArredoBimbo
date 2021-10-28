@@ -54,9 +54,13 @@ const ProductForm = props => {
 		}
 		if (product.personalizzazione) {
 			check_personalizzazione = "Si"
+			set_personalizzazione("Si")
+
 		}
 		else {
 			check_personalizzazione = "No"
+			set_personalizzazione("No")
+
 		}
 		if (product.correlati == "undefined") {
 			correlati = []
@@ -855,7 +859,6 @@ const ProductForm = props => {
 		setidArticolo(product.idArticolo)
 		setDispColori(appoggio)
 		setCorrelati(correlati)
-		set_personalizzazione(product.costo_personalizzazione)
 
 		if (product.ultimiArrivi) {
 			setUltimiArrivi("Si")
@@ -1102,6 +1105,7 @@ const ProductForm = props => {
 									colori_totali={colori_totali}
 									all_prodotti={all_prodotti}
 									correlati={correlati}
+									personalizzazione = {personalizzazione}
 								/>
 							</TabPane>
 						}
@@ -1115,7 +1119,7 @@ const ProductForm = props => {
 						{mode == EDIT && colori.length != 0 && all_prodotti.length != 0 &&
 							colori.map((elem, key) =>
 								<TabPane tab={"Foto per il colore " + elem.colore} key={key}>
-									<UploadImages id={idArticolo} colore={elem.colore} vettFoto={vettFoto} indice={elem.indice} personalizzazione = {personalizzazione} />
+									<UploadImages id={idArticolo} colore={elem.colore} vettFoto={vettFoto} indice={elem.indice} />
 								</TabPane>
 							)
 
