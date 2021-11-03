@@ -9,19 +9,11 @@ import { APP_PREFIX_PATH } from 'configs/AppConfig'
 
 export const Logout = () => {
 
-    //let history = useHistory();
-    const [logout, set_logout] = useState(false)
-
-
     const redirect = () => {
-        console.log("cliccato")
         localStorage.removeItem('email')
         localStorage.removeItem('auth_token')
         window.location.reload(true);
     };
-
-
-
 
     return (
         <div>
@@ -32,7 +24,6 @@ export const Logout = () => {
             </Menu>
         </div>
     );
-
 }
 
 const mapStateToProps = ({ theme }) => {

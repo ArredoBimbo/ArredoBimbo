@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IP } from 'configs/AppConfig';
+import { IP } from 'configs/IP';
 import ls from 'local-storage'
 
 import firebase from 'firebase/app';
