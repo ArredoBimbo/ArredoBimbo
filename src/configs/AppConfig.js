@@ -7,10 +7,12 @@ export const API_BASE_URL = 'https://arredobimbo.github.io/Dashboard/'
 export const APP_PREFIX_PATH = '/Dashboard/app';
 
 export const AUTH_PREFIX_PATH = '/Dashboard/auth';
-//export const IP = 'https://arredobimbo.com:8443';
-export const IP = 'http://studio-manudaniel.ddns.net:8000';
 
-//export const IP = 'http://localhost:8000';
+//export const IP = 'https://arredobimbo.com:8443';
+
+//export const IP = 'http://studio-manudaniel.ddns.net:8000';
+
+export const IP = 'http://localhost:8000';
 
 export const THEME_CONFIG = {
 	navCollapsed: false,
@@ -26,11 +28,14 @@ export const THEME_CONFIG = {
 
 // ************************* configurazioni per le form riguardanti l'inserimento di un nuvoo articolo *********************
 export const ultimiArrivi = ['Si', 'No'];
+
 export const gratis = ['Si', 'No'];
+
 export const personalizzazione = ['Si', 'No'];
+
 export const categorie = ['A-spasso', 'Bagnetto', 'arredamento', 'sicurezza', 'gioco-e-relax', 'offerte', 'marchi', 'abbigliamento', 'pappa'];
-export const sottocategorie =
-{
+
+export const sottocategorie = {
 	'A-spasso':
 		['passeggini-trio-e-duo', 'passeggini-leggeri', 'accessori-per-passeggiare', 'passeggini-gemellari', 'Carrozzine-e-navicelle', 'marsupi-e-zaini'],
 
@@ -53,9 +58,121 @@ export const sottocategorie =
 		'alimentazione', 'accessori-per-la-dentizione']
 };
 
-export const colori = [
-	
+export const rules = {
+	name: [
+		{
+			required: true,
+			message: 'Inserisci il nome del prodotto',
+		}
+	],
+	description: [
+		{
+			required: true,
+			message: 'Inserisci una descrizione per il prodotto',
+		}
+	],
+	categoria: [
+		{
+			required: true,
+			message: 'Inserisci la categoria per il prodotto',
+		}
+	],
+	sottocategoria: [
+		{
+			required: true,
+			message: 'Inserisci la sottocategoria per il prodotto',
+		}
+	],
+	colori: [
+		{
+			required: true,
+			message: 'Inserisci almeno un colore per il prodotto',
+		}
+	],
+	numColori: [
+		{
+			required: true,
+			message: 'Inserisci almeno un numero per il colore selezionato',
+		}
+	],
+	price: [
+		{
+			required: true,
+			message: 'Inserisci il prezzo del prodotto',
+		}
+	],
+	ultimiArrivi: [
+		{
+			required: false,
+		}
+	],
+	gratis: [
+		{
+			required: false,
+		}
+	],
+	sconto: [
+		{
+			required: false,
+		}
+	],
+	numero_pezzi: [
+		{
+			required: true,
+			message: 'Inserisci la disponibilità del prodotto',
+		}
+	],
+	marca: [
+		{
+			required: true,
+			message: 'Inserisci la marca del prodotto',
+		}
+	],
+	costo_personalizzazione: [
+		{
+			required: true,
+			message: 'Inserisci il costo di personalizzazione del prodotto',
+		}
+	],
+	personalizzazione: [
+		{
+			required: true,
+			message: 'Inserisci la possibilità di personalizzare o meno il prodotto',
+		}
+	],
+	correlati: [
+		{
+			required: false,
+		}
+	],
+	lunghezza: [
+		{
+			required: true,
+		}
+	],
+	larghezza: [
+		{
+			required: true,
+		}
+	],
+	peso: [
+		{
+			required: false,
+		}
+	],
+	altezza: [
+		{
+			required: true,
+		}
+	],
+	materiale: [
+		{
+			required: false,
+		}
+	],
+};
 
+export const colori = [
 	"Acquamarina",
 	"Albicocca",
 	"Amaranto",
@@ -293,464 +410,4 @@ export const colori = [
 	"Zafferano",
 	"Zafferano profondo",
 	"Zaffiro",
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	];
-
-export const rules = {
-	name: [
-		{
-			required: true,
-			message: 'Inserisci il nome del prodotto',
-		}
-	],
-	description: [
-		{
-			required: true,
-			message: 'Inserisci una descrizione per il prodotto',
-		}
-	],
-	categoria: [
-		{
-			required: true,
-			message: 'Inserisci la categoria per il prodotto',
-		}
-	],
-	sottocategoria: [
-		{
-			required: true,
-			message: 'Inserisci la sottocategoria per il prodotto',
-		}
-	],
-	colori: [
-		{
-			required: true,
-			message: 'Inserisci almeno un colore per il prodotto',
-		}
-	],
-	numColori: [
-		{
-			required: true,
-			message: 'Inserisci almeno un numero per il colore selezionato',
-		}
-	],
-	price: [
-		{
-			required: true,
-			message: 'Inserisci il prezzo del prodotto',
-		}
-	],
-	ultimiArrivi: [
-		{
-			required: false,
-		}
-	],
-	gratis: [
-		{
-			required: false,
-		}
-	],
-	sconto: [
-		{
-			required: false,
-		}
-	],
-	numero_pezzi: [
-		{
-			required: true,
-			message: 'Inserisci la disponibilità del prodotto',
-		}
-	],
-	marca: [
-		{
-			required: true,
-			message: 'Inserisci la marca del prodotto',
-		}
-	],
-	costo_personalizzazione: [
-		{
-			required: true,
-			message: 'Inserisci il costo di personalizzazione del prodotto',
-		}
-	],
-	personalizzazione: [
-		{
-			required: true,
-			message: 'Inserisci la possibilità di personalizzare o meno il prodotto',
-		}
-	],
-	correlati: [
-		{
-			required: false,
-		}
-	],
-	lunghezza: [
-		{
-			required: true,
-		}
-	],
-	larghezza: [
-		{
-			required: true,
-		}
-	],
-	peso: [
-		{
-			required: false,
-		}
-	],
-	altezza: [
-		{
-			required: true,
-		}
-	],
-	materiale: [
-		{
-			required: false,
-		}
-	],
-};
+];
