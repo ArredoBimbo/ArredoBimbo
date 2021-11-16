@@ -630,6 +630,7 @@ const ProductForm = props => {
 				sconto: product.offerta
 			});
 		}
+		
 		else if (numColori == 18) {
 			form.setFieldsValue({
 				cost: product.prezzo,

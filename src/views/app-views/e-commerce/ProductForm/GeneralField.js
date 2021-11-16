@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Card, Form, InputNumber, Alert, Select, Tag } from 'antd';
-import { rules, sottocategorie, categorie, ultimiArrivi, gratis, personalizzazione, colori } from 'configs/AppConfig'
+import { rules, sottocategorie, categorie, ultimiArrivi, gratis, personalizzazione, colori, taglie } from 'configs/AppConfig'
 
 const { Option } = Select;
 
 const GeneralField = props => {
 	const [sottocat, setSottocat] = useState([])
 	const [listaColori, setListaColori] = useState(props.listaColori)
+	const [listaTaglie, setListaTaglie] = useState([])
+	const [listaTaglie_dict, setListaTaglie_dict] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}])
 	const [ultimoArrivo, setUltimoArrivo] = useState(false)
 	const [personalizza, setPersonalizza] = useState(false)
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
@@ -59,7 +61,56 @@ const GeneralField = props => {
 	function handleChange_colori(value) {
 		//console.log(`selected ${value}`);
 		setListaColori(value)
+
 	}
+
+	function handleChange_taglie(value, key) {
+		//console.log(`selected ${value}`);
+		//setListaTaglie(value)
+		console.log(value)
+		console.log(key)
+		console.log("taglie",listaTaglie)
+		console.log("colori",listaColori)
+		let appoggio = listaTaglie_dict
+		for (let i = 0; i < listaColori.length; i++) {
+			if (i == key) {
+				console.log("dentro")
+				appoggio[key].stock = value
+			} else {
+				appoggio.push({stock : []})
+			}
+		}
+		setListaTaglie_dict(appoggio)
+
+		let appoggio_2 = []
+
+		for (let i = 0; i < appoggio.length; i++) {
+			if (appoggio[i].stock != undefined) {
+				appoggio_2.push(appoggio[i])
+			}
+		}
+
+		console.log(appoggio_2)
+
+		setListaTaglie(appoggio_2)
+
+	}
+
+	function handleChange_stock(value, key) {
+		//console.log(`selected ${value}`);
+		//setListaTaglie(value)
+
+		//setListaTaglie([value])
+		console.log(value)
+		console.log(key)
+		console.log(listaTaglie)
+		for (let i = 0; i < listaTaglie.length; i++) {
+			if (i == key) {
+
+			}
+		}
+	}
+
 
 	function tagRender(props) {
 		const { label, value, closable, onClose } = props;
@@ -1785,7 +1836,6 @@ const GeneralField = props => {
 							</Form.Item>
 						</Col>
 					</Row>
-
 				</Card>
 			</Col>
 			<Col xs={24} sm={24} md={7}>
@@ -1797,26 +1847,50 @@ const GeneralField = props => {
 							placeholder="Seleziona i colori della lista"
 							defaultValue={props.listaColori}
 							onChange={handleChange_colori}
+
 							options={vettore_colori}
 							tagRender={tagRender}
 						>
 						</Select>
 
-
 					</Form.Item>
 					{listaColori.length != 0 &&
-						listaColori.map((colore, key) =>
-							<Form.Item name={"numColore" + key} label={"Numero disponibili: " + colore} rules={rules.numColori} >
-								<InputNumber
-									min={0}
-									className="w-100"
-									formatter={value => value}
-									defaultValue={props.numColori[key]}
-									parser={value => value.replace(/\$\s?|(,*)/g, '')}
-								/>
+						listaColori.map((taglia, key) =>
+							<Form.Item name={"numTaglia" + key} label={"Taglie per " + listaColori[key]} rules={rules.taglia} >
+								<Select id={"numTaglia" + key} mode="multiple" className="w-100" placeholder="taglia" onChange={(e) => handleChange_taglie(e, key)}>
+									{
+										taglie.map(taglia => (
+											<Option key={taglia} value={taglia}>{taglia}</Option>
+										))
+									}
+								</Select>
 							</Form.Item>
 						)
 					}
+
+					{listaTaglie.length != 0 &&
+						listaColori.map((colore, key) =>
+							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]} rules={rules.numColori}>
+								{listaTaglie[key].stock.map((taglia, key) =>
+									<Form.Item name={"numStock" + key} label={"taglia: " + taglia} rules={rules.numColori}>
+
+										<InputNumber
+											min={0}
+											className="w-100"
+											formatter={value => value}
+											defaultValue={props.numColori[key]}
+											parser={value => value.replace(/\$\s?|(,*)/g, '')}
+											onChange={(e) => handleChange_stock(e, key)}
+										/>
+									</Form.Item>
+								)
+								}
+
+							</Form.Item>
+						)
+					}
+
+
 				</Card>
 
 				<Card title="Catalogazione">
@@ -1854,7 +1928,7 @@ const GeneralField = props => {
 							}
 						</Select>
 					</Form.Item>
-					{(personalizza == "Si" || props.personalizzazione =="Si") &&
+					{(personalizza == "Si" || props.personalizzazione == "Si") &&
 						<Form.Item name="costo_personalizzazione" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
 							<InputNumber
 								min={1}
