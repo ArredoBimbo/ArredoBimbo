@@ -1847,7 +1847,6 @@ const GeneralField = props => {
 							placeholder="Seleziona i colori della lista"
 							defaultValue={props.listaColori}
 							onChange={handleChange_colori}
-
 							options={vettore_colori}
 							tagRender={tagRender}
 						>
@@ -1870,9 +1869,9 @@ const GeneralField = props => {
 
 					{listaTaglie.length != 0 &&
 						listaColori.map((colore, key) =>
-							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]} rules={rules.numColori}>
-								{listaTaglie[key].stock.map((taglia, key) =>
-									<Form.Item name={"numStock" + key} label={"taglia: " + taglia} rules={rules.numColori}>
+							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]}>
+								{listaTaglie[key].stock.map((taglia, key_2) =>
+									<Form.Item name={"numColore" + key + "numStock" + key_2} label={"taglia: " + taglia} rules={rules.numColori}>
 
 										<InputNumber
 											min={0}

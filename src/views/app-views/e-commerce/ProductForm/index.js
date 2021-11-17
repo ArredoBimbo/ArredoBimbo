@@ -630,7 +630,7 @@ const ProductForm = props => {
 				sconto: product.offerta
 			});
 		}
-		
+
 		else if (numColori == 18) {
 			form.setFieldsValue({
 				cost: product.prezzo,
@@ -788,7 +788,7 @@ const ProductForm = props => {
 				}
 			}
 			setNumUltimiArrivi(somma)
-			
+
 			if (mode === EDIT) {
 				//se sto in "EDIT" allora mi devo prendere tutti i campi del prodotto e settarli nelle form come campi già compilati
 				//console.log('is edit')
@@ -824,11 +824,32 @@ const ProductForm = props => {
 		let appoggio_foto = []
 		let appoggio_colori_disabilitati = []
 		let appoggio_lista_colori = []
+
+		//
+		let appoggio_taglie_disabilitate = []
+		//
 		for (let i = 0; i < product.coloriDisp.length; i++) {
+			let appoggio_taglie = [] // NEWWW
 			appoggio_colori_disabilitati.push({
 				value: product.colore.split(",")[i],
 				disabled: true
 			})
+
+			//
+			for (let j = 0; j < Object.keys(product.coloriDisp[i].size).length; j++) {
+				appoggio_taglie.push( Object.keys(product.coloriDisp[i].size)[j] )
+
+				if(j == Object.keys(product.coloriDisp[i].size).length -1 ){
+					appoggio_taglie_disabilitate.push({
+						value: appoggio_taglie,
+						disabled: true
+					})
+				}
+
+			}
+			console.log("disab taglie: ", appoggio_taglie_disabilitate)
+			//
+
 			appoggio.push(product.coloriDisp[i].stock)
 			appoggio_lista_colori.push(product.colore.split(",")[i])
 			appoggio_colori.push({
@@ -1106,7 +1127,7 @@ const ProductForm = props => {
 									colori_totali={colori_totali}
 									all_prodotti={all_prodotti}
 									correlati={correlati}
-									personalizzazione = {personalizzazione}
+									personalizzazione={personalizzazione}
 								/>
 							</TabPane>
 						}
