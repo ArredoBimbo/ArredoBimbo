@@ -27,7 +27,7 @@ export const gratis = ['Si', 'No'];
 
 export const personalizzazione = ['Si', 'No'];
 
-export const taglie = ['x', 'y', 'z'];
+export const taglie_tutte = ["x", "y", "z"];
 
 export const categorie = ['A-spasso', 'Bagnetto', 'arredamento', 'sicurezza', 'gioco-e-relax', 'offerte', 'marchi', 'abbigliamento', 'pappa'];
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Card, Form, InputNumber, Alert, Select, Tag } from 'antd';
-import { rules, sottocategorie, categorie, ultimiArrivi, gratis, personalizzazione, colori, taglie } from 'configs/AppConfig'
+import { rules, sottocategorie, categorie, ultimiArrivi, gratis, personalizzazione, colori, taglie_tutte } from 'configs/AppConfig'
 
 const { Option } = Select;
 
@@ -13,10 +13,26 @@ const GeneralField = props => {
 	const [personalizza, setPersonalizza] = useState(false)
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
 	const vettore_colori = props.colori_disabilitati
-	
-	const vettore_taglie = props.taglie_disabilitate
 
-	//const [vettore_colori, setVettore_colori] = useState([])
+	const vettore_taglie = props.taglie_disabilitate
+	console.log("vettore_taglie", vettore_taglie)
+
+	console.log("props.listaTaglie", props.listaTaglie)
+	console.log("props.taglie_totali", props.taglie_totali)
+
+	/*
+	
+		//const [vettore_colori, setVettore_colori] = useState([])
+	
+		console.log("props.colori",props.colori)
+		console.log("props.colori_totali",props.colori_totali)
+		console.log("vettore_colori",vettore_colori)
+	
+		console.log("props.taglie",props.taglie)
+		console.log("props.taglie_totali",props.taglie_totali)
+		console.log("vettore_taglie",vettore_taglie)
+	
+		*/
 	if (props.colori.length != 0) {
 		for (let i = 0; i < props.colori_totali.length; i++) {
 			const value = `${props.colori_totali[i]}`;
@@ -30,15 +46,23 @@ const GeneralField = props => {
 	}
 
 
+
 	if (props.taglie.length != 0) {
 		for (let i = 0; i < props.taglie_totali.length; i++) {
-			const value = `${props.taglie_totali[i]}`;
-			vettore_taglie.push({ value })
+			if (props.taglie_totali[i].length == 1) {
+				const value = `${props.taglie_totali[i]}`;
+				vettore_taglie[i].push({ value })
+			} else {
+				for (let j = 0; j < props.taglie_totali[i].length; j++) {
+					const value = `${props.taglie_totali[i][j]}`;
+					vettore_taglie[i].push({ value })
+				}
+			}
 		}
 	}
 	else {
-		for (let i = 0; i < taglie.length; i++) {
-			vettore_taglie.push({ value: `${taglie[i]}` })
+		for (let i = 0; i < taglie_tutte.length; i++) {
+			vettore_taglie.push({ value: `${taglie_tutte[i]}` })
 		}
 	}
 
@@ -84,15 +108,15 @@ const GeneralField = props => {
 		//setListaTaglie(value)
 		console.log(value)
 		console.log(key)
-		console.log("taglie",listaTaglie)
-		console.log("colori",listaColori)
+		console.log("taglie", listaTaglie)
+		console.log("colori", listaColori)
 		let appoggio = listaTaglie_dict
 		for (let i = 0; i < listaColori.length; i++) {
 			if (i == key) {
 				console.log("dentro")
 				appoggio[key].stock = value
 			} else {
-				appoggio.push({stock : []})
+				appoggio.push({ stock: [] })
 			}
 		}
 		setListaTaglie_dict(appoggio)
@@ -1871,14 +1895,15 @@ const GeneralField = props => {
 					{listaColori.length != 0 &&
 						listaColori.map((taglia, key) =>
 							<Form.Item name={"numTaglia" + key} label={"Taglie per " + listaColori[key]} rules={rules.taglia} >
-								<Select 
-								id={"numTaglia" + key} 
-								mode="multiple" 
-								className="w-100" 
-								placeholder="taglia" 
-								onChange={(e) => handleChange_taglie(e, key)}
-								options={vettore_taglie}
-								>
+								<Select
+									id={"numTaglia" + key}
+									mode="multiple"
+									className="w-100"
+									placeholder="taglia"
+									defaultValue={props.listaTaglie[key]}
+									onChange={(e) => handleChange_taglie(e, key)}
+									options={vettore_taglie[key]}
+								> /*sono qui fra*/
 								</Select>
 							</Form.Item>
 						)
@@ -1894,7 +1919,30 @@ const GeneralField = props => {
 											min={0}
 											className="w-100"
 											formatter={value => value}
-											defaultValue={props.numColori[key]}
+											defaultValue={props.numColori[key][key_2]}
+											parser={value => value.replace(/\$\s?|(,*)/g, '')}
+											onChange={(e) => handleChange_stock(e, key)}
+										/>
+									</Form.Item>
+								)
+								}
+
+							</Form.Item>
+						)
+					}
+
+
+					{listaTaglie.length == 0 && props.listaTaglie.length !=0 &&
+						listaColori.map((colore, key) =>
+							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]}>
+								{props.listaTaglie[key].map((taglia, key_2) =>
+									<Form.Item name={"numColore" + key + "numStock" + key_2} label={"taglia: " + taglia} rules={rules.numColori}>
+
+										<InputNumber
+											min={0}
+											className="w-100"
+											formatter={value => value}
+											defaultValue={props.numColori[key][key_2]}
 											parser={value => value.replace(/\$\s?|(,*)/g, '')}
 											onChange={(e) => handleChange_stock(e, key)}
 										/>

@@ -6,10 +6,10 @@ import GeneralField from './GeneralField'
 import ls from 'local-storage';
 import UploadImages from "./PhotoTabs/UploadImages";
 import { getListaProdotti, updateArticolo, insertArticolo } from 'configs/axios/chiamate_axios'
-import { colori, taglie } from 'configs/AppConfig'
+import { colori, taglie_tutte } from 'configs/AppConfig'
 
 const list_all_colors = colori
-const list_all_taglie = taglie
+const list_all_taglie = taglie_tutte
 const { TabPane } = Tabs;
 
 const ADD = 'ADD'
@@ -21,8 +21,10 @@ const ProductForm = props => {
 
 	const [form] = Form.useForm();
 	const [submitLoading, setSubmitLoading] = useState(false)
+
 	const [colori, setColori] = useState([])
 	const [taglie, setTaglie] = useState([])
+
 	const [correlati, setCorrelati] = useState([])
 	const [idArticolo, setidArticolo] = useState([])
 	const [numColori, setDispColori] = useState([])
@@ -31,12 +33,17 @@ const ProductForm = props => {
 	const [personalizzazione, set_personalizzazione] = useState([])
 	const [gratis, setGratis] = useState([])
 	const [ultimiArrivi, setUltimiArrivi] = useState([])
+
 	const [listaColori, setListaColori] = useState([])
+	const [listaTaglie, setListaTaglie] = useState([])
+
 	const [disable, setDisable] = useState(false)
 	const [colori_disabilitati, setColori_disabilitati] = useState([])
 	const [taglie_disabilitate, setTaglie_disabilitate] = useState([])
+
 	const [colori_totali, setColori_totali] = useState([])
 	const [taglie_totali, setTaglie_totali] = useState([])
+
 	const [all_prodotti, set_all_prodotti] = useState([])
 	const [disabilita_bottone, set_disabilita_bottone] = useState(false)
 
@@ -1016,8 +1023,27 @@ const ProductForm = props => {
 		//
 		let appoggio_taglie_disabilitate = []
 		let appoggio_taglie_disabilitate_render = []
+		let appoggio_lista_taglie = []
 		//
+
+
+		//
+
+		let appoggio_taglie_disabilitate_render_2 = []
+		let appoggio_taglie_disabilitate_render_3 = []
+		let appoggio_lista_taglie_totali = []
+
+		//
+
 		for (let i = 0; i < product.coloriDisp.length; i++) {
+			appoggio_lista_taglie_totali.push(
+				[
+					'x',
+					'y',
+					'z'
+				]
+				)
+
 			let appoggio_taglie = [] // NEWWW
 			let appoggio_taglie_render = [] // NEWWW
 
@@ -1032,8 +1058,12 @@ const ProductForm = props => {
 					"taglia": Object.keys(product.coloriDisp[i].size)[j],
 					"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
 				})
+				
+				appoggio_lista_taglie.push(Object.keys(product.coloriDisp[i].size)[j])
 				appoggio_taglie_render.push(Object.keys(product.coloriDisp[i].size)[j])
 				if (j == Object.keys(product.coloriDisp[i].size).length - 1) {
+
+
 					appoggio_taglie_disabilitate.push({
 						value: appoggio_taglie,
 						disabled: true
@@ -1042,7 +1072,14 @@ const ProductForm = props => {
 						value: appoggio_taglie_render,
 						disabled: true
 					})
+
+					appoggio_taglie_disabilitate_render_2.push([{
+						value: appoggio_taglie_render,
+						disabled: true
+					}])
 					setTaglie(appoggio_taglie)
+					console.log("appoggio_lista_taglie", appoggio_lista_taglie)
+					console.log("appoggio_taglie", appoggio_taglie)
 				}
 			}
 			console.log("disab taglie: ", appoggio_taglie_disabilitate)
@@ -1056,42 +1093,83 @@ const ProductForm = props => {
 			})
 			appoggio_foto.push({ colore: product.colore.split(",")[i], foto: [] })
 		}
+
+
+
+
+
+		console.log("appoggio_taglie_disabilitate",appoggio_taglie_disabilitate)
+		let appoggio_render_3 = []
+		let appoggio_render_4 = []
+		let appoggio_render_numeri = []
+		let appoggio_numeri_impostati_render = []
+		let appoggio_taglie_disabilitate_render_4 = []
+		for(let i=0; i<appoggio_taglie_disabilitate.length; i++) {
+			appoggio_render_3 = []
+			appoggio_render_4 = []
+			appoggio_render_numeri = []
+			for(let j=0; j<appoggio_taglie_disabilitate[i].value.length; j++ ) {
+				appoggio_render_3.push(
+					{
+						value: appoggio_taglie_disabilitate[i].value[j].taglia,
+						disabled: true
+					})
+					appoggio_render_numeri.push(appoggio_taglie_disabilitate[i].value[j].stock)
+					appoggio_render_4.push(appoggio_taglie_disabilitate[i].value[j].taglia)
+					
+				if(j == appoggio_taglie_disabilitate[i].value.length-1 ){
+					appoggio_taglie_disabilitate_render_3.push(appoggio_render_3)
+					appoggio_taglie_disabilitate_render_4.push(appoggio_render_4)
+					appoggio_numeri_impostati_render.push(appoggio_render_numeri)
+				}
+				if(i == appoggio_taglie_disabilitate.length -1 && j == appoggio_taglie_disabilitate[i].value.length-1 ) {
+					setTaglie_disabilitate(appoggio_taglie_disabilitate_render_3)
+					setListaTaglie(appoggio_taglie_disabilitate_render_4)
+					setDispColori(appoggio_numeri_impostati_render)
+
+				}
+			}
+		}
+
+
+
+
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			for (let j = 0; j < product.coloriDisp[i].image.length; j++) {
 				appoggio_foto[i].foto.push(product.coloriDisp[i].image[j])
 			}
 		}
 
-		let appoggio_taglie_disabilitate_render_2 = []
-
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 
+			for (let j = 0; j < appoggio_taglie_disabilitate_render_2[i][0].value.length; j++) {
+				const index_taglie = appoggio_lista_taglie_totali[i].indexOf(appoggio_taglie_disabilitate_render_2[i][0].value[j])
+				if (index_taglie > -1) {
+					appoggio_lista_taglie_totali[i].splice(index_taglie, 1);
+				}
 
-			console.log("asd", appoggio_taglie_disabilitate_render)
+				if (i == product.coloriDisp.length - 1 && j == appoggio_taglie_disabilitate_render_2[i][0].value.length - 1) {
+					console.log("appoggio_lista_taglie_totali (props.taglie_totali)",appoggio_lista_taglie_totali)
+					setTaglie_totali(appoggio_lista_taglie_totali)
+				}
+			}
 			const index = lista_colori_totali.indexOf(product.colore.split(",")[i]);
-			const index_taglie = lista_taglie_totali.indexOf(appoggio_taglie_disabilitate_render[i])
 
 			if (index > -1) {
 				lista_colori_totali.splice(index, 1);
 			}
 
-			if (index_taglie > -1) {
-				lista_taglie_totali.splice(index_taglie, 1);
-			}
-
 			if (i == product.coloriDisp.length - 1) {
 				setColori_totali(lista_colori_totali)
-				setTaglie_disabilitate(lista_taglie_totali)
 				//console.log("colori totali", colori_totali)
 			}
 		}
 		setVettFoto(appoggio_foto)
 		setColori_disabilitati(appoggio_colori_disabilitati)
-		setTaglie_disabilitate(appoggio_taglie_disabilitate_render)
+		//setTaglie_disabilitate(appoggio_taglie_disabilitate_render_3)
 		setListaColori(appoggio_lista_colori)
 		setColori(appoggio_colori)
 		setidArticolo(product.idArticolo)
-		setDispColori(appoggio)
 		setCorrelati(correlati)
 
 		if (product.ultimiArrivi) {
@@ -1328,20 +1406,27 @@ const ProductForm = props => {
 								/>
 							</TabPane>
 						}
-						{mode == EDIT && colori.length != 0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
+						{mode == EDIT && colori.length != 0 && taglie.length != 0 && taglie_totali.length != 0 && taglie_disabilitate.length!=0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
+
 									colori={colori}
 									taglie={taglie}
+
 									listaColori={listaColori}
+									listaTaglie={listaTaglie}
+
 									numColori={numColori}
 									numUltimiArrivi={numUltimiArrivi}
 									ultimiArrivi={ultimiArrivi}
 									gratis={gratis}
+
 									colori_disabilitati={colori_disabilitati}
 									taglie_disabilitate={taglie_disabilitate}
+
 									colori_totali={colori_totali}
 									taglie_totali={taglie_totali}
+
 									all_prodotti={all_prodotti}
 									correlati={correlati}
 									personalizzazione={personalizzazione}
