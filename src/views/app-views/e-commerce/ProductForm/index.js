@@ -6,9 +6,10 @@ import GeneralField from './GeneralField'
 import ls from 'local-storage';
 import UploadImages from "./PhotoTabs/UploadImages";
 import { getListaProdotti, updateArticolo, insertArticolo } from 'configs/axios/chiamate_axios'
-import { colori } from 'configs/AppConfig'
+import { colori, taglie } from 'configs/AppConfig'
 
 const list_all_colors = colori
+const list_all_taglie = taglie
 const { TabPane } = Tabs;
 
 const ADD = 'ADD'
@@ -21,6 +22,7 @@ const ProductForm = props => {
 	const [form] = Form.useForm();
 	const [submitLoading, setSubmitLoading] = useState(false)
 	const [colori, setColori] = useState([])
+	const [taglie, setTaglie] = useState([])
 	const [correlati, setCorrelati] = useState([])
 	const [idArticolo, setidArticolo] = useState([])
 	const [numColori, setDispColori] = useState([])
@@ -32,14 +34,21 @@ const ProductForm = props => {
 	const [listaColori, setListaColori] = useState([])
 	const [disable, setDisable] = useState(false)
 	const [colori_disabilitati, setColori_disabilitati] = useState([])
+	const [taglie_disabilitate, setTaglie_disabilitate] = useState([])
 	const [colori_totali, setColori_totali] = useState([])
+	const [taglie_totali, setTaglie_totali] = useState([])
 	const [all_prodotti, set_all_prodotti] = useState([])
 	const [disabilita_bottone, set_disabilita_bottone] = useState(false)
 
-	const setField = (numColori, listaColori, stockColore, product, correlati) => {
+	const setField = (numColori, listaColori, stockColore, taglie, product, correlati) => {
 		//console.log(correlati)
 		let check_ultimi, gratis
 		let check_personalizzazione
+
+		let num_taglie = []
+		let appoggio_taglie_disab = []
+		let taglie_disab = []
+
 		if (product.ultimiArrivi) {
 			check_ultimi = "Si"
 		}
@@ -75,30 +84,200 @@ const ProductForm = props => {
 		}
 
 		if (numColori == 1) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-				numColore0: stockColore[0],
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
+			//se c'è 1 colore, quante taglie ci sono? quindi: ---
+			for (let i = 0; i < taglie[0].value.length; i++) {
+				appoggio_taglie_disab.push(taglie[0].value[i].taglia)
+				num_taglie.push(taglie[0].value[i].stock)
+				if (i == taglie[0].value.length - 1) {
+					taglie_disab = appoggio_taglie_disab
+				}
+			}
+
+			console.log("taglie", taglie_disab)
+			console.log("taglie app ", appoggio_taglie_disab)
+			console.log("num_taglie", num_taglie)
+
+			if (taglie[0].value.length == 1) {
+				form.setFieldsValue({
+					cost: product.prezzo,
+					costo_personalizzazione: product.costo_personalizzazione,
+					description: product.descrizione,
+					category: product.categoria,
+					Colori: listaColori,
+
+					numColore0: stockColore[0],
+
+					numTaglia0: taglie_disab,
+					numColore0numStock0: num_taglie[0],
+
+					name: product.nomeArticolo,
+					price: product.prezzo,
+					gratis: gratis,
+					sottocat: product.sottoCategoria,
+					ultimiArrivi: check_ultimi,
+					correlati: correlati,
+					personalizzazione: check_personalizzazione,
+					marca: product.marca,
+					lunghezza: product.schedaTecnica[0].lunghezza,
+					larghezza: product.schedaTecnica[0].larghezza,
+					peso: product.schedaTecnica[0].peso,
+					altezza: product.schedaTecnica[0].altezza,
+					materiale: product.schedaTecnica[0].materiale,
+					sconto: product.offerta
+				});
+			} else if (taglie[0].value.length == 2) {
+				form.setFieldsValue({
+					cost: product.prezzo,
+					costo_personalizzazione: product.costo_personalizzazione,
+					description: product.descrizione,
+					category: product.categoria,
+					Colori: listaColori,
+
+					numColore0: stockColore[0],
+
+					numTaglia0: taglie_disab,
+					numColore0numStock0: num_taglie[0],
+					numColore0numStock1: num_taglie[1],
+					name: product.nomeArticolo,
+					price: product.prezzo,
+					gratis: gratis,
+					sottocat: product.sottoCategoria,
+					ultimiArrivi: check_ultimi,
+					correlati: correlati,
+					personalizzazione: check_personalizzazione,
+					marca: product.marca,
+					lunghezza: product.schedaTecnica[0].lunghezza,
+					larghezza: product.schedaTecnica[0].larghezza,
+					peso: product.schedaTecnica[0].peso,
+					altezza: product.schedaTecnica[0].altezza,
+					materiale: product.schedaTecnica[0].materiale,
+					sconto: product.offerta
+				});
+			} else if (taglie[0].value.length == 3) {
+				form.setFieldsValue({
+					cost: product.prezzo,
+					costo_personalizzazione: product.costo_personalizzazione,
+					description: product.descrizione,
+					category: product.categoria,
+					Colori: listaColori,
+
+					numColore0: stockColore[0],
+
+					numTaglia0: taglie_disab,
+					numColore0numStock0: num_taglie[0],
+					numColore0numStock1: num_taglie[1],
+					numColore0numStock2: num_taglie[2],
+
+					name: product.nomeArticolo,
+					price: product.prezzo,
+					gratis: gratis,
+					sottocat: product.sottoCategoria,
+					ultimiArrivi: check_ultimi,
+					correlati: correlati,
+					personalizzazione: check_personalizzazione,
+					marca: product.marca,
+					lunghezza: product.schedaTecnica[0].lunghezza,
+					larghezza: product.schedaTecnica[0].larghezza,
+					peso: product.schedaTecnica[0].peso,
+					altezza: product.schedaTecnica[0].altezza,
+					materiale: product.schedaTecnica[0].materiale,
+					sconto: product.offerta
+				});
+			} else if (taglie[0].value.length == 4) {
+				form.setFieldsValue({
+					cost: product.prezzo,
+					costo_personalizzazione: product.costo_personalizzazione,
+					description: product.descrizione,
+					category: product.categoria,
+					Colori: listaColori,
+
+					numColore0: stockColore[0],
+
+					numTaglia0: taglie_disab,
+					numColore0numStock0: num_taglie[0],
+					numColore0numStock1: num_taglie[1],
+					numColore0numStock2: num_taglie[2],
+					numColore0numStock3: num_taglie[3],
+
+					name: product.nomeArticolo,
+					price: product.prezzo,
+					gratis: gratis,
+					sottocat: product.sottoCategoria,
+					ultimiArrivi: check_ultimi,
+					correlati: correlati,
+					personalizzazione: check_personalizzazione,
+					marca: product.marca,
+					lunghezza: product.schedaTecnica[0].lunghezza,
+					larghezza: product.schedaTecnica[0].larghezza,
+					peso: product.schedaTecnica[0].peso,
+					altezza: product.schedaTecnica[0].altezza,
+					materiale: product.schedaTecnica[0].materiale,
+					sconto: product.offerta
+				});
+			} else if (taglie[0].value.length == 5) {
+				form.setFieldsValue({
+					cost: product.prezzo,
+					costo_personalizzazione: product.costo_personalizzazione,
+					description: product.descrizione,
+					category: product.categoria,
+					Colori: listaColori,
+
+					numColore0: stockColore[0],
+
+					numTaglia0: taglie_disab,
+					numColore0numStock0: num_taglie[0],
+					numColore0numStock1: num_taglie[1],
+					numColore0numStock2: num_taglie[2],
+					numColore0numStock3: num_taglie[3],
+					numColore0numStock4: num_taglie[4],
+
+					name: product.nomeArticolo,
+					price: product.prezzo,
+					gratis: gratis,
+					sottocat: product.sottoCategoria,
+					ultimiArrivi: check_ultimi,
+					correlati: correlati,
+					personalizzazione: check_personalizzazione,
+					marca: product.marca,
+					lunghezza: product.schedaTecnica[0].lunghezza,
+					larghezza: product.schedaTecnica[0].larghezza,
+					peso: product.schedaTecnica[0].peso,
+					altezza: product.schedaTecnica[0].altezza,
+					materiale: product.schedaTecnica[0].materiale,
+					sconto: product.offerta
+				});
+			} else if (taglie[0].value.length == 6) {
+
+			} else if (taglie[0].value.length == 7) {
+
+			} else if (taglie[0].value.length == 8) {
+
+			} else if (taglie[0].value.length == 9) {
+
+			} else if (taglie[0].value.length == 10) {
+
+			} else if (taglie[0].value.length == 11) {
+
+			} else if (taglie[0].value.length == 12) {
+
+			} else if (taglie[0].value.length == 13) {
+
+			}
+
+
 		}
+
 		else if (numColori == 2) {
+			for (let i = 0; i < taglie.length; i++) {
+				for (let j = 0; j < taglie[i].value.length; j++) {
+					appoggio_taglie_disab.push(taglie[i].value[j].taglia)
+					if (j == taglie[i].value.length - 1) {
+
+					}
+				}
+
+			}
+
 			form.setFieldsValue({
 				cost: product.prezzo,
 				description: product.descrizione,
@@ -107,6 +286,13 @@ const ProductForm = props => {
 				Colori: listaColori,
 				numColore0: stockColore[0],
 				numColore1: stockColore[1],
+
+
+				numTaglia0: taglie[0],
+				numTaglia1: taglie[1],
+
+				numColore0numStock0: num_taglie,
+
 				name: product.nomeArticolo,
 				price: product.prezzo,
 				sottocat: product.sottoCategoria,
@@ -808,7 +994,9 @@ const ProductForm = props => {
 
 	const setProdotto = (product) => {
 		let lista_colori_totali = list_all_colors
+		let lista_taglie_totali = list_all_taglie
 		let correlati
+
 		if (product.correlati != undefined) {
 			//console.log("correlati", product.correlati)
 			if (product.correlati.includes(",")) {
@@ -827,9 +1015,12 @@ const ProductForm = props => {
 
 		//
 		let appoggio_taglie_disabilitate = []
+		let appoggio_taglie_disabilitate_render = []
 		//
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			let appoggio_taglie = [] // NEWWW
+			let appoggio_taglie_render = [] // NEWWW
+
 			appoggio_colori_disabilitati.push({
 				value: product.colore.split(",")[i],
 				disabled: true
@@ -837,15 +1028,22 @@ const ProductForm = props => {
 
 			//
 			for (let j = 0; j < Object.keys(product.coloriDisp[i].size).length; j++) {
-				appoggio_taglie.push( Object.keys(product.coloriDisp[i].size)[j] )
-
-				if(j == Object.keys(product.coloriDisp[i].size).length -1 ){
+				appoggio_taglie.push({
+					"taglia": Object.keys(product.coloriDisp[i].size)[j],
+					"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
+				})
+				appoggio_taglie_render.push(Object.keys(product.coloriDisp[i].size)[j])
+				if (j == Object.keys(product.coloriDisp[i].size).length - 1) {
 					appoggio_taglie_disabilitate.push({
 						value: appoggio_taglie,
 						disabled: true
 					})
+					appoggio_taglie_disabilitate_render.push({
+						value: appoggio_taglie_render,
+						disabled: true
+					})
+					setTaglie(appoggio_taglie)
 				}
-
 			}
 			console.log("disab taglie: ", appoggio_taglie_disabilitate)
 			//
@@ -863,19 +1061,33 @@ const ProductForm = props => {
 				appoggio_foto[i].foto.push(product.coloriDisp[i].image[j])
 			}
 		}
+
+		let appoggio_taglie_disabilitate_render_2 = []
+
 		for (let i = 0; i < product.coloriDisp.length; i++) {
+
+
+			console.log("asd", appoggio_taglie_disabilitate_render)
 			const index = lista_colori_totali.indexOf(product.colore.split(",")[i]);
+			const index_taglie = lista_taglie_totali.indexOf(appoggio_taglie_disabilitate_render[i])
 
 			if (index > -1) {
 				lista_colori_totali.splice(index, 1);
 			}
+
+			if (index_taglie > -1) {
+				lista_taglie_totali.splice(index_taglie, 1);
+			}
+
 			if (i == product.coloriDisp.length - 1) {
 				setColori_totali(lista_colori_totali)
+				setTaglie_disabilitate(lista_taglie_totali)
 				//console.log("colori totali", colori_totali)
 			}
 		}
 		setVettFoto(appoggio_foto)
 		setColori_disabilitati(appoggio_colori_disabilitati)
+		setTaglie_disabilitate(appoggio_taglie_disabilitate_render)
 		setListaColori(appoggio_lista_colori)
 		setColori(appoggio_colori)
 		setidArticolo(product.idArticolo)
@@ -893,7 +1105,7 @@ const ProductForm = props => {
 			setGratis("No")
 		}
 
-		setField(product.coloriDisp.length, appoggio_lista_colori, appoggio, product, correlati)
+		setField(product.coloriDisp.length, appoggio_lista_colori, appoggio, appoggio_taglie_disabilitate, product, correlati)
 	}
 
 	const onFinish = () => {
@@ -1103,12 +1315,14 @@ const ProductForm = props => {
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
 									colori={colori}
+									taglie={taglie}
 									listaColori={listaColori}
 									numColori={numColori}
 									numUltimiArrivi={numUltimiArrivi}
 									gratis={gratis}
 									ultimiArrivi={ultimiArrivi}
 									colori_disabilitati={[]}
+									taglie_disabilitate={[]}
 									all_prodotti={all_prodotti}
 									correlati={correlati}
 								/>
@@ -1118,13 +1332,16 @@ const ProductForm = props => {
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
 									colori={colori}
+									taglie={taglie}
 									listaColori={listaColori}
 									numColori={numColori}
 									numUltimiArrivi={numUltimiArrivi}
 									ultimiArrivi={ultimiArrivi}
 									gratis={gratis}
 									colori_disabilitati={colori_disabilitati}
+									taglie_disabilitate={taglie_disabilitate}
 									colori_totali={colori_totali}
+									taglie_totali={taglie_totali}
 									all_prodotti={all_prodotti}
 									correlati={correlati}
 									personalizzazione={personalizzazione}

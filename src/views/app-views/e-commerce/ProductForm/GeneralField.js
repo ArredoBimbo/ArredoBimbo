@@ -13,6 +13,8 @@ const GeneralField = props => {
 	const [personalizza, setPersonalizza] = useState(false)
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
 	const vettore_colori = props.colori_disabilitati
+	
+	const vettore_taglie = props.taglie_disabilitate
 
 	//const [vettore_colori, setVettore_colori] = useState([])
 	if (props.colori.length != 0) {
@@ -24,6 +26,19 @@ const GeneralField = props => {
 	else {
 		for (let i = 0; i < colori.length; i++) {
 			vettore_colori.push({ value: `${colori[i]}` })
+		}
+	}
+
+
+	if (props.taglie.length != 0) {
+		for (let i = 0; i < props.taglie_totali.length; i++) {
+			const value = `${props.taglie_totali[i]}`;
+			vettore_taglie.push({ value })
+		}
+	}
+	else {
+		for (let i = 0; i < taglie.length; i++) {
+			vettore_taglie.push({ value: `${taglie[i]}` })
 		}
 	}
 
@@ -1856,12 +1871,14 @@ const GeneralField = props => {
 					{listaColori.length != 0 &&
 						listaColori.map((taglia, key) =>
 							<Form.Item name={"numTaglia" + key} label={"Taglie per " + listaColori[key]} rules={rules.taglia} >
-								<Select id={"numTaglia" + key} mode="multiple" className="w-100" placeholder="taglia" onChange={(e) => handleChange_taglie(e, key)}>
-									{
-										taglie.map(taglia => (
-											<Option key={taglia} value={taglia}>{taglia}</Option>
-										))
-									}
+								<Select 
+								id={"numTaglia" + key} 
+								mode="multiple" 
+								className="w-100" 
+								placeholder="taglia" 
+								onChange={(e) => handleChange_taglie(e, key)}
+								options={vettore_taglie}
+								>
 								</Select>
 							</Form.Item>
 						)
