@@ -208,19 +208,10 @@ const ProductForm = props => {
 		}
 	}
 
-	const setFieldsAllValues = (product, check_ultimi, gratis, check_personalizzazione, correlati, numColori, all_stock, taglie_disab, taglie) => {
-
-		let stringa_taglia = ""
-		let stringa_taglia_2 = ""
-		console.log("taglie", taglie)
-		for (let i = 0; i < taglie.length; i++) {
-			stringa_taglia += `"numTaglia` + i + `":` + taglie_disab[i] + `,`
-			for (let j = 0; j < taglie[i].value.length; j++) {
-				stringa_taglia += `"numColore` + i + `numStock` + j + `":` + taglie[i].value[j].stock + `,`
-			}
-		}
+	const setFieldsAllValues = (product, listaColori, check_ultimi, gratis, check_personalizzazione, correlati, stringa_taglia) => {
 
 		console.log("stringa_taglia", stringa_taglia)
+		console.log("listaColori", listaColori)
 		form.setFieldsValue({
 			cost: product.prezzo,
 			costo_personalizzazione: product.costo_personalizzazione,
@@ -228,7 +219,6 @@ const ProductForm = props => {
 			category: product.categoria,
 			Colori: listaColori,
 			stringa_taglia,
-
 			name: product.nomeArticolo,
 			price: product.prezzo,
 			gratis: gratis,
@@ -244,7 +234,7 @@ const ProductForm = props => {
 			materiale: product.schedaTecnica[0].materiale,
 			sconto: product.offerta
 		});
-		console.log("form",form.getFieldsValue())
+		console.log("form", form.getFieldsValue())
 		/*
 		if (taglie[0].value.length == 1) {
 			if (taglie[1].value.length == 1) {
@@ -457,7 +447,30 @@ const ProductForm = props => {
 
 		console.log("taglie", taglie)
 		console.log("stockColore", stockColore)
+		let stringa_taglia = ""
+		console.log("taglie", taglie)
 
+		for (let i = 0; i < taglie.length; i++) {
+			appoggio_taglie_disab = []
+			for (let j = 0; j < taglie[i].value.length; j++) {
+				appoggio_taglie_disab.push(taglie[i].value[j].taglia)
+				if (j == taglie[i].value.length - 1) {
+					taglie_disab.push(appoggio_taglie_disab)
+				}
+			}
+		}
+
+		for (let i = 0; i < taglie.length; i++) {
+			stringa_taglia += `numTaglia` + i + ` :'` + taglie_disab[i] + `',`
+			for (let j = 0; j < taglie[i].value.length; j++) {
+				stringa_taglia += `numColore` + i + `numStock` + j + ` :'` + taglie[i].value[j].stock + `',`
+			}
+		}
+		console.log(JSON.parse(JSON.stringify(stringa_taglia)))
+		
+		setFieldsAllValues(product, listaColori, check_ultimi, gratis, check_personalizzazione, correlati, JSON.parse(JSON.stringify(stringa_taglia)));
+
+		/*
 		if (numColori == 1) {
 			//se c'è 1 colore, quante taglie ci sono? quindi: ---
 			for (let i = 0; i < taglie[0].value.length; i++) {
@@ -1122,6 +1135,7 @@ const ProductForm = props => {
 				sconto: product.offerta
 			});
 		}
+			*/
 	}
 
 	const onChangeTab = (valore) => {
