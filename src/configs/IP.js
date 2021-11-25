@@ -1,1 +1,1 @@
-export const IP = 'http://localhost:8000';
+export const IP = 'http://studio-manudaniel.ddns.net:8000';

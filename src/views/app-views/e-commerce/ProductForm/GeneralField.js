@@ -12,15 +12,54 @@ const GeneralField = props => {
 	const [ultimoArrivo, setUltimoArrivo] = useState(false)
 	const [personalizza, setPersonalizza] = useState(false)
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
-	const vettore_colori = props.colori_disabilitati
 
+	const vettore_colori = props.colori_disabilitati
 	const vettore_taglie = props.taglie_disabilitate
+	const vettore_numeri_disp = props.numColori
+
+	let appoggio_taglie_mio = []
+	for (let i = props.taglie_disabilitate.length; i < 20; i++) {
+		appoggio_taglie_mio = []
+		for (let j = 0; j < taglie_tutte.length; j++) {
+			appoggio_taglie_mio.push({
+				value: taglie_tutte[j]
+			})
+			if (j == taglie_tutte.length - 1) {
+				vettore_taglie.push(
+					appoggio_taglie_mio
+				)
+			}
+		}
+	}
+
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAA BACKUP
+	let appoggio_render_mio = []
+	//console.log("li", props.taglie_disabilitate)
+
+
+	//mettere qui la logica dei colori come fatto per le taglie!!!! MANUELLLLLLLLLLLL
+
+	for (let i = props.numColori.length; i < 20; i++) {
+		appoggio_render_mio = []
+		//console.log("qui")
+		for (let j = 0; j < taglie_tutte.length; j++) {
+			appoggio_render_mio.push("")
+			if (j == taglie_tutte.length - 1) {
+				vettore_numeri_disp.push(appoggio_render_mio)
+			}
+		}
+	}
+	//console.log("vettore_numeri_disp", vettore_numeri_disp)
+
+	//console.log("vettore_taglie", vettore_taglie)
+
+	/*
+
 	console.log("vettore_taglie", vettore_taglie)
 
 	console.log("props.listaTaglie", props.listaTaglie)
 	console.log("props.taglie_totali", props.taglie_totali)
 
-	/*
 	
 		//const [vettore_colori, setVettore_colori] = useState([])
 	
@@ -98,27 +137,147 @@ const GeneralField = props => {
 		//console.log(sottocategorie[event])
 	}
 	function handleChange_colori(value) {
-		//console.log(`selected ${value}`);
+		console.log(`selected ${value}`);
 		setListaColori(value)
+		let appoggio = listaTaglie_dict
+		let appoggio_mio = []
+		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
+			for (let i = 0; i < props.listaTaglie.length; i++) {
+				appoggio_mio = []
+				for (let j = 0; j < props.listaTaglie[i].length; j++) {
+					appoggio_mio.push(props.listaTaglie[i][j])
+					if (j == props.listaTaglie[i].length - 1) {
+						appoggio[i].stock = appoggio_mio
+					}
+				}
+			}
+			/*
+						for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
+							appoggio.push({ stock: [] })
+						}
+						*/
+			setListaTaglie_dict(appoggio)
+			let appoggio_2 = []
+			for (let i = 0; i < appoggio.length; i++) {
+				if (appoggio[i].stock != undefined) {
+					appoggio_2.push(appoggio[i])
+				}
+			}
+			console.log(appoggio_2)
+			for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
+				appoggio_2.push({ stock: [] })
+			}
+			//console.log("appoggio_2", appoggio_2)
+
+			setListaTaglie(appoggio_2)
+		}
+
+		else if (listaTaglie.length != 0) {
+			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
+			for (let i = 0; i < listaTaglie.length; i++) {
+				appoggio_mio = []
+				for (let j = 0; j < listaTaglie[i].length; j++) {
+					appoggio_mio.push(listaTaglie[i][j])
+					if (j == listaTaglie[i].length - 1) {
+						appoggio[i].stock = appoggio_mio
+					}
+				}
+			}
+
+			for (let i = listaTaglie.length; i < value.toString().split(",").length; i++) {
+				appoggio.push({ stock: [] })
+			}
+			//console.log("appoggio", appoggio)
+
+			setListaTaglie_dict(appoggio)
+			let appoggio_2 = []
+			for (let i = 0; i < appoggio.length; i++) {
+				if (appoggio[i].stock != undefined) {
+					appoggio_2.push(appoggio[i])
+				}
+			}
+			console.log(appoggio_2)
+			setListaTaglie(appoggio_2)
+		}
 
 	}
 
 	function handleChange_taglie(value, key) {
 		//console.log(`selected ${value}`);
 		//setListaTaglie(value)
+		/*
 		console.log(value)
 		console.log(key)
 		console.log("taglie", listaTaglie)
 		console.log("colori", listaColori)
+		console.log("props.listaTaglie", props.listaTaglie)
+		console.log("props.listaTaglie", props.listaTaglie)
+		*/
 		let appoggio = listaTaglie_dict
-		for (let i = 0; i < listaColori.length; i++) {
-			if (i == key) {
-				console.log("dentro")
-				appoggio[key].stock = value
-			} else {
-				appoggio.push({ stock: [] })
+		let appoggio_mio = []
+		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
+			//console.log("sono quiiiiiii")
+			// qui perché props esiste e la lunghezza di listaTaglie è nulla
+			for (let i = 0; i < props.listaTaglie.length; i++) {
+				appoggio_mio = []
+				if (i == key) {
+					//console.log("dentro props.listaTaglie")
+					appoggio[key].stock = value
+				} else {
+					for (let j = 0; j < props.listaTaglie[i].length; j++) {
+						appoggio_mio.push(props.listaTaglie[i][j])
+						if (j == props.listaTaglie[i].length - 1) {
+							appoggio[i].stock = appoggio_mio
+						}
+					}
+				}
+			}
+		} /*else {
+			for (let i = 0; i < listaColori.length; i++) {
+				if (i == key) {
+					console.log("dentro")
+					appoggio[key].stock = value
+				} else {
+					appoggio.push({ stock: [] })
+				}
 			}
 		}
+
+*/
+
+		else if (listaTaglie.length != 0) {
+			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
+			for (let i = 0; i < listaTaglie.length; i++) {
+				appoggio_mio = []
+				if (i == key) {
+					//console.log("dentro listaTaglie")
+					appoggio[key].stock = value
+				} else {
+					for (let j = 0; j < listaTaglie[i].length; j++) {
+						appoggio_mio.push(listaTaglie[i][j])
+						if (j == listaTaglie[i].length - 1) {
+							appoggio[i].stock = appoggio_mio
+						}
+					}
+				}
+			}
+		}
+
+		else {
+			for (let i = 0; i < listaColori.length; i++) {
+				if (i == key) {
+					console.log("dentro")
+					appoggio[key].stock = value
+				} else {
+					appoggio.push({ stock: [] })
+				}
+			}
+		}
+
+
+
+
+
 		setListaTaglie_dict(appoggio)
 
 		let appoggio_2 = []
@@ -1922,6 +2081,8 @@ const GeneralField = props => {
 											defaultValue={props.numColori[key][key_2]}
 											parser={value => value.replace(/\$\s?|(,*)/g, '')}
 											onChange={(e) => handleChange_stock(e, key)}
+											options={vettore_numeri_disp[key][key_2]}
+
 										/>
 									</Form.Item>
 								)
@@ -1932,7 +2093,7 @@ const GeneralField = props => {
 					}
 
 
-					{listaTaglie.length == 0 && props.listaTaglie.length !=0 &&
+					{listaTaglie.length == 0 && props.listaTaglie.length != 0 &&
 						listaColori.map((colore, key) =>
 							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]}>
 								{props.listaTaglie[key].map((taglia, key_2) =>
@@ -1945,6 +2106,8 @@ const GeneralField = props => {
 											defaultValue={props.numColori[key][key_2]}
 											parser={value => value.replace(/\$\s?|(,*)/g, '')}
 											onChange={(e) => handleChange_stock(e, key)}
+											options={vettore_numeri_disp[key][key_2]}
+
 										/>
 									</Form.Item>
 								)
