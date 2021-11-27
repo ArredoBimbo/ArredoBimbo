@@ -484,13 +484,9 @@ const ProductForm = props => {
 					setTaglie_disabilitate(appoggio_taglie_disabilitate_render_3)
 					setListaTaglie(appoggio_taglie_disabilitate_render_4)
 					setDispColori(appoggio_numeri_impostati_render)
-
 				}
 			}
 		}
-
-
-
 
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			for (let j = 0; j < product.coloriDisp[i].image.length; j++) {

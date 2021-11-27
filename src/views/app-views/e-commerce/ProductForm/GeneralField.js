@@ -142,6 +142,9 @@ const GeneralField = props => {
 		let appoggio = listaTaglie_dict
 		let appoggio_mio = []
 		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
+			console.log("sonoQUIPROPS")
+			console.log("listaTaglie.length",listaTaglie.length)
+
 			for (let i = 0; i < props.listaTaglie.length; i++) {
 				appoggio_mio = []
 				for (let j = 0; j < props.listaTaglie[i].length; j++) {
@@ -151,11 +154,13 @@ const GeneralField = props => {
 					}
 				}
 			}
-			/*
-						for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
-							appoggio.push({ stock: [] })
-						}
-						*/
+
+			//for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
+				appoggio.push({stock:["MERDAPROPS"]})
+			//}
+
+			console.log("appoggioPROPS", appoggio)
+
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
 			for (let i = 0; i < appoggio.length; i++) {
@@ -164,15 +169,16 @@ const GeneralField = props => {
 				}
 			}
 			console.log(appoggio_2)
-			for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
-				appoggio_2.push({ stock: [] })
-			}
+			
 			//console.log("appoggio_2", appoggio_2)
 
 			setListaTaglie(appoggio_2)
 		}
 
 		else if (listaTaglie.length != 0) {
+			console.log("sonoQUISTATO")
+			console.log("listaTaglie.length",listaTaglie.length)
+
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
 			for (let i = 0; i < listaTaglie.length; i++) {
 				appoggio_mio = []
@@ -183,11 +189,12 @@ const GeneralField = props => {
 					}
 				}
 			}
-
+			console.log("listaTaglie.length",listaTaglie.length)
+			console.log("value.toString().split(",").length",value.toString().split(",").length)
 			for (let i = listaTaglie.length; i < value.toString().split(",").length; i++) {
-				appoggio.push({ stock: [] })
+				appoggio[i].stock = []
 			}
-			//console.log("appoggio", appoggio)
+			console.log("appoggio", appoggio)
 
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
@@ -199,6 +206,37 @@ const GeneralField = props => {
 			console.log(appoggio_2)
 			setListaTaglie(appoggio_2)
 		}
+		/*
+		else {
+			for (let i = 0; i < listaColori.length; i++) {
+				if (i == key) {
+					console.log("dentro")
+					appoggio[key].stock = value
+				} else {
+					appoggio.push({ stock: [] })
+				}
+			}
+			setListaTaglie_dict(appoggio)
+
+			let appoggio_2 = []
+
+			for (let i = 0; i < appoggio.length; i++) {
+				if (appoggio[i].stock != undefined) {
+					appoggio_2.push(appoggio[i])
+				}
+			}
+
+			console.log(appoggio_2)
+
+			setListaTaglie(appoggio_2)
+
+		}
+
+
+						*/
+
+
+
 
 	}
 
