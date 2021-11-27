@@ -2156,14 +2156,21 @@ const GeneralField = props => {
 						</Select>
 					</Form.Item>
 					{(personalizza == "Si" || props.personalizzazione == "Si") &&
-						<Form.Item name="costo_personalizzazione" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
-							<InputNumber
-								min={1}
-								className="w-100"
-								formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-								parser={value => value.replace(/\€\s?|(,*)/g, '')}
-							/>
-						</Form.Item>
+						<div>
+
+							<Form.Item name="costo_personalizzazione" label="Costo della personalizzazione" rules={rules.costo_personalizzazione}>
+								<InputNumber
+									min={1}
+									className="w-100"
+									formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+									parser={value => value.replace(/\€\s?|(,*)/g, '')}
+								/>
+							</Form.Item>
+
+							<Form.Item name="descrizione_personalizzazione" label="Descrizione della personalizzazione" rules={rules.descrizione_personalizzazione}>
+								<Input.TextArea rows={2} />
+							</Form.Item>
+						</div>
 					}
 					<Form.Item name="correlati" label="Prodotti correlati" rules={rules.correlati} >
 						<Select mode="multiple" id="corr" className="w-100" placeholder="Correlati">

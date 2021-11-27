@@ -135,6 +135,11 @@ export const rules = {
 			required: true,
 			message: 'Inserisci il costo di personalizzazione del prodotto',
 		}
+	], 
+	descrizione_personalizzazione: [
+		{
+			required: false,
+		}
 	],
 	personalizzazione: [
 		{
