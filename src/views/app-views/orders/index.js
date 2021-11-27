@@ -91,6 +91,10 @@ const Orders = () => {
   const [vettoreFoto, setVettoreFoto] = useState([])
   const [lista_prodotti, set_lista_prodotti] = useState([])
 
+  Date.prototype.addHours = function (h) {
+    this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+    return this;
+  }
 
   useEffect(() => {
     getListaProdotti(res => {
@@ -111,10 +115,12 @@ const Orders = () => {
 
               })
               for (let j = 0; j < acquisti.length; j++) {
+                var d = new Date(new Date().setHours(new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2))
+
                 if (unique[z] == acquisti[j].idordine) {
                   dict[z].id = z
                   dict[z].nome_carrello = unique[z]
-                  dict[z].data = acquisti[j].articoloCompleto.data_acquisto.split('T')[0]
+                  dict[z].data = d.toDateString()
                   dict[z].utente = acquisti[j].name
                   dict[z].totale = acquisti[j].articoloCompleto.totale_carrello
                   dict[z].metodo_pagamento = acquisti[j].articoloCompleto.metodo_pagamento
@@ -177,7 +183,7 @@ const Orders = () => {
   }
 
   const content_carrello = (id) => {
-    console.log("id", id)
+    //console.log("id", id)
     return (
       <div id={id}>
         {carrelloSelezionato.length != 0 &&
@@ -210,85 +216,137 @@ const Orders = () => {
   }
 
   const content = (id) => {
-    console.log("id", id)
-    return (
-      <div id={id}>
-        {prodottoSelezionato.length != 0 &&
-          <Tabs defaultActiveKey="1">
-            <TabPane tab={"Descrizione prodotto acquistato"} key={1}>
-              <p> id dell'articolo: {prodottoSelezionato.articoloCompleto.idArticoloAcquistato} </p>
-              <p> personalizzazione del cliente: {prodottoSelezionato.personalizzazione} </p>
-              <p> foto dell'articolo scelto:
-                <Upload
-                  listType="picture-card"
-                  fileList={vettoreFoto}
-                >
-                </Upload>
-              </p>
-            </TabPane>
-            <TabPane tab={"Spedizione"} key={"ID" + id}>
-              {prodottoSelezionato.orderStatus == "magazzino" &&
-                <Row gutter={20}>
-                  <Col xs={10} sm={10} md={15}>
 
-                    <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
-                      <Input placeholder="Numero tracking" />
-                    </Form.Item>
-                  </Col>
+    console.log(prodottoSelezionato)
+    if (prodottoSelezionato.length != 0) {
 
-                  <Col xs={10} sm={10} md={5}>
 
-                    <Button type="primary" onClick={() => setTracking(id)}>
-                      Conferma
-                    </Button>
-                  </Col>
-                </Row>
-              }
+      let appoggio = []
+      if (prodottoSelezionato.personalizzazione != "Non Supportata") {
+        console.log("sono uqiiiii")
+        console.log(prodottoSelezionato.personalizzazione)
+        console.log("personalizzazione", JSON.parse(prodottoSelezionato.personalizzazione))
+        console.log("lunghezza", Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)))
+        console.log("valore", JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[0]])
+        if (Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti) {
+          for (let i = 0; i < Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length; i++) {
+            appoggio.push(JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[i]])
+          }
+        } else {
+          for (let i = 0; i < Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length; i++) {
+            appoggio.push(JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[i]])
+          }
+        }
+      }
 
-              {prodottoSelezionato.orderStatus == "spedito" &&
-                <Row>
-                  <Col xs={10} sm={10} md={15}>
-                    Tracking corrente: {prodottoSelezionato.tracking}
-                  </Col>
+      return (
+        <div id={id}>
+          {prodottoSelezionato.length != 0 &&
+            <Tabs defaultActiveKey="1">
+              <TabPane tab={"Descrizione prodotto acquistato"} key={1}>
+                <p> id dell'articolo: {prodottoSelezionato.articoloCompleto.idArticoloAcquistato} </p>
+                {prodottoSelezionato.personalizzazione == "Non Supportata" &&
+
+                  <p> La personalizzazione sul prodotto non è supportata! </p>
+                }
+                {prodottoSelezionato.personalizzazione != "Non Supportata" &&
+                  <div>
+
+                    {Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti ?
+                      appoggio.map((elm, key) =>
+                      (<p> L'articolo {key} è stato di seguito personalizzato: {elm} </p>
+
+
+                      )
+
+                      ) :
+                      <div>
+
+                        {appoggio.map((elm, key) =>
+
+                          (<p> L'articolo {key} è stato di seguito personalizzato: {elm} </p>)
+                        )
+                        }
+                        <p> I restanti {-Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length + prodottoSelezionato.numeroacquisti} non sono stati personalizzati! </p>
+                      </div>}
+
+                  </div>
+                }
+
+
+                <p> foto dell'articolo scelto:
+                  <Upload
+                    listType="picture-card"
+                    fileList={vettoreFoto}
+                  >
+                  </Upload>
+                </p>
+              </TabPane>
+              <TabPane tab={"Spedizione"} key={"ID" + id}>
+                {prodottoSelezionato.orderStatus == "magazzino" &&
                   <Row gutter={20}>
                     <Col xs={10} sm={10} md={15}>
+
                       <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
                         <Input placeholder="Numero tracking" />
                       </Form.Item>
                     </Col>
+
                     <Col xs={10} sm={10} md={5}>
+
                       <Button type="primary" onClick={() => setTracking(id)}>
-                        Modifica tracking
+                        Conferma
                       </Button>
                     </Col>
                   </Row>
-                  <Row gutter={20}>
-                    <Col xs={10} sm={10} md={5}>
-                      <Button type="primary" onClick={() => setTrackingComplete(id)}>
-                        Conferma arrivo della spedizione
-                      </Button>
+                }
+
+                {prodottoSelezionato.orderStatus == "spedito" &&
+                  <Row>
+                    <Col xs={10} sm={10} md={15}>
+                      Tracking corrente: {prodottoSelezionato.tracking}
                     </Col>
+                    <Row gutter={20}>
+                      <Col xs={10} sm={10} md={15}>
+                        <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
+                          <Input placeholder="Numero tracking" />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={10} sm={10} md={5}>
+                        <Button type="primary" onClick={() => setTracking(id)}>
+                          Modifica tracking
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Row gutter={20}>
+                      <Col xs={10} sm={10} md={5}>
+                        <Button type="primary" onClick={() => setTrackingComplete(id)}>
+                          Conferma arrivo della spedizione
+                        </Button>
+                      </Col>
+                    </Row>
                   </Row>
-                </Row>
-              }
+                }
 
-              {prodottoSelezionato.orderStatus == "completato" &&
-                <Row>
-                  Spedizione completata con successo!
-                </Row>
-              }
+                {prodottoSelezionato.orderStatus == "completato" &&
+                  <Row>
+                    Spedizione completata con successo!
+                  </Row>
+                }
 
-            </TabPane>
-          </Tabs>
-        }
+              </TabPane>
+            </Tabs>
+          }
 
 
-      </div>
-    )
+        </div>
+      )
+    }
+
   }
 
   const showInfo_carrello = (row) => {
-    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CARRELLO", row)
+    //  console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CARRELLO", row)
     //si deve fare la logica del carrello e far uscire content_carrello con tutte le info:
     // - metodo di pagamento, costo iva, spedizione ecc. ecc.
     setCarrelloSelezionato(row)
