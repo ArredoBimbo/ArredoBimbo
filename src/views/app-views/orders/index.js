@@ -107,7 +107,7 @@ const Orders = () => {
           appoggio.push(acquisti[i].idordine)
           if (i == acquisti.length - 1) {
             const unique = [...new Set(appoggio)];
-            console.log("unique", unique)
+            //console.log("unique", unique)
             for (let z = 0; z < unique.length; z++) {
               let string = unique[z]
               dict.push({
@@ -144,7 +144,7 @@ const Orders = () => {
   }, []);
 
   const setTracking = (id) => {
-    console.log(id)
+    //console.log(id)
     let tracking = document.getElementById("tracking").value
     console.log("tracking", tracking)
     updateTracking(tracking, id, res => {
@@ -217,18 +217,22 @@ const Orders = () => {
 
   const content = (id) => {
 
-    console.log(prodottoSelezionato)
+    //console.log(prodottoSelezionato)
     if (prodottoSelezionato.length != 0) {
 
 
       let appoggio = []
       if (prodottoSelezionato.personalizzazione != "Non Supportata") {
+        
+        /*
         console.log("sono uqiiiii")
         console.log(prodottoSelezionato.personalizzazione)
         console.log("personalizzazione", JSON.parse(prodottoSelezionato.personalizzazione))
         console.log("lunghezza", Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)))
         console.log("valore", JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[0]])
-        if (Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti) {
+        
+        */
+       if (Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti) {
           for (let i = 0; i < Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length; i++) {
             appoggio.push(JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[i]])
           }
@@ -354,7 +358,6 @@ const Orders = () => {
 
   const showInfo = (row) => {
     let appoggio = []
-    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", row)
     for (let i = 0; i < lista_prodotti.length; i++) {
       if (row.articoloCompleto.idArticoloAcquistato == lista_prodotti[i].idArticolo) {
         for (let j = 0; j < lista_prodotti[i].coloriDisp.length; j++) {

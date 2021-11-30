@@ -126,7 +126,7 @@ const GeneralField = props => {
 
 
 	const onChangePersonalizzazione = event => {
-		console.log("event personalizza", event)
+		//console.log("event personalizza", event)
 		setPersonalizza(event)
 	}
 
@@ -137,13 +137,13 @@ const GeneralField = props => {
 		//console.log(sottocategorie[event])
 	}
 	function handleChange_colori(value) {
-		console.log(`selected ${value}`);
+		//console.log(`selected ${value}`);
 		setListaColori(value)
 		let appoggio = listaTaglie_dict
 		let appoggio_mio = []
 		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
-			console.log("sonoQUIPROPS")
-			console.log("listaTaglie.length",listaTaglie.length)
+			//console.log("sonoQUIPROPS")
+			//console.log("listaTaglie.length",listaTaglie.length)
 
 			for (let i = 0; i < props.listaTaglie.length; i++) {
 				appoggio_mio = []
@@ -159,7 +159,7 @@ const GeneralField = props => {
 				appoggio.push({stock:["MERDAPROPS"]})
 			//}
 
-			console.log("appoggioPROPS", appoggio)
+			//console.log("appoggioPROPS", appoggio)
 
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
@@ -168,7 +168,7 @@ const GeneralField = props => {
 					appoggio_2.push(appoggio[i])
 				}
 			}
-			console.log(appoggio_2)
+			//console.log(appoggio_2)
 			
 			//console.log("appoggio_2", appoggio_2)
 
@@ -176,8 +176,8 @@ const GeneralField = props => {
 		}
 
 		else if (listaTaglie.length != 0) {
-			console.log("sonoQUISTATO")
-			console.log("listaTaglie.length",listaTaglie.length)
+			//console.log("sonoQUISTATO")
+			//console.log("listaTaglie.length",listaTaglie.length)
 
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
 			for (let i = 0; i < listaTaglie.length; i++) {
@@ -189,12 +189,12 @@ const GeneralField = props => {
 					}
 				}
 			}
-			console.log("listaTaglie.length",listaTaglie.length)
-			console.log("value.toString().split(",").length",value.toString().split(",").length)
+			//console.log("listaTaglie.length",listaTaglie.length)
+			//console.log("value.toString().split(",").length",value.toString().split(",").length)
 			for (let i = listaTaglie.length; i < value.toString().split(",").length; i++) {
 				appoggio[i].stock = []
 			}
-			console.log("appoggio", appoggio)
+			//console.log("appoggio", appoggio)
 
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
@@ -203,46 +203,13 @@ const GeneralField = props => {
 					appoggio_2.push(appoggio[i])
 				}
 			}
-			console.log(appoggio_2)
+			//console.log(appoggio_2)
 			setListaTaglie(appoggio_2)
 		}
-		/*
-		else {
-			for (let i = 0; i < listaColori.length; i++) {
-				if (i == key) {
-					console.log("dentro")
-					appoggio[key].stock = value
-				} else {
-					appoggio.push({ stock: [] })
-				}
-			}
-			setListaTaglie_dict(appoggio)
-
-			let appoggio_2 = []
-
-			for (let i = 0; i < appoggio.length; i++) {
-				if (appoggio[i].stock != undefined) {
-					appoggio_2.push(appoggio[i])
-				}
-			}
-
-			console.log(appoggio_2)
-
-			setListaTaglie(appoggio_2)
-
-		}
-
-
-						*/
-
-
-
 
 	}
 
 	function handleChange_taglie(value, key) {
-		//console.log(`selected ${value}`);
-		//setListaTaglie(value)
 		/*
 		console.log(value)
 		console.log(key)
@@ -270,18 +237,7 @@ const GeneralField = props => {
 					}
 				}
 			}
-		} /*else {
-			for (let i = 0; i < listaColori.length; i++) {
-				if (i == key) {
-					console.log("dentro")
-					appoggio[key].stock = value
-				} else {
-					appoggio.push({ stock: [] })
-				}
-			}
-		}
-
-*/
+		} 
 
 		else if (listaTaglie.length != 0) {
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
@@ -304,7 +260,6 @@ const GeneralField = props => {
 		else {
 			for (let i = 0; i < listaColori.length; i++) {
 				if (i == key) {
-					console.log("dentro")
 					appoggio[key].stock = value
 				} else {
 					appoggio.push({ stock: [] })
@@ -326,7 +281,7 @@ const GeneralField = props => {
 			}
 		}
 
-		console.log(appoggio_2)
+		//console.log(appoggio_2)
 
 		setListaTaglie(appoggio_2)
 
@@ -337,9 +292,9 @@ const GeneralField = props => {
 		//setListaTaglie(value)
 
 		//setListaTaglie([value])
-		console.log(value)
-		console.log(key)
-		console.log(listaTaglie)
+		//console.log(value)
+		//console.log(key)
+		//console.log(listaTaglie)
 		for (let i = 0; i < listaTaglie.length; i++) {
 			if (i == key) {
 

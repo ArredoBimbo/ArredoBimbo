@@ -55,7 +55,10 @@ const ProductList = () => {
 					sottocategoria: res[i].sottoCategoria
 				})
 				for (let j = 0; j < res[i].coloriDisp.length; j++) {
-					filtraggio[i].stock = filtraggio[i].stock + toInteger(res[i].coloriDisp[j].stock)
+					for (let k = 0; k < Object.keys(res[i].coloriDisp[j].size).length; k++)  {
+						filtraggio[i].stock = filtraggio[i].stock + toInteger(res[i].coloriDisp[j].size[Object.keys(res[i].coloriDisp[j].size)[k]].stock)
+
+					}
 				}
 				for (let j = 0; j < res[i].coloriDisp.length; j++) {
 					if (res[i].coloriDisp[j].image.length != 0 && !trovato) {
