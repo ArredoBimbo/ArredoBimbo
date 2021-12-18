@@ -47,167 +47,6 @@ const ProductForm = props => {
 	const [all_prodotti, set_all_prodotti] = useState([])
 	const [disabilita_bottone, set_disabilita_bottone] = useState(false)
 
-
-
-	const setFieldsAllValues_1 = (product, check_ultimi, gratis, check_personalizzazione, correlati, numColori, num_taglie, taglie_disab, taglie) => {
-		if (taglie[0].value.length == 1) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-
-				numTaglia0: taglie_disab,
-				numColore0numStock0: num_taglie[0],
-
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
-		} else if (taglie[0].value.length == 2) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-
-				numTaglia0: taglie_disab,
-				numColore0numStock0: num_taglie[0],
-				numColore0numStock1: num_taglie[1],
-
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
-		} else if (taglie[0].value.length == 3) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-				numTaglia0: taglie_disab,
-				numColore0numStock0: num_taglie[0],
-				numColore0numStock1: num_taglie[1],
-				numColore0numStock2: num_taglie[2],
-
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
-		} else if (taglie[0].value.length == 4) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-
-				numTaglia0: taglie_disab,
-				numColore0numStock0: num_taglie[0],
-				numColore0numStock1: num_taglie[1],
-				numColore0numStock2: num_taglie[2],
-				numColore0numStock3: num_taglie[3],
-
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
-		} else if (taglie[0].value.length == 5) {
-			form.setFieldsValue({
-				cost: product.prezzo,
-				costo_personalizzazione: product.costo_personalizzazione,
-				description: product.descrizione,
-				category: product.categoria,
-				Colori: listaColori,
-
-				numTaglia0: taglie_disab,
-				numColore0numStock0: num_taglie[0],
-				numColore0numStock1: num_taglie[1],
-				numColore0numStock2: num_taglie[2],
-				numColore0numStock3: num_taglie[3],
-				numColore0numStock4: num_taglie[4],
-
-				name: product.nomeArticolo,
-				price: product.prezzo,
-				gratis: gratis,
-				sottocat: product.sottoCategoria,
-				ultimiArrivi: check_ultimi,
-				correlati: correlati,
-				personalizzazione: check_personalizzazione,
-				marca: product.marca,
-				lunghezza: product.schedaTecnica[0].lunghezza,
-				larghezza: product.schedaTecnica[0].larghezza,
-				peso: product.schedaTecnica[0].peso,
-				altezza: product.schedaTecnica[0].altezza,
-				materiale: product.schedaTecnica[0].materiale,
-				sconto: product.offerta
-			});
-		} else if (taglie[0].value.length == 6) {
-
-		} else if (taglie[0].value.length == 7) {
-
-		} else if (taglie[0].value.length == 8) {
-
-		} else if (taglie[0].value.length == 9) {
-
-		} else if (taglie[0].value.length == 10) {
-
-		} else if (taglie[0].value.length == 11) {
-
-		} else if (taglie[0].value.length == 12) {
-
-		} else if (taglie[0].value.length == 13) {
-
-		}
-	}
-
 	const setFieldsAllValues = (product, listaColori, check_ultimi, gratis, check_personalizzazione, correlati, stringa_taglia, my_json) => {
 
 		my_json["cost"] = product.prezzo
@@ -229,7 +68,7 @@ const ProductForm = props => {
 		my_json["altezza"] = product.schedaTecnica[0].altezza
 		my_json["materiale"] = product.schedaTecnica[0].materiale
 		my_json["sconto"] = product.offerta
-	
+
 		console.log("stringa_taglia", stringa_taglia)
 		console.log("listaColori", listaColori)
 		form.setFieldsValue(my_json);
@@ -293,20 +132,20 @@ const ProductForm = props => {
 				}
 			}
 		}
-		
+
 		let my_json = {}
 
 		for (let i = 0; i < taglie.length; i++) {
-			my_json["numTaglia"+i] = taglie_disab[i]
+			my_json["numTaglia" + i] = taglie_disab[i]
 			stringa_taglia += `numTaglia` + i + ` :'` + taglie_disab[i] + `',`
 			for (let j = 0; j < taglie[i].value.length; j++) {
 				stringa_taglia += `numColore` + i + `numStock` + j + ` :'` + taglie[i].value[j].stock + `',`
-				my_json["numColore" + i + "numStock" + j ] = taglie[i].value[j].stock
+				my_json["numColore" + i + "numStock" + j] = taglie[i].value[j].stock
 			}
 		}
 		console.log(JSON.parse(JSON.stringify(stringa_taglia)))
-		console.log("my_json",my_json)
-		
+		console.log("my_json", my_json)
+
 		setFieldsAllValues(product, listaColori, check_ultimi, gratis, check_personalizzazione, correlati, JSON.parse(JSON.stringify(stringa_taglia)), my_json);
 	}
 
@@ -385,13 +224,44 @@ const ProductForm = props => {
 		let appoggio_lista_taglie_totali = []
 
 		//
-
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			appoggio_lista_taglie_totali.push(
 				[
-					'x',
-					'y',
-					'z'
+
+					"TAGLIA UNICA",
+
+					"XS",
+					"S",
+					"M",
+					"L",
+					"XL",
+					"XXL",
+
+					"Small",
+					"Large",
+
+
+					"0 mesi",
+					"1 mese",
+					"2 mesi",
+					"3 mesi",
+					"4 mesi",
+					"5 mesi",
+					"6 mesi",
+					"7 mesi",
+					"8 mesi",
+					"9 mesi",
+					"10 mesi",
+					"11 mesi",
+					"12 mesi",
+
+					"0-6 mesi",
+					"0-2 mesi",
+					"6-18 mesi",
+					"0 +",
+					"0-4 mesi",
+					"4-18 mesi",
+					"2-4 mesi"
 				]
 			)
 
@@ -602,6 +472,22 @@ const ProductForm = props => {
 				}
 			}
 
+			// TESTARE QUIIIIIIIIII
+			/*
+			let trovato_tagliau = false
+			for (let i = 0; i < prova.Colori.length; i++) {
+				for (let j = 0; j < prova["numTaglia" + i].length; j++) {
+					if (prova["numTaglia" + i][j] == "TAGLIA UNICA") {
+						trovato_tagliau = true
+					}
+					if (j == prova["numTaglia" + i].length - 1 && trovato_tagliau == true && prova["numTaglia" + i].length > 1) {
+						alert("non taglia unica da solo")
+					} else if (j == prova["numTaglia" + i].length - 1 && trovato_tagliau == true && prova["numTaglia" + i].length == 1) {
+						prova["numTaglia" + i] = "tagliau"
+					}
+				}
+			}
+			*/
 			setTimeout(() => {
 				setSubmitLoading(false)
 				if (mode === ADD) {

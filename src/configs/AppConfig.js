@@ -27,7 +27,43 @@ export const gratis = ['Si', 'No'];
 
 export const personalizzazione = ['Si', 'No'];
 
-export const taglie_tutte = ["x", "y", "z"];
+export const taglie_tutte = [
+
+	"TAGLIA UNICA",
+
+	"XS",
+	"S",
+	"M",
+	"L",
+	"XL",
+	"XXL", 
+	
+	"Small",
+	"Large",
+	
+	
+	"0 mesi",
+	"1 mese",
+	"2 mesi",
+	"3 mesi",
+	"4 mesi",
+	"5 mesi",
+	"6 mesi",
+	"7 mesi",
+	"8 mesi",
+	"9 mesi",
+	"10 mesi",
+	"11 mesi",
+	"12 mesi",
+	
+	"0-6 mesi",
+	"0-2 mesi",
+	"6-18 mesi",
+	"0 +",
+	"0-4 mesi",
+	"4-18 mesi",
+	"2-4 mesi",
+];
 
 export const categorie = ['A-spasso', 'Bagnetto', 'arredamento', 'sicurezza', 'gioco-e-relax', 'offerte', 'marchi', 'abbigliamento', 'pappa'];
 
@@ -138,7 +174,9 @@ export const rules = {
 	], 
 	descrizione_personalizzazione: [
 		{
-			required: false,
+			required: true,
+			message: "Informa il cliente su come personalizzare l' acquisto",
+
 		}
 	],
 	personalizzazione: [
