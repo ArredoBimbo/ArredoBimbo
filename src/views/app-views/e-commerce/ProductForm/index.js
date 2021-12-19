@@ -471,26 +471,29 @@ const ProductForm = props => {
 					}
 				}
 			}
-
+			//console.log("values-ADD-conferma:", values)
 			// TESTARE QUIIIIIIIIII
-			/*
 			let trovato_tagliau = false
-			for (let i = 0; i < prova.Colori.length; i++) {
-				for (let j = 0; j < prova["numTaglia" + i].length; j++) {
-					if (prova["numTaglia" + i][j] == "TAGLIA UNICA") {
+			let errore_tagliau = false
+			for (let i = 0; i < values.Colori.length; i++) {
+				trovato_tagliau = false
+				for (let j = 0; j < values["numTaglia" + i].length; j++) {
+					if (values["numTaglia" + i][j] == "TAGLIA UNICA") {
 						trovato_tagliau = true
 					}
-					if (j == prova["numTaglia" + i].length - 1 && trovato_tagliau == true && prova["numTaglia" + i].length > 1) {
-						alert("non taglia unica da solo")
-					} else if (j == prova["numTaglia" + i].length - 1 && trovato_tagliau == true && prova["numTaglia" + i].length == 1) {
-						prova["numTaglia" + i] = "tagliau"
+					//console.log("length taglia: ", values["numTaglia" + i].length)
+					//console.log("trovato taglia unica: ", trovato_tagliau)
+					if (j == values["numTaglia" + i].length - 1 && trovato_tagliau == true && values["numTaglia" + i].length > 1) {
+						errore_tagliau = true
+					} else if (j == values["numTaglia" + i].length - 1 && trovato_tagliau == true && values["numTaglia" + i].length == 1) {
+						values["numTaglia" + i] = ["tagliau"]
 					}
 				}
 			}
-			*/
+
 			setTimeout(() => {
 				setSubmitLoading(false)
-				if (mode === ADD) {
+				if (mode === ADD && !errore_tagliau) {
 					console.log("values-ADD-conferma:", values)
 
 					insertArticolo(values, res => {
@@ -538,7 +541,7 @@ const ProductForm = props => {
 						}
 					})
 				}
-				if (mode === EDIT) {
+				if (mode === EDIT && !errore_tagliau) {
 					console.log("values-EDIT-conferma:", values)
 					let appoggio_foto = []
 					let appoggio_colori_disabilitati = []
@@ -592,6 +595,10 @@ const ProductForm = props => {
 							}
 						})
 					});
+				}
+				else if (errore_tagliau) {
+					setSubmitLoading(false)
+					message.error("C'è un errore su una delle taglie! TAGLIA UNICA non può essere associata insieme ad altre taglie");
 				}
 			}, 1500);
 		}).catch(info => {
