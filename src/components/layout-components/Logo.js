@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import utils from 'utils';
 import { Grid } from 'antd';
 
-import logo from './logo.svg'
+import logo from '../../assets/logo.svg'
 const { useBreakpoint } = Grid;
 
 const getLogoWidthGutter = (props, isMobile) => {
