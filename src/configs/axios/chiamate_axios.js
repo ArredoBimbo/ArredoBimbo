@@ -19,7 +19,8 @@ const uploadFoto = async function (id, indice, vettore_url, callback) {
     const header = await createToken();
     axios.post(IP + "/uploadFoto", { url: vettore_url, id: id, indice: indice }, header)
         .then(response => {
-            callback(response.data);
+            console.log("vettore_url",vettore_url)
+            callback(response.data, vettore_url);
         }).catch(err => {
             console.log(err);
         })

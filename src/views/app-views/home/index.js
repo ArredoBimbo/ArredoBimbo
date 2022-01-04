@@ -15,6 +15,8 @@ import {
 	BarChartOutlined
 } from '@ant-design/icons';
 import { Value } from 'devextreme-react/range-selector';
+import { Document, Page, pdfjs } from 'react-pdf';
+
 const { Option } = Select;
 
 const tableColumns = [
@@ -50,6 +52,8 @@ const tableColumns = [
 
 
 const Home = () => {
+	const [numPages] = useState(1);
+	const [pageNumber, setPageNumber] = useState(1);
 
 	const [top_acquisti, set_top_acquisti] = useState([])
 	const [odierni_acquisti, set_odierni_acquisti] = useState([])
@@ -145,7 +149,6 @@ const Home = () => {
 					</Card>
 				</Col>
 			</Row>
-
 		</div>
 
 
