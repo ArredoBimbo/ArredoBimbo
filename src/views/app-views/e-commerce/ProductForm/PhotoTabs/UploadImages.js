@@ -31,31 +31,55 @@ export default class UploadImages extends Component {
     console.log("vettoreFOTO: ", this.props.vettFoto)
     console.log("colore: ", this.props.colore)
     console.log("indice_colore: ", this.props.indice)
+    let appoggio = []
     if (this.props.vettFoto.length != 0) {
-      let appoggio = []
-      for (let i = 0; i < this.props.vettFoto[this.props.indice].foto.length; i++) {
-        if (this.props.vettFoto[this.props.indice].foto.length == 1 &&
-          this.props.vettFoto[this.props.indice].foto[i] == ""
-        ) {
-          appoggio.push({
-            uid: 0,
-            name: "No Image",
-            status: 'done',
-            url: ''
-          })
-        } else {
-          appoggio.push({
-            uid: i,
-            name: i,
-            status: 'done',
-            url: this.props.vettFoto[this.props.indice].foto[i]
-          })
+      if (this.props.vettFoto[this.props.indice].foto.length != 0) {
+        for (let i = 0; i < this.props.vettFoto[this.props.indice].foto.length; i++) {
+          if (this.props.vettFoto[this.props.indice].foto.length == 1 &&
+            this.props.vettFoto[this.props.indice].foto[i] == ""
+          ) {
+            appoggio.push({
+              uid: 0,
+              name: "No Image",
+              status: 'done',
+              url: ''
+            })
+          } else {
+            appoggio.push({
+              uid: i,
+              name: i,
+              status: 'done',
+              url: this.props.vettFoto[this.props.indice].foto[i]
+            })
+          }
+
         }
-
       }
-
-      this.setState({ vettoreFotoOld: appoggio });
+      else {
+        console.log("qui else")
+        appoggio.push({
+          uid: 0,
+          name: "No Image",
+          status: 'done',
+          url: ''
+        })
+      }
+      this.setState({ vettoreFotoOld: appoggio }, () => {
+        console.log("")
+      });
+    } else {
+      console.log("qui else proops vuota")
+      appoggio.push({
+        uid: 0,
+        name: "No Image",
+        status: 'done',
+        url: ''
+      })
     }
+    this.setState({ vettoreFotoOld: appoggio }, () => {
+      console.log("")
+    });
+
 
   }
 
@@ -395,7 +419,7 @@ export default class UploadImages extends Component {
 
             </div>
 
-           {/* <div className="col-4">
+            {/* <div className="col-4">
               <Button
                 className="btn btn-success btn-sm"
                 disabled={!selectedFiles}
