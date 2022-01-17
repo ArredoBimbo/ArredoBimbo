@@ -318,6 +318,18 @@ const GeneralField = props => {
 					{label}
 				</Tag>
 			);
+		}		else if (value == "GrigioAlluminio") {
+			return (
+				<Tag color={"#8C9194"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
+					{label}
+				</Tag>
+			);
+		}		else if (value == "OroRosa") {
+			return (
+				<Tag color={"#b76e79"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
+					{label}
+				</Tag>
+			);
 		}
 		else if (value == "Amaranto") {
 			return (

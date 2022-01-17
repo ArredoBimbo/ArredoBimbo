@@ -419,7 +419,7 @@ export default class UploadImages extends Component {
 
             </div>
 
-            {/* <div className="col-4">
+            <div className="col-4">
               <Button
                 className="btn btn-success btn-sm"
                 disabled={!selectedFiles}
@@ -437,7 +437,8 @@ export default class UploadImages extends Component {
                   <Input type="file" multiple accept="image/*" onChange={this.selectFiles} />
                 </label>
               </div>
-            </div>*/}
+            </div>
+            {/* */}
 
           </div>
         }

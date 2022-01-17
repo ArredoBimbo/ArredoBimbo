@@ -455,4 +455,6 @@ export const colori = [
 	"Zafferano",
 	"Zafferano profondo",
 	"Zaffiro",
+	"GrigioAlluminio",
+	"OroRosa"
 ];

@@ -62,6 +62,7 @@ const ProductList = () => {
 				}
 				for (let j = 0; j < res[i].coloriDisp.length; j++) {
 					if (res[i].coloriDisp[j].image.length != 0 && !trovato) {
+						// QUIIIIIIIIIIIIIIIII COMPLETARE
 						filtraggio[i].image = res[i].coloriDisp[j].image[0]
 						trovato = true
 					}
