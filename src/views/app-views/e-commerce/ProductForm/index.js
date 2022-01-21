@@ -68,6 +68,8 @@ const ProductForm = props => {
 		my_json["altezza"] = product.schedaTecnica[0].altezza
 		my_json["materiale"] = product.schedaTecnica[0].materiale
 		my_json["sconto"] = product.offerta
+		my_json["descrizione_personalizzazione"] = product.descrizione_personalizzazione
+		console.log("my_json", my_json)
 
 		console.log("stringa_taglia", stringa_taglia)
 		console.log("listaColori", listaColori)
@@ -75,7 +77,7 @@ const ProductForm = props => {
 		console.log("form", form.getFieldsValue())
 	}
 
-	const setField = (numColori, listaColori, stockColore, taglie, product, correlati) => {
+	const setField = (numColori, listaColori, stockColore, taglie, product, correlati, res_all_prodotti) => {
 		//console.log(correlati)
 		let check_ultimi, gratis
 		let check_personalizzazione
@@ -106,17 +108,25 @@ const ProductForm = props => {
 			set_personalizzazione("No")
 
 		}
+
+		console.log("correlati", correlati)
+		console.log("all_prodotti", res_all_prodotti)
+
 		if (product.correlati == "undefined") {
 			correlati = []
 		} else {
-			for (let i = 0; i < correlati.length; i++) {
-				for (let j = 0; j < all_prodotti.length; j++) {
-					if (correlati[i] == all_prodotti[j].idArticolo) {
-						correlati[i] = all_prodotti[j].nomeArticolo
+			console.log("values.correlati", product.correlati)
+			for (let i = 0; i < res_all_prodotti.length; i++) {
+				for (let j = 0; j < correlati.length; j++) {
+					if (correlati[j] == res_all_prodotti[i].idArticolo) {
+						console.log("qui in if 121")
+						correlati[j] = res_all_prodotti[i].nomeArticolo
 					}
 				}
 			}
 		}
+
+		console.log("correlati dopo", correlati)
 
 		console.log("taglie", taglie)
 		console.log("stockColore", stockColore)
@@ -126,7 +136,11 @@ const ProductForm = props => {
 		for (let i = 0; i < taglie.length; i++) {
 			appoggio_taglie_disab = []
 			for (let j = 0; j < taglie[i].value.length; j++) {
-				appoggio_taglie_disab.push(taglie[i].value[j].taglia)
+				if (taglie[i].value[j].taglia == 'tagliau') {
+					appoggio_taglie_disab.push("TAGLIA UNICA")
+				} else {
+					appoggio_taglie_disab.push(taglie[i].value[j].taglia)
+				}
 				if (j == taglie[i].value.length - 1) {
 					taglie_disab.push(appoggio_taglie_disab)
 				}
@@ -180,7 +194,7 @@ const ProductForm = props => {
 				const productData = res.filter(product => product.idArticolo === productId)
 				const product = productData[0]
 				console.log("[USE-EFFECT] prodotto-selezionato-edit: ", product)
-				setProdotto(res.filter(product => product.idArticolo === productId)[0])
+				setProdotto(product,res)
 
 			}
 
@@ -189,7 +203,7 @@ const ProductForm = props => {
 
 	}, [form, mode, param, props]);
 
-	const setProdotto = (product) => {
+	const setProdotto = (product,res_all_prodotti) => {
 		let lista_colori_totali = list_all_colors
 		let lista_taglie_totali = list_all_taglie
 		let correlati
@@ -275,13 +289,22 @@ const ProductForm = props => {
 
 			//
 			for (let j = 0; j < Object.keys(product.coloriDisp[i].size).length; j++) {
-				appoggio_taglie.push({
-					"taglia": Object.keys(product.coloriDisp[i].size)[j],
-					"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
-				})
+				if (Object.keys(product.coloriDisp[i].size)[j] == "tagliau") {
+					appoggio_taglie.push({
+						"taglia": "TAGLIA UNICA",
+						"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
+					})
+					appoggio_lista_taglie.push("TAGLIA UNICA")
+					appoggio_taglie_render.push("TAGLIA UNICA")
+				} else {
+					appoggio_taglie.push({
+						"taglia": Object.keys(product.coloriDisp[i].size)[j],
+						"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
+					})
+					appoggio_lista_taglie.push(Object.keys(product.coloriDisp[i].size)[j])
+					appoggio_taglie_render.push(Object.keys(product.coloriDisp[i].size)[j])
+				}
 
-				appoggio_lista_taglie.push(Object.keys(product.coloriDisp[i].size)[j])
-				appoggio_taglie_render.push(Object.keys(product.coloriDisp[i].size)[j])
 				if (j == Object.keys(product.coloriDisp[i].size).length - 1) {
 
 
@@ -335,14 +358,27 @@ const ProductForm = props => {
 			appoggio_render_numeri = []
 			stock_appoggio = []
 			for (let j = 0; j < appoggio_taglie_disabilitate[i].value.length; j++) {
-				appoggio_render_3.push(
-					{
-						value: appoggio_taglie_disabilitate[i].value[j].taglia,
-						disabled: true
-					})
+				if (appoggio_taglie_disabilitate[i].value[j].taglia === 'tagliau') {
+					appoggio_render_3.push(
+						{
+							value: "TAGLIA UNICA",
+							disabled: true
+						})
+					appoggio_render_4.push("TAGLIA UNICA")
+
+				} else {
+					appoggio_render_3.push(
+						{
+							value: appoggio_taglie_disabilitate[i].value[j].taglia,
+							disabled: true
+						})
+
+					appoggio_render_4.push(appoggio_taglie_disabilitate[i].value[j].taglia)
+				}
+
 				appoggio_render_numeri.push(appoggio_taglie_disabilitate[i].value[j].stock)
 				stock_appoggio.push(appoggio_taglie_disabilitate[i].value[j].stock)
-				appoggio_render_4.push(appoggio_taglie_disabilitate[i].value[j].taglia)
+
 
 				if (j == appoggio_taglie_disabilitate[i].value.length - 1) {
 					appoggio_taglie_disabilitate_render_3.push(appoggio_render_3)
@@ -407,7 +443,7 @@ const ProductForm = props => {
 			setGratis("No")
 		}
 
-		setField(product.coloriDisp.length, appoggio_lista_colori, stock_disp, appoggio_taglie_disabilitate, product, correlati)
+		setField(product.coloriDisp.length, appoggio_lista_colori, stock_disp, appoggio_taglie_disabilitate, product, correlati, res_all_prodotti)
 	}
 
 	const onFinish = () => {
@@ -463,6 +499,7 @@ const ProductForm = props => {
 			//console.log("ttutt cosss", all_prodotti)
 
 			if (values.correlati != undefined) {
+				console.log("values.correlati", values.correlati)
 				for (let i = 0; i < values.correlati.length; i++) {
 					for (let j = 0; j < all_prodotti.length; j++) {
 						if (all_prodotti[j].nomeArticolo == values.correlati[i]) {
@@ -636,7 +673,7 @@ const ProductForm = props => {
 				</PageHeaderAlt>
 				<div className="container">
 					<Tabs defaultActiveKey="1" style={{ marginTop: 30 }} onChange={onChangeTab}>
-						{mode == ADD && colori.length == 0 &&
+						{mode == ADD && colori.length == 0 && all_prodotti.length != 0 &&
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
 									colori={colori}
@@ -657,7 +694,7 @@ const ProductForm = props => {
 								/>
 							</TabPane>
 						}
-						{mode == EDIT && colori.length != 0 && taglie.length != 0 && taglie_totali.length != 0 && taglie_disabilitate.length != 0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
+						{mode == EDIT && all_prodotti.length !=0 && colori.length != 0 && taglie.length != 0 && taglie_totali.length != 0 && taglie_disabilitate.length != 0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
 

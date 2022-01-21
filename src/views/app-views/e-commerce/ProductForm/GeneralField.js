@@ -13,7 +13,10 @@ const GeneralField = props => {
 	const [personalizza, setPersonalizza] = useState(false)
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
 
+	const [oneTime, set_oneTime] = useState(true)
+
 	const vettore_colori = props.colori_disabilitati
+
 	const vettore_taglie = props.taglie_disabilitate
 	const vettore_numeri_disp = props.numColori
 
@@ -73,35 +76,56 @@ const GeneralField = props => {
 	
 		*/
 	if (props.colori.length != 0) {
-		for (let i = 0; i < props.colori_totali.length; i++) {
-			const value = `${props.colori_totali[i]}`;
-			vettore_colori.push({ value })
+		if (oneTime) {
+			console.log("qui props colori")
+			for (let i = 0; i < props.colori_totali.length; i++) {
+				const value = `${props.colori_totali[i]}`;
+				vettore_colori.push({ value })
+				if (i == props.colori_totali.length - 1) {
+					set_oneTime(false)
+				}
+			}
+			console.log(vettore_colori)
+
 		}
 	}
 	else {
-		for (let i = 0; i < colori.length; i++) {
-			vettore_colori.push({ value: `${colori[i]}` })
+		console.log("oneTime", oneTime)
+		if (oneTime) {
+			console.log("qui")
+			for (let i = 0; i < colori.length; i++) {
+				vettore_colori.push({ value: `${colori[i]}` })
+				if (i == colori.length - 1) {
+					console.log(vettore_colori)
+					set_oneTime(false)
+				}
+			}
 		}
+
 	}
 
-
-
 	if (props.taglie.length != 0) {
-		for (let i = 0; i < props.taglie_totali.length; i++) {
-			if (props.taglie_totali[i].length == 1) {
-				const value = `${props.taglie_totali[i]}`;
-				vettore_taglie[i].push({ value })
-			} else {
-				for (let j = 0; j < props.taglie_totali[i].length; j++) {
-					const value = `${props.taglie_totali[i][j]}`;
+		console.log("props.taglie.length", props.taglie)
+		if (oneTime) {
+			for (let i = 0; i < props.taglie_totali.length; i++) {
+				if (props.taglie_totali[i].length == 1) {
+					const value = `${props.taglie_totali[i]}`;
 					vettore_taglie[i].push({ value })
+				} else {
+					for (let j = 0; j < props.taglie_totali[i].length; j++) {
+						const value = `${props.taglie_totali[i][j]}`;
+						vettore_taglie[i].push({ value })
+						
+					}
 				}
 			}
 		}
 	}
 	else {
-		for (let i = 0; i < taglie_tutte.length; i++) {
-			vettore_taglie.push({ value: `${taglie_tutte[i]}` })
+		if (oneTime) {
+			for (let i = 0; i < taglie_tutte.length; i++) {
+				vettore_taglie.push({ value: `${taglie_tutte[i]}` })
+			}
 		}
 	}
 
@@ -112,7 +136,7 @@ const GeneralField = props => {
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
 		}
-		//console.log(props.correlati)
+		console.log("coorrelati", appoggio)
 		setProdottiPersonalizzazione(appoggio)
 	}, []);
 
@@ -137,12 +161,14 @@ const GeneralField = props => {
 		//console.log(sottocategorie[event])
 	}
 	function handleChange_colori(value) {
+		set_oneTime(false)
 		//console.log(`selected ${value}`);
 		setListaColori(value)
+		console.log("value", value)
 		let appoggio = listaTaglie_dict
 		let appoggio_mio = []
 		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
-			//console.log("sonoQUIPROPS")
+			console.log("sonoQUIPROPS")
 			//console.log("listaTaglie.length",listaTaglie.length)
 
 			for (let i = 0; i < props.listaTaglie.length; i++) {
@@ -156,7 +182,7 @@ const GeneralField = props => {
 			}
 
 			//for (let i = props.listaTaglie.length; i < value.toString().split(",").length; i++) {
-				appoggio.push({stock:["MERDAPROPS"]})
+			appoggio.push({ stock: ["MERDAPROPS"] })
 			//}
 
 			//console.log("appoggioPROPS", appoggio)
@@ -169,14 +195,14 @@ const GeneralField = props => {
 				}
 			}
 			//console.log(appoggio_2)
-			
+
 			//console.log("appoggio_2", appoggio_2)
 
 			setListaTaglie(appoggio_2)
 		}
 
 		else if (listaTaglie.length != 0) {
-			//console.log("sonoQUISTATO")
+			console.log("sonoQUISTATO")
 			//console.log("listaTaglie.length",listaTaglie.length)
 
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
@@ -210,6 +236,9 @@ const GeneralField = props => {
 	}
 
 	function handleChange_taglie(value, key) {
+		set_oneTime(false)
+		console.log("handleChange_taglie")
+
 		/*
 		console.log(value)
 		console.log(key)
@@ -237,7 +266,7 @@ const GeneralField = props => {
 					}
 				}
 			}
-		} 
+		}
 
 		else if (listaTaglie.length != 0) {
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
@@ -266,9 +295,6 @@ const GeneralField = props => {
 				}
 			}
 		}
-
-
-
 
 
 		setListaTaglie_dict(appoggio)
@@ -318,13 +344,13 @@ const GeneralField = props => {
 					{label}
 				</Tag>
 			);
-		}		else if (value == "GrigioAlluminio") {
+		} else if (value == "GrigioAlluminio") {
 			return (
 				<Tag color={"#8C9194"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
 					{label}
 				</Tag>
 			);
-		}		else if (value == "OroRosa") {
+		} else if (value == "OroRosa") {
 			return (
 				<Tag color={"#b76e79"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
 					{label}
@@ -459,7 +485,7 @@ const GeneralField = props => {
 		}
 		else if (value == "Bianco") {
 			return (
-				<Tag color={"#FFFFFF"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4 }}>
+				<Tag color={"#FFFFFF"} closable={closable} onClose={onClose} style={{ marginRight: 3, marginTop: 4, color: 'black', borderColor: 'black' }}>
 					{label}
 				</Tag>
 			);

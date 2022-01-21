@@ -111,7 +111,7 @@ const Home = () => {
 				</Col>
 			</Row>
 			<Row gutter={16}>
-				<Col xs={18} sm={18} md={18} lg={18}>
+			<Col xs={24} sm={24} md={24} lg={24}>
 					<Card
 						title="I prodotti più venduti"
 						extra={
@@ -137,15 +137,6 @@ const Home = () => {
 							</Flex>
 						))}
 
-					</Card>
-				</Col>
-				<Col xs={6} sm={6} md={6} lg={6}>
-					<Card title="Pulizia acquisti incompleti" >
-						{pulisci_tmp.length != 0 ?
-							<Button onClick={() => delete_tmp()}>Pulisci acquisti incompleti </Button>
-							:
-							<Button disabled>Non ci sono acquisti interrotti </Button>
-						}
 					</Card>
 				</Col>
 			</Row>
