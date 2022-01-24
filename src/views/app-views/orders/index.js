@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
-import { Card, Table, Select, Input, Upload, Badge, Menu, Tag, Popover, Tabs, Form, Button, Row, Col, Dropdown } from 'antd';
+import { Card, Table, Select, Input, Upload, Badge, Menu, Tag, Popover, Tabs, Form, Button, Row, Col, message } from 'antd';
 //import OrderListData from "assets/data/order-list.data.json"
 import { EyeOutlined, FileExcelOutlined, SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import AvatarStatus from 'components/shared-components/AvatarStatus';
@@ -9,6 +9,8 @@ import { DownOutlined } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import utils from 'utils'
 import Swal from 'sweetalert2';
+import { rules_tracking } from 'configs/AppConfig'
+
 import { getListaProdotti, getAcquisti, updateTracking, confermaTracking } from '../../../configs/axios/chiamate_axios'
 const { Option } = Select
 const { TabPane } = Tabs;
@@ -90,85 +92,141 @@ const Orders = () => {
   const [carrelloSelezionato, setCarrelloSelezionato] = useState([])
   const [vettoreFoto, setVettoreFoto] = useState([])
   const [lista_prodotti, set_lista_prodotti] = useState([])
+  const [form] = Form.useForm();
+
 
   Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
     return this;
   }
 
+
+
+
   useEffect(() => {
     getListaProdotti(res => {
       console.log("lista-prodotti", res)
       getAcquisti(res, (acquisti) => {
         console.log("lista-acquisti: ", acquisti)
-        let appoggio = []
-        let dict = []
-        for (let i = 0; i < acquisti.length; i++) {
-          appoggio.push(acquisti[i].idordine)
-          if (i == acquisti.length - 1) {
-            const unique = [...new Set(appoggio)];
-            //console.log("unique", unique)
-            for (let z = 0; z < unique.length; z++) {
-              let string = unique[z]
-              dict.push({
-                [string]: [],
 
-              })
-              for (let j = 0; j < acquisti.length; j++) {
-                var d = new Date(new Date().setHours(new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2))
-
-                if (unique[z] == acquisti[j].idordine) {
-                  dict[z].id = z
-                  dict[z].nome_carrello = unique[z]
-                  dict[z].data = d.toDateString()
-                  dict[z].utente = acquisti[j].name
-                  dict[z].totale = acquisti[j].articoloCompleto.totale_carrello
-                  dict[z].metodo_pagamento = acquisti[j].articoloCompleto.metodo_pagamento
-                  dict[z].iva = acquisti[j].articoloCompleto.iva
-                  dict[z].costo_spedizione = acquisti[j].articoloCompleto.costo_spedizione
-                  dict[z].articoloCompleto = acquisti[j].articoloCompleto
-                  dict[z][unique[z]].push(acquisti[j])
-                }
-              }
-            }
-            console.log("dict", dict)
-          }
-        }
-
-        OrderListData = acquisti
+        let dict = costruisciCarrello(acquisti)
         set_lista_carrello(dict)
+        OrderListData = acquisti
         setList(acquisti)
         set_lista_prodotti(res)
       })
     })
   }, []);
 
+  const costruisciCarrello = (acquisti) => {
+    let appoggio = []
+    let dict = []
+    let my_data = ""
+    for (let i = 0; i < acquisti.length; i++) {
+      appoggio.push(acquisti[i].idordine)
+      if (i == acquisti.length - 1) {
+        const unique = [...new Set(appoggio)];
+        //console.log("unique", unique)
+        for (let z = 0; z < unique.length; z++) {
+          let string = unique[z]
+          dict.push({
+            [string]: [],
+
+          })
+          for (let j = 0; j < acquisti.length; j++) {
+            /*                var d = new Date(new Date().setHours(new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2))
+                           console.log("DATA", d)
+                           console.log("1", acquisti[j].articoloCompleto.data_acquisto)
+                           console.log("2", new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2)
+                           console.log("3", new Date().setHours(new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2)) */
+            var d = new Date(acquisti[j].date)
+            var date = new Date();
+            date.setDate(d.getDate() + 1);
+            my_data = date.toDateString()
+            if (unique[z] == acquisti[j].idordine) {
+              dict[z].id = z
+              dict[z].nome_carrello = unique[z]
+              dict[z].data = my_data
+              dict[z].utente = acquisti[j].name
+              dict[z].totale = acquisti[j].articoloCompleto.totale_carrello
+              dict[z].metodo_pagamento = acquisti[j].articoloCompleto.metodo_pagamento
+              dict[z].iva = acquisti[j].articoloCompleto.iva
+              dict[z].costo_spedizione = acquisti[j].articoloCompleto.costo_spedizione
+              dict[z].articoloCompleto = acquisti[j].articoloCompleto
+              dict[z][unique[z]].push(acquisti[j])
+            }
+          }
+        }
+        console.log("dict", dict)
+      }
+    }
+
+    return dict;
+  }
+
   const setTracking = (id) => {
     //console.log(id)
-    let tracking = document.getElementById("tracking").value
-    console.log("tracking", tracking)
-    updateTracking(tracking, id, res => {
-      if (res.status == 200) {
-        getAcquisti(lista_prodotti, (acquisti) => {
-          console.log("lista-acquisti: ", acquisti)
-          OrderListData = acquisti
-          setList(acquisti)
-        })
-        Swal.fire(
-          'Completato!',
-          'Il tracking è stato aggiornato con successo!',
-          'success'
-        )
-      }
-      console.log("risposta-update-tracking", res)
-    })
+    form.validateFields().then(values => {
+
+      console.log("tracking", values.tracking)
+      updateTracking(values.tracking, id, res => {
+        if (res.status == 200) {
+          setList([])
+          getAcquisti(lista_prodotti, (acquisti) => {
+            console.log("lista-acquisti: ", acquisti)
+            let dict = costruisciCarrello(acquisti)
+            set_lista_carrello(dict)
+            OrderListData = acquisti
+            setList(acquisti)
+          })
+          Swal.fire(
+            'Completato!',
+            'Il tracking è stato aggiornato con successo!',
+            'success'
+          )
+        }
+        console.log("risposta-update-tracking", res)
+      })
+    }).catch(info => {
+      message.error('Per favore, inserisci tutti i cambi obbligatori ');
+    });
   }
 
   const setTrackingComplete = (id) => {
+    form.validateFields().then(values => {
+
+      console.log("tracking", values.tracking)
+      updateTracking(values.tracking, id, res => {
+        if (res.status == 200) {
+          setList([])
+          getAcquisti(lista_prodotti, (acquisti) => {
+            console.log("lista-acquisti: ", acquisti)
+            let dict = costruisciCarrello(acquisti)
+            set_lista_carrello(dict)
+            OrderListData = acquisti
+            setList(acquisti)
+          })
+          Swal.fire(
+            'Completato!',
+            'Il tracking è stato aggiornato con successo!',
+            'success'
+          )
+        }
+        console.log("risposta-update-tracking", res)
+      })
+    }).catch(info => {
+      message.error('Per favore, inserisci tutti i cambi obbligatori ');
+    });
+
+
     confermaTracking(id, res => {
       if (res.status == 200) {
+        setList([])
+
         getAcquisti(lista_prodotti, (acquisti) => {
           console.log("lista-acquisti: ", acquisti)
+          let dict = costruisciCarrello(acquisti)
+          set_lista_carrello(dict)
           OrderListData = acquisti
           setList(acquisti)
         })
@@ -217,13 +275,13 @@ const Orders = () => {
 
   const content = (id) => {
 
-    //console.log(prodottoSelezionato)
     if (prodottoSelezionato.length != 0) {
+      console.log(prodottoSelezionato)
 
 
       let appoggio = []
       if (prodottoSelezionato.personalizzazione != "Non Supportata") {
-        
+
         /*
         console.log("sono uqiiiii")
         console.log(prodottoSelezionato.personalizzazione)
@@ -232,7 +290,7 @@ const Orders = () => {
         console.log("valore", JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[0]])
         
         */
-       if (Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti) {
+        if (Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti) {
           for (let i = 0; i < Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length; i++) {
             appoggio.push(JSON.parse(prodottoSelezionato.personalizzazione)[Object.keys(JSON.parse(prodottoSelezionato.personalizzazione))[i]])
           }
@@ -245,105 +303,193 @@ const Orders = () => {
 
       return (
         <div id={id}>
-          {prodottoSelezionato.length != 0 &&
-            <Tabs defaultActiveKey="1">
-              <TabPane tab={"Descrizione prodotto acquistato"} key={1}>
-                <p> id dell'articolo: {prodottoSelezionato.articoloCompleto.idArticoloAcquistato} </p>
-                {prodottoSelezionato.personalizzazione == "Non Supportata" &&
+          <Form
+            layout="vertical"
+            form={form}
+            name="advanced_search"
+            className="ant-advanced-search-form"
+            initialValues={{
+              heightUnit: 'cm',
+              widthUnit: 'cm',
+              weightUnit: 'kg'
+            }}
+          >
+            {prodottoSelezionato.length != 0 &&
+              <Tabs defaultActiveKey="1">
+                <TabPane tab={"Descrizione prodotto acquistato"} key={1}>
+                  <p> id dell'articolo: {prodottoSelezionato.articoloCompleto.idArticoloAcquistato} </p>
+                  {prodottoSelezionato.personalizzazione == "Non Supportata" &&
+                    <div>
+                      <p><b> TAGLIA: {prodottoSelezionato.taglia == "tagliau" ? "TAGLIA UNICA" : prodottoSelezionato.taglia} </b> </p>
+                      <p> La personalizzazione sul prodotto non è supportata! </p>
+                    </div>
+                  }
+                  {prodottoSelezionato.personalizzazione != "Non Supportata" &&
+                    <div>
 
-                  <p> La personalizzazione sul prodotto non è supportata! </p>
-                }
-                {prodottoSelezionato.personalizzazione != "Non Supportata" &&
-                  <div>
+                      {Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti ?
+                        <div>
+                          <p><b> TAGLIA: {prodottoSelezionato.taglia == "tagliau" ? "TAGLIA UNICA" : prodottoSelezionato.taglia} </b> </p>
 
-                    {Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length == prodottoSelezionato.numeroacquisti ?
-                      appoggio.map((elm, key) =>
-                      (<p> L'articolo {key} è stato di seguito personalizzato: {elm} </p>
+                          {appoggio.map((elm, key) =>
+                          (<div>
+                            <p> Il
+                              {key == 0 &&
+                                ' primo '
+                              }
+                              {key == 1 &&
+                                ' secondo '
+                              }
+                              {key == 2 &&
+                                ' terzo '
+                              }
+                              {key == 3 &&
+                                ' quarto '
+                              }
+                              {key == 4 &&
+                                ' quinto '
+                              }
+                              {key == 5 &&
+                                ' sesto '
+                              }
+                              {key == 6 &&
+                                ' settimo '
+                              }
+                              {key == 7 &&
+                                ' ottavo '
+                              }
+                              {key == 8 &&
+                                ' nono '
+                              }
+                              {key == 9 &&
+                                ' decimo '
+                              }
+
+                              acquisto è stato di seguito personalizzato: <b> {elm} </b></p>
+
+                          </div>
+
+                          )
+
+                          )}
+                        </div>
+                        :
+                        <div>
+                          <p><b> TAGLIA: {prodottoSelezionato.taglia == "tagliau" ? "TAGLIA UNICA" : prodottoSelezionato.taglia} </b> </p>
+                          {appoggio.map(
+                            (elm, key) => (
+                              <div>
+                                <p> Il
+                                  {key == 0 &&
+                                    ' primo '
+                                  }
+                                  {key == 1 &&
+                                    ' secondo '
+                                  }
+                                  {key == 2 &&
+                                    ' terzo '
+                                  }
+                                  {key == 3 &&
+                                    ' quarto '
+                                  }
+                                  {key == 4 &&
+                                    ' quinto '
+                                  }
+                                  {key == 5 &&
+                                    ' sesto '
+                                  }
+                                  {key == 6 &&
+                                    ' settimo '
+                                  }
+                                  {key == 7 &&
+                                    ' ottavo '
+                                  }
+                                  {key == 8 &&
+                                    ' nono '
+                                  }
+                                  {key == 9 &&
+                                    ' decimo '
+                                  }
+                                  acquisto è stato di seguito personalizzato: <b> {elm} </b></p>
+                              </div>
+                            )
+                          )}
+                          <p> I restanti acquisti (<b>{-Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length + prodottoSelezionato.numeroacquisti}</b>) non sono stati personalizzati! </p>
+                        </div>}
+
+                    </div>
+                  }
 
 
-                      )
+                  <p> foto dell'articolo scelto:
+                    <Upload
+                      listType="picture-card"
+                      fileList={vettoreFoto}
+                    >
+                    </Upload>
+                  </p>
+                </TabPane>
+                <TabPane tab={"Spedizione"} key={"ID" + id}>
+                  {prodottoSelezionato.orderStatus == "magazzino" &&
 
-                      ) :
-                      <div>
-
-                        {appoggio.map((elm, key) =>
-
-                          (<p> L'articolo {key} è stato di seguito personalizzato: {elm} </p>)
-                        )
-                        }
-                        <p> I restanti {-Object.keys(JSON.parse(prodottoSelezionato.personalizzazione)).length + prodottoSelezionato.numeroacquisti} non sono stati personalizzati! </p>
-                      </div>}
-
-                  </div>
-                }
-
-
-                <p> foto dell'articolo scelto:
-                  <Upload
-                    listType="picture-card"
-                    fileList={vettoreFoto}
-                  >
-                  </Upload>
-                </p>
-              </TabPane>
-              <TabPane tab={"Spedizione"} key={"ID" + id}>
-                {prodottoSelezionato.orderStatus == "magazzino" &&
-                  <Row gutter={20}>
-                    <Col xs={10} sm={10} md={15}>
-
-                      <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
-                        <Input placeholder="Numero tracking" />
-                      </Form.Item>
-                    </Col>
-
-                    <Col xs={10} sm={10} md={5}>
-
-                      <Button type="primary" onClick={() => setTracking(id)}>
-                        Conferma
-                      </Button>
-                    </Col>
-                  </Row>
-                }
-
-                {prodottoSelezionato.orderStatus == "spedito" &&
-                  <Row>
-                    <Col xs={10} sm={10} md={15}>
-                      Tracking corrente: {prodottoSelezionato.tracking}
-                    </Col>
                     <Row gutter={20}>
                       <Col xs={10} sm={10} md={15}>
-                        <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
-                          <Input placeholder="Numero tracking" />
+
+                        <Form.Item id={prodottoSelezionato.id + "tracking"} name="tracking" label="Inserire Tracking" rules={rules_tracking.tracking}>
+                          <Input placeholder="Numero tracking" defaultValue={''} />
                         </Form.Item>
                       </Col>
+
                       <Col xs={10} sm={10} md={5}>
+
                         <Button type="primary" onClick={() => setTracking(id)}>
-                          Modifica tracking
+                          Conferma
                         </Button>
                       </Col>
                     </Row>
-                    <Row gutter={20}>
-                      <Col xs={10} sm={10} md={5}>
-                        <Button type="primary" onClick={() => setTrackingComplete(id)}>
-                          Conferma arrivo della spedizione
-                        </Button>
+
+                  }
+
+                  {prodottoSelezionato.orderStatus == "spedito" &&
+                    <Row>
+                      <Col xs={10} sm={10} md={15}>
+                        Tracking corrente: {prodottoSelezionato.tracking}
                       </Col>
+                      <Row gutter={20}>
+                        <Col xs={10} sm={10} md={15}>
+                          <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
+                            <Input placeholder="Numero tracking" />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={10} sm={10} md={5}>
+                          <Button type="primary" onClick={() => setTracking(id)}>
+                            Modifica tracking
+                          </Button>
+                        </Col>
+                      </Row>
+                      <Row gutter={20}>
+                        <Col xs={10} sm={10} md={5}>
+                          <Button type="primary" onClick={() => setTrackingComplete(id)}>
+                            Conferma arrivo della spedizione
+                          </Button>
+                        </Col>
+                      </Row>
                     </Row>
-                  </Row>
-                }
+                  }
 
-                {prodottoSelezionato.orderStatus == "completato" &&
-                  <Row>
-                    Spedizione completata con successo!
-                  </Row>
-                }
+                  {prodottoSelezionato.orderStatus == "completato" &&
+                    <Row>
+                      Spedizione completata con successo!
+                    </Row>
+                  }
 
-              </TabPane>
-            </Tabs>
-          }
+                </TabPane>
+              </Tabs>
+            }
 
+          </Form>
 
-        </div>
+        </div >
       )
     }
 

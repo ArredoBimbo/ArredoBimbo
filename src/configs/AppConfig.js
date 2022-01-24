@@ -36,12 +36,12 @@ export const taglie_tutte = [
 	"M",
 	"L",
 	"XL",
-	"XXL", 
-	
+	"XXL",
+
 	"Small",
 	"Large",
-	
-	
+
+
 	"0 mesi",
 	"1 mese",
 	"2 mesi",
@@ -55,7 +55,7 @@ export const taglie_tutte = [
 	"10 mesi",
 	"11 mesi",
 	"12 mesi",
-	
+
 	"0-6 mesi",
 	"0-2 mesi",
 	"6-18 mesi",
@@ -89,6 +89,15 @@ export const sottocategorie = {
 	'pappa': ['allattamento', 'seggiolini-pappa', 'sediolini-da-tavolo', 'alazasedia', 'accessori-per-sediolini', 'accessori-per-la-pappa',
 		'alimentazione', 'accessori-per-la-dentizione']
 };
+
+export const rules_tracking = {
+	tracking: [
+		{
+			required: false
+		}
+	]
+};
+
 
 export const rules = {
 	name: [
@@ -171,7 +180,7 @@ export const rules = {
 			required: true,
 			message: 'Inserisci il costo di personalizzazione del prodotto',
 		}
-	], 
+	],
 	descrizione_personalizzazione: [
 		{
 			required: true,

@@ -62,6 +62,7 @@ const getAcquisti = async function (all_prodotti, callback) {
         for (let i = 0; i < res.data.length; i++) {
             for (let j = 0; j < all_prodotti.length; j++) {
                 if (all_prodotti[j].idArticolo == res.data[i].idArticoloAcquistato) {
+                    console.log(res.data[i])
                     filtraggio.push({
                         id: res.data[i].idAcquisto,
                         name: res.data[i].nome + " " + res.data[i].cognome,
@@ -75,7 +76,8 @@ const getAcquisti = async function (all_prodotti, callback) {
                         articoloCompleto: res.data[i],
                         tracking: res.data[i].nrtracking,
                         idordine: res.data[i].idordine,
-                        personalizzazione: res.data[i].personalizzazione
+                        personalizzazione: res.data[i].personalizzazione,
+                        taglia: res.data[i].taglia
                     })
                     if (i == res.data.length - 1) {
                         callback(filtraggio)
