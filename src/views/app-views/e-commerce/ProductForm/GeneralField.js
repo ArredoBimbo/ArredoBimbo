@@ -115,7 +115,7 @@ const GeneralField = props => {
 					for (let j = 0; j < props.taglie_totali[i].length; j++) {
 						const value = `${props.taglie_totali[i][j]}`;
 						vettore_taglie[i].push({ value })
-						
+
 					}
 				}
 			}
@@ -2101,25 +2101,44 @@ const GeneralField = props => {
 
 					{listaTaglie.length != 0 &&
 						listaColori.map((colore, key) =>
-							<Form.Item name={"numColore" + key} label={"Numero disponibili per il colore: " + listaColori[key]}>
-								{listaTaglie[key].stock.map((taglia, key_2) =>
-									<Form.Item name={"numColore" + key + "numStock" + key_2} label={"taglia: " + taglia} rules={rules.numColori}>
+							<div>
+								<Form.Item name={"numColore" + key} label={"Numeri disponibili per il colore: " + listaColori[key]}>
+									{listaTaglie[key].stock.map((taglia, key_2) =>
+										<Form.Item name={"numColore" + key + "numStock" + key_2} label={"taglia: " + taglia} rules={rules.numColori}>
 
-										<InputNumber
-											min={0}
-											className="w-100"
-											formatter={value => value}
-											defaultValue={props.numColori[key][key_2]}
-											parser={value => value.replace(/\$\s?|(,*)/g, '')}
-											onChange={(e) => handleChange_stock(e, key)}
-											options={vettore_numeri_disp[key][key_2]}
+											<InputNumber
+												min={0}
+												className="w-100"
+												formatter={value => value}
+												defaultValue={props.numColori[key][key_2]}
+												parser={value => value.replace(/\$\s?|(,*)/g, '')}
+												onChange={(e) => handleChange_stock(e, key)}
+												options={vettore_numeri_disp[key][key_2]}
 
-										/>
-									</Form.Item>
-								)
-								}
+											/>
+										</Form.Item>
+									)
+									}
 
-							</Form.Item>
+									{/*listaTaglie[key].stock.map((taglia, key_2) =>
+										<Form.Item name={"numColore" + key + "numStock" + key_2} label={"Prenotazione: " + taglia} rules={rules.numColori}>
+
+
+											<Select
+												className="w-100"
+												placeholder="taglia"
+												defaultValue={props.listaTaglie[key]}
+												onChange={(e) => handleChange_taglie(e, key)}
+												options={["Si", "No"]}
+											>
+											</Select>
+										</Form.Item>
+									)
+									*/}
+
+								</Form.Item>
+							</div>
+
 						)
 					}
 

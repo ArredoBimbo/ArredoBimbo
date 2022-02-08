@@ -27,6 +27,8 @@ export const gratis = ['Si', 'No'];
 
 export const personalizzazione = ['Si', 'No'];
 
+
+//aggiungere taglie_tutte a rigo 241 index.js di e-commerce
 export const taglie_tutte = [
 
 	"TAGLIA UNICA",
@@ -63,13 +65,28 @@ export const taglie_tutte = [
 	"0-4 mesi",
 	"4-18 mesi",
 	"2-4 mesi",
+
+	"75ml",
+	"100ml",
+	"120ml",
+	"150ml",
+	"200ml",
+	"240ml",
+	"270ml",
+	"300ml",
+	"340ml",
+	"360ml",
+	"400ml",
+	"500ml",
+	"18mesi +"
+
 ];
 
 export const categorie = ['A-spasso', 'Bagnetto', 'arredamento', 'sicurezza', 'gioco-e-relax', 'offerte', 'marchi', 'abbigliamento', 'pappa'];
 
 export const sottocategorie = {
 	'A-spasso':
-		['passeggini-trio-e-duo', 'passeggini-leggeri', 'accessori-per-passeggiare', 'passeggini-gemellari', 'Carrozzine-e-navicelle', 'marsupi-e-zaini'],
+		['passeggini-trio-e-duo', 'passeggini-leggeri', 'accessori-per-passeggiare', 'passeggini-gemellari', 'seggiolini-auto', 'lettini-da-campeggio', 'Carrozzine-e-navicelle', 'marsupi-borse-nascita-e-borse-da-viaggio'],
 
 	'Bagnetto': ['fasciatoio-e-bagnetti', 'vaschette-da-bagno', 'salute-e-benessere', 'igiene'],
 

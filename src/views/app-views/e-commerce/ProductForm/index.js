@@ -173,6 +173,7 @@ const ProductForm = props => {
 		}
 	}
 
+	
 	useEffect(() => {
 		//controllo subito il numero di "ultimiArrivi" (a prescindere se mi trovo in Add o Edit product)
 		let somma = 0
@@ -237,7 +238,7 @@ const ProductForm = props => {
 		let appoggio_taglie_disabilitate_render_3 = []
 		let appoggio_lista_taglie_totali = []
 
-		//
+		// AGGIUNGERE QUI LISTE UGUALI IN APPCONFIGS.JS
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			appoggio_lista_taglie_totali.push(
 				[
@@ -275,7 +276,21 @@ const ProductForm = props => {
 					"0 +",
 					"0-4 mesi",
 					"4-18 mesi",
-					"2-4 mesi"
+					"2-4 mesi",
+
+					"75ml",
+					"100ml",
+					"120ml",
+					"150ml",
+					"200ml",
+					"240ml",
+					"270ml",
+					"300ml",
+					"340ml",
+					"360ml",
+					"400ml",
+					"500ml",
+					"18mesi +"
 				]
 			)
 
@@ -592,7 +607,7 @@ const ProductForm = props => {
 						const productData = lista_prodotti.filter(product => product.idArticolo === productId)
 						const product = productData[0]
 						console.log("[PRIMA-UPDATE-EDIT] prodotto-selezionato-edit: ", product)
-						setProdotto(lista_prodotti.filter(product => product.idArticolo === productId)[0])
+						setProdotto(lista_prodotti.filter(product => product.idArticolo === productId)[0], lista_prodotti)
 						for (let i = 0; i < product.coloriDisp.length; i++) {
 							appoggio_foto.push({ colore: product.colore.split(",")[i], foto: [] })
 						}
