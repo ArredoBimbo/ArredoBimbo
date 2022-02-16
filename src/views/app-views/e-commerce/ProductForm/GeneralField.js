@@ -11,6 +11,7 @@ const GeneralField = props => {
 	const [listaTaglie_dict, setListaTaglie_dict] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}])
 	const [ultimoArrivo, setUltimoArrivo] = useState(false)
 	const [personalizza, setPersonalizza] = useState(false)
+	const [prenota, setPrenota] = useState([[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []])
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
 
 	const [oneTime, set_oneTime] = useState(true)
@@ -136,7 +137,6 @@ const GeneralField = props => {
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
 		}
-		console.log("coorrelati", appoggio)
 		setProdottiPersonalizzazione(appoggio)
 	}, []);
 
@@ -154,12 +154,61 @@ const GeneralField = props => {
 		setPersonalizza(event)
 	}
 
+	const onChangePrenotazione = (event, key, key2, taglia) => {
+		console.log("event prenota", event)
+		console.log("event taglia", taglia)
+		console.log("listaTaglie", listaTaglie)
+		console.log("key", key)
+		console.log("key2", key2)
+		console.log("listaTaglie_dict", listaTaglie_dict)
+		let appoggio = prenota
+		let appoggio_2 = listaTaglie_dict
+		for (let i = 0; i < listaTaglie.length; i++) {
+			for (let j = 0; j < listaTaglie[i].stock.length; j++) {
+				if (event == "Si" && listaTaglie[i].stock[j] == taglia) {
+					appoggio[key].push(taglia)
+					if (j == listaTaglie[i].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
+				}
+				else if (event == "No" && listaTaglie[i].stock[j] == taglia) {
+					/* 	const index = appoggio[key].indexOf(taglia);
+						if (index > -1) {
+							appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
+						} */
+					if (j == listaTaglie[i].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
+				}
+			}
+		}
+
+
+		console.log(appoggio)
+		setPrenota(appoggio)
+
+
+
+		let appoggio_3 = []
+
+		for (let i = 0; i < appoggio_2.length; i++) {
+			if (appoggio_2[i].stock != undefined) {
+				appoggio_3.push(appoggio_2[i])
+			}
+		}
+
+		//console.log(appoggio_2)
+		setListaTaglie(appoggio_3)
+	}
+
+
 	const handleChange = event => {
 		//console.log("ev", event)
 		setSottocat(sottocategorie[event])
 		//console.log("sott", sottocategorie)
 		//console.log(sottocategorie[event])
 	}
+
 	function handleChange_colori(value) {
 		set_oneTime(false)
 		//console.log(`selected ${value}`);
@@ -238,6 +287,9 @@ const GeneralField = props => {
 	function handleChange_taglie(value, key) {
 		set_oneTime(false)
 		console.log("handleChange_taglie")
+		console.log("stato prenota", prenota)
+
+
 
 		/*
 		console.log(value)
@@ -297,6 +349,8 @@ const GeneralField = props => {
 		}
 
 
+
+
 		setListaTaglie_dict(appoggio)
 
 		let appoggio_2 = []
@@ -307,10 +361,32 @@ const GeneralField = props => {
 			}
 		}
 
-		//console.log(appoggio_2)
+		console.log(appoggio_2)
+
+		let appoggio_4 = prenota
+
+		// FARE QUI IL CONTROLLO CHE SE NEL CASO HO FATTO UNA CANCELLAZIONE, ALLORA CANCELLARE
+		// ANCHE DA PRENOTAZIONE ---
+		//ES: se il nome della taglia in prenotazione non è presente nella lista di stock, allora levala!!
+		let findPrenotato = false
+		for (let i = 0; i < appoggio_2[key].stock.length; i++) {
+			findPrenotato = false
+			for (let j = 0; j < prenota[key].length; j++) {
+				if (appoggio_2[key].stock[i] == prenota[key][j]) {
+					findPrenotato = true
+				}
+				if (!findPrenotato && j == prenota[key].length - 1) {
+					const index = appoggio_4[key].indexOf(appoggio_4[key][j]);
+					if (index > -1) {
+						appoggio_4[key].splice(index, 1); // 2nd parameter means remove one item only
+					} 
+				}
+			}
+
+		}
 
 		setListaTaglie(appoggio_2)
-
+		setPrenota(appoggio_4)
 	}
 
 	function handleChange_stock(value, key) {
@@ -2120,22 +2196,30 @@ const GeneralField = props => {
 									)
 									}
 
-									{/*listaTaglie[key].stock.map((taglia, key_2) =>
-										<Form.Item name={"numColore" + key + "numStock" + key_2} label={"Prenotazione: " + taglia} rules={rules.numColori}>
+									{listaTaglie[key].stock.map((taglia, key_2) =>
+										<Form.Item name={"numColore" + key + "numStock" + key_2 + "ciap"} label={"Prenotazione: " + taglia} rules={rules.numColori}>
 
 
-											<Select
-												className="w-100"
-												placeholder="taglia"
-												defaultValue={props.listaTaglie[key]}
-												onChange={(e) => handleChange_taglie(e, key)}
-												options={["Si", "No"]}
-											>
+											<Select className="w-100" placeholder="Prenotazione" onChange={(e) => onChangePrenotazione(e, key, key_2, taglia)} >
+												{
+													personalizzazione.map(elm => (
+														<Option key={elm} value={elm}>{elm}</Option>
+													))
+												}
 											</Select>
 										</Form.Item>
 									)
-									*/}
+									}
 
+									{prenota[key].map((nome_taglia, key_3) =>
+										<Form.Item name={"numColore" + key + "numStock" + "ciap" + key_3} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
+											<InputNumber
+												min={0}
+												className="w-100"
+											/>
+										</Form.Item>
+									)
+									}
 								</Form.Item>
 							</div>
 
