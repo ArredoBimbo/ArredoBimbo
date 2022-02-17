@@ -214,7 +214,7 @@ const ProductForm = props => {
 			if (product.correlati.includes(",")) {
 				correlati = product.correlati.split(",")
 			} else {
-				correlati = product.correlati
+				correlati = [product.correlati]
 			}
 		}
 
@@ -548,7 +548,7 @@ const ProductForm = props => {
 				if (mode === ADD && !errore_tagliau) {
 					console.log("values-ADD-conferma:", values)
 
-					insertArticolo(values, res => {
+		 			insertArticolo(values, res => {
 						console.log(res)
 						if (res.status === 200) {
 							message.success(`Articolo ${values.name} inserito correttamente!`);
@@ -591,7 +591,7 @@ const ProductForm = props => {
 						else {
 							message.error("Qualcosa è andato storto! Riprova.")
 						}
-					})
+					}) 
 				}
 				if (mode === EDIT && !errore_tagliau) {
 					console.log("values-EDIT-conferma:", values)

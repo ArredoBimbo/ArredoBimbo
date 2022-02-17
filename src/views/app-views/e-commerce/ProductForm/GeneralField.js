@@ -133,6 +133,9 @@ const GeneralField = props => {
 
 	useEffect(() => {
 
+		console.log("props.numColori",props.numColori)
+		console.log("listaTaglie", listaTaglie)
+
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
@@ -163,25 +166,49 @@ const GeneralField = props => {
 		console.log("listaTaglie_dict", listaTaglie_dict)
 		let appoggio = prenota
 		let appoggio_2 = listaTaglie_dict
-		for (let i = 0; i < listaTaglie.length; i++) {
-			for (let j = 0; j < listaTaglie[i].stock.length; j++) {
-				if (event == "Si" && listaTaglie[i].stock[j] == taglia) {
+		let presente = false
+
+		for (let j = 0; j < listaTaglie[key].stock.length; j++) {
+			if (event == "Si" && listaTaglie[key].stock[j] == taglia) {
+				presente = false
+				if (listaTaglie[key].prenotazione == undefined) {
+					//prima volta
 					appoggio[key].push(taglia)
-					if (j == listaTaglie[i].stock.length - 1) {
-						appoggio_2[key].prenotazione = appoggio[key]
+				} else {
+					if (listaTaglie[key].prenotazione.length == 0) {
+						appoggio[key].push(taglia)
+					} else {
+						for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
+
+							if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
+								presente = true
+							}
+							if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
+								appoggio[key].push(taglia)
+							}
+						}
 					}
+
 				}
-				else if (event == "No" && listaTaglie[i].stock[j] == taglia) {
-					/* 	const index = appoggio[key].indexOf(taglia);
-						if (index > -1) {
-							appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
-						} */
-					if (j == listaTaglie[i].stock.length - 1) {
-						appoggio_2[key].prenotazione = appoggio[key]
-					}
+				/* 			if (listaTaglie[key].prenotazione == undefined ||
+								!listaTaglie[key].stock.some(r => listaTaglie[key].prenotazione.includes(r))) {
+								appoggio[key].push(taglia)
+							} */
+				if (j == listaTaglie[key].stock.length - 1) {
+					appoggio_2[key].prenotazione = appoggio[key]
+				}
+			}
+			else if (event == "No" && listaTaglie[key].stock[j] == taglia) {
+				const index = appoggio[key].indexOf(taglia);
+				if (index > -1) {
+					appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
+				}
+				if (j == listaTaglie[key].stock.length - 1) {
+					appoggio_2[key].prenotazione = appoggio[key]
 				}
 			}
 		}
+
 
 
 		console.log(appoggio)
@@ -369,21 +396,40 @@ const GeneralField = props => {
 		// ANCHE DA PRENOTAZIONE ---
 		//ES: se il nome della taglia in prenotazione non è presente nella lista di stock, allora levala!!
 		let findPrenotato = false
-		for (let i = 0; i < appoggio_2[key].stock.length; i++) {
-			findPrenotato = false
-			for (let j = 0; j < prenota[key].length; j++) {
-				if (appoggio_2[key].stock[i] == prenota[key][j]) {
-					findPrenotato = true
-				}
-				if (!findPrenotato && j == prenota[key].length - 1) {
-					const index = appoggio_4[key].indexOf(appoggio_4[key][j]);
+		if (appoggio_2[key].prenotazione != undefined) {
+			for (let i = 0; i < appoggio_2[key].prenotazione.length; i++) {
+				if (!appoggio_2[key].stock.includes(appoggio_2[key].prenotazione[i])) {
+					const index = appoggio_4[key].indexOf(appoggio_2[key].prenotazione[i]);
+					console.log("index", index)
 					if (index > -1) {
 						appoggio_4[key].splice(index, 1); // 2nd parameter means remove one item only
-					} 
+					}
 				}
-			}
 
+				/* 			findPrenotato = false
+							for (let j = 0; j < prenota[key].length; j++) {
+								if (appoggio_2[key].stock[i] == prenota[key][j]) {
+									console.log("TROVATO")
+									findPrenotato = true
+								}
+								console.log("findPrenotato", findPrenotato)
+								console.log("j", j)
+								console.log("prenota[key].length - 1", prenota[key].length - 1)
+				
+								if (!findPrenotato && j == prenota[key].length - 1) {
+									console.log("findPrenotato", findPrenotato)
+									const index = appoggio_4[key].indexOf(appoggio_4[key][j]);
+									console.log("index", index)
+									if (index > -1) {
+										appoggio_4[key].splice(index, 1); // 2nd parameter means remove one item only
+									}
+								}
+							} */
+
+			}
 		}
+
+		console.log("appoggio_4", appoggio_4)
 
 		setListaTaglie(appoggio_2)
 		setPrenota(appoggio_4)
@@ -2197,13 +2243,13 @@ const GeneralField = props => {
 									}
 
 									{listaTaglie[key].stock.map((taglia, key_2) =>
-										<Form.Item name={"numColore" + key + "numStock" + key_2 + "ciap"} label={"Prenotazione: " + taglia} rules={rules.numColori}>
+										<Form.Item name={"numColore" + key + "prenotazione" + taglia} label={"Prenotazione: " + taglia} rules={rules.numColori}>
 
 
 											<Select className="w-100" placeholder="Prenotazione" onChange={(e) => onChangePrenotazione(e, key, key_2, taglia)} >
 												{
 													personalizzazione.map(elm => (
-														<Option key={elm} value={elm}>{elm}</Option>
+														<Option value={elm}>{elm}</Option>
 													))
 												}
 											</Select>
@@ -2211,8 +2257,8 @@ const GeneralField = props => {
 									)
 									}
 
-									{prenota[key].map((nome_taglia, key_3) =>
-										<Form.Item name={"numColore" + key + "numStock" + "ciap" + key_3} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
+									{listaTaglie[key].prenotazione != undefined && listaTaglie[key].prenotazione.map((nome_taglia, key_3) =>
+										<Form.Item name={"numColore" + key + "stock" + nome_taglia} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
 											<InputNumber
 												min={0}
 												className="w-100"
@@ -2225,7 +2271,7 @@ const GeneralField = props => {
 
 						)
 					}
-
+					{/* 
 
 					{listaTaglie.length == 0 && props.listaTaglie.length != 0 &&
 						listaColori.map((colore, key) =>
@@ -2249,7 +2295,7 @@ const GeneralField = props => {
 
 							</Form.Item>
 						)
-					}
+					} */}
 
 
 				</Card>
