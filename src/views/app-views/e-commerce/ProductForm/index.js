@@ -16,7 +16,6 @@ const ADD = 'ADD'
 const EDIT = 'EDIT'
 
 const ProductForm = props => {
-
 	const { mode = ADD, param } = props
 
 	const [form] = Form.useForm();
@@ -77,7 +76,7 @@ const ProductForm = props => {
 		console.log("form", form.getFieldsValue())
 	}
 
-	const setField = (numColori, listaColori, stockColore, taglie, product, correlati, res_all_prodotti) => {
+	const setField = (numColori, listaColori, stockColore, prenotazioneTaglia, taglie, product, correlati, res_all_prodotti) => {
 		//console.log(correlati)
 		let check_ultimi, gratis
 		let check_personalizzazione
@@ -111,6 +110,7 @@ const ProductForm = props => {
 
 		console.log("correlati", correlati)
 		console.log("all_prodotti", res_all_prodotti)
+		console.log("prenotazioneTaglia", prenotazioneTaglia)
 
 		if (product.correlati == "undefined") {
 			correlati = []
@@ -155,6 +155,10 @@ const ProductForm = props => {
 			for (let j = 0; j < taglie[i].value.length; j++) {
 				stringa_taglia += `numColore` + i + `numStock` + j + ` :'` + taglie[i].value[j].stock + `',`
 				my_json["numColore" + i + "numStock" + j] = taglie[i].value[j].stock
+				my_json["numColore" + i + "prenotazione" + taglie[i].value[j].taglia] = taglie[i].value[j].prenotazione
+				if (taglie[i].value[j].prenotazione == "Si") {
+					my_json["numColore" + i + "stock" + taglie[i].value[j].taglia] = taglie[i].value[j].giorni
+				}
 			}
 		}
 		console.log(JSON.parse(JSON.stringify(stringa_taglia)))
@@ -173,7 +177,7 @@ const ProductForm = props => {
 		}
 	}
 
-	
+
 	useEffect(() => {
 		//controllo subito il numero di "ultimiArrivi" (a prescindere se mi trovo in Add o Edit product)
 		let somma = 0
@@ -195,7 +199,7 @@ const ProductForm = props => {
 				const productData = res.filter(product => product.idArticolo === productId)
 				const product = productData[0]
 				console.log("[USE-EFFECT] prodotto-selezionato-edit: ", product)
-				setProdotto(product,res)
+				setProdotto(product, res)
 
 			}
 
@@ -204,7 +208,7 @@ const ProductForm = props => {
 
 	}, [form, mode, param, props]);
 
-	const setProdotto = (product,res_all_prodotti) => {
+	const setProdotto = (product, res_all_prodotti) => {
 		let lista_colori_totali = list_all_colors
 		let lista_taglie_totali = list_all_taglie
 		let correlati
@@ -238,6 +242,9 @@ const ProductForm = props => {
 		let appoggio_taglie_disabilitate_render_3 = []
 		let appoggio_lista_taglie_totali = []
 
+
+		let appoggio_taglie = [] // NEWWW
+		
 		// AGGIUNGERE QUI LISTE UGUALI IN APPCONFIGS.JS
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			appoggio_lista_taglie_totali.push(
@@ -294,7 +301,6 @@ const ProductForm = props => {
 				]
 			)
 
-			let appoggio_taglie = [] // NEWWW
 			let appoggio_taglie_render = [] // NEWWW
 
 			appoggio_colori_disabilitati.push({
@@ -305,17 +311,38 @@ const ProductForm = props => {
 			//
 			for (let j = 0; j < Object.keys(product.coloriDisp[i].size).length; j++) {
 				if (Object.keys(product.coloriDisp[i].size)[j] == "tagliau") {
-					appoggio_taglie.push({
-						"taglia": "TAGLIA UNICA",
-						"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
-					})
+					if (product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione == "Si") {
+						appoggio_taglie.push({
+							"taglia": "TAGLIA UNICA",
+							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
+							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione,
+							"giorni": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].giorni
+						})
+					} else {
+						appoggio_taglie.push({
+							"taglia": "TAGLIA UNICA",
+							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
+							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione
+						})
+					}
+
 					appoggio_lista_taglie.push("TAGLIA UNICA")
 					appoggio_taglie_render.push("TAGLIA UNICA")
 				} else {
-					appoggio_taglie.push({
-						"taglia": Object.keys(product.coloriDisp[i].size)[j],
-						"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock
-					})
+					if (product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione == "Si") {
+						appoggio_taglie.push({
+							"taglia": Object.keys(product.coloriDisp[i].size)[j],
+							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
+							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione,
+							"giorni": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].giorni
+						})
+					} else {
+						appoggio_taglie.push({
+							"taglia": Object.keys(product.coloriDisp[i].size)[j],
+							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
+							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione
+						})
+					}
 					appoggio_lista_taglie.push(Object.keys(product.coloriDisp[i].size)[j])
 					appoggio_taglie_render.push(Object.keys(product.coloriDisp[i].size)[j])
 				}
@@ -338,7 +365,7 @@ const ProductForm = props => {
 					}])
 					setTaglie(appoggio_taglie)
 					//console.log("appoggio_lista_taglie", appoggio_lista_taglie)
-					//console.log("appoggio_taglie", appoggio_taglie)
+					console.log("appoggio_taglie", appoggio_taglie)
 				}
 			}
 			//console.log("disab taglie: ", appoggio_taglie_disabilitate)
@@ -353,11 +380,7 @@ const ProductForm = props => {
 			appoggio_foto.push({ colore: product.colore.split(",")[i], foto: [] })
 		}
 
-
-
-
-
-		//console.log("appoggio_taglie_disabilitate",appoggio_taglie_disabilitate)
+		console.log("appoggio_taglie_disabilitate", appoggio_taglie_disabilitate)
 		let appoggio_render_3 = []
 		let appoggio_render_4 = []
 		let appoggio_render_numeri = []
@@ -365,6 +388,9 @@ const ProductForm = props => {
 		//
 		let stock_appoggio = []
 		let stock_disp = []
+
+		let prenotazione_appoggio = []
+		let prenotazione_disp = []
 		//
 		let appoggio_taglie_disabilitate_render_4 = []
 		for (let i = 0; i < appoggio_taglie_disabilitate.length; i++) {
@@ -372,6 +398,7 @@ const ProductForm = props => {
 			appoggio_render_4 = []
 			appoggio_render_numeri = []
 			stock_appoggio = []
+			prenotazione_appoggio = []
 			for (let j = 0; j < appoggio_taglie_disabilitate[i].value.length; j++) {
 				if (appoggio_taglie_disabilitate[i].value[j].taglia === 'tagliau') {
 					appoggio_render_3.push(
@@ -393,6 +420,7 @@ const ProductForm = props => {
 
 				appoggio_render_numeri.push(appoggio_taglie_disabilitate[i].value[j].stock)
 				stock_appoggio.push(appoggio_taglie_disabilitate[i].value[j].stock)
+				prenotazione_appoggio.push(appoggio_taglie_disabilitate[i].value[j].prenotazione)
 
 
 				if (j == appoggio_taglie_disabilitate[i].value.length - 1) {
@@ -400,11 +428,14 @@ const ProductForm = props => {
 					appoggio_taglie_disabilitate_render_4.push(appoggio_render_4)
 					appoggio_numeri_impostati_render.push(appoggio_render_numeri)
 					stock_disp.push(stock_appoggio)
+					prenotazione_disp.push(prenotazione_appoggio)
 				}
 				if (i == appoggio_taglie_disabilitate.length - 1 && j == appoggio_taglie_disabilitate[i].value.length - 1) {
 					setTaglie_disabilitate(appoggio_taglie_disabilitate_render_3)
 					setListaTaglie(appoggio_taglie_disabilitate_render_4)
 					setDispColori(appoggio_numeri_impostati_render)
+					console.log("appoggio_taglie_disabilitate_render_3", appoggio_taglie_disabilitate_render_3)
+					console.log("appoggio_taglie_disabilitate_render_4", appoggio_taglie_disabilitate_render_4)
 				}
 			}
 		}
@@ -458,7 +489,7 @@ const ProductForm = props => {
 			setGratis("No")
 		}
 
-		setField(product.coloriDisp.length, appoggio_lista_colori, stock_disp, appoggio_taglie_disabilitate, product, correlati, res_all_prodotti)
+		setField(product.coloriDisp.length, appoggio_lista_colori, stock_disp, prenotazione_disp, appoggio_taglie_disabilitate, product, correlati, res_all_prodotti)
 	}
 
 	const onFinish = () => {
@@ -548,7 +579,7 @@ const ProductForm = props => {
 				if (mode === ADD && !errore_tagliau) {
 					console.log("values-ADD-conferma:", values)
 
-		 			insertArticolo(values, res => {
+					insertArticolo(values, res => {
 						console.log(res)
 						if (res.status === 200) {
 							message.success(`Articolo ${values.name} inserito correttamente!`);
@@ -591,7 +622,7 @@ const ProductForm = props => {
 						else {
 							message.error("Qualcosa è andato storto! Riprova.")
 						}
-					}) 
+					})
 				}
 				if (mode === EDIT && !errore_tagliau) {
 					console.log("values-EDIT-conferma:", values)
@@ -709,7 +740,7 @@ const ProductForm = props => {
 								/>
 							</TabPane>
 						}
-						{mode == EDIT && all_prodotti.length !=0 && colori.length != 0 && taglie.length != 0 && taglie_totali.length != 0 && taglie_disabilitate.length != 0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
+						{mode == EDIT && all_prodotti.length != 0 && colori.length != 0 && taglie.length != 0 && taglie_totali.length != 0 && taglie_disabilitate.length != 0 && !disable && colori_disabilitati.length != 0 && all_prodotti.length != 0 &&
 							<TabPane tab="Descrizioni generali" key="desc">
 								<GeneralField
 

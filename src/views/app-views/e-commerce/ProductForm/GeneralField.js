@@ -56,7 +56,6 @@ const GeneralField = props => {
 	//console.log("vettore_numeri_disp", vettore_numeri_disp)
 
 	//console.log("vettore_taglie", vettore_taglie)
-
 	/*
 
 	console.log("vettore_taglie", vettore_taglie)
@@ -133,8 +132,9 @@ const GeneralField = props => {
 
 	useEffect(() => {
 
-		console.log("props.numColori",props.numColori)
+		console.log("props.numColori", props.numColori)
 		console.log("listaTaglie", listaTaglie)
+		console.log("props.listaTaglie", props.taglie)
 
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
@@ -167,47 +167,88 @@ const GeneralField = props => {
 		let appoggio = prenota
 		let appoggio_2 = listaTaglie_dict
 		let presente = false
-
-		for (let j = 0; j < listaTaglie[key].stock.length; j++) {
-			if (event == "Si" && listaTaglie[key].stock[j] == taglia) {
-				presente = false
-				if (listaTaglie[key].prenotazione == undefined) {
-					//prima volta
-					appoggio[key].push(taglia)
-				} else {
-					if (listaTaglie[key].prenotazione.length == 0) {
+		console.log("props.taglie", props.taglie)
+	/* 	
+		if (listaTaglie.length == 0 && props.taglie.length != 0) {
+			for (let j = 0; j < props.taglie[key].stock.length; j++) {
+				if (event == "Si" && props.taglie[key].taglis == taglia) {
+					presente = false
+					if (listaTaglie[key].prenotazione == undefined) {
+						//prima volta
 						appoggio[key].push(taglia)
 					} else {
-						for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
-
-							if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
-								presente = true
-							}
-							if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
-								appoggio[key].push(taglia)
+						if (listaTaglie[key].prenotazione.length == 0) {
+							appoggio[key].push(taglia)
+						} else {
+							for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
+	
+								if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
+									presente = true
+								}
+								if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
+									appoggio[key].push(taglia)
+								}
 							}
 						}
+	
 					}
-
+	
+					if (j == listaTaglie[key].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
 				}
-				/* 			if (listaTaglie[key].prenotazione == undefined ||
-								!listaTaglie[key].stock.some(r => listaTaglie[key].prenotazione.includes(r))) {
-								appoggio[key].push(taglia)
-							} */
-				if (j == listaTaglie[key].stock.length - 1) {
-					appoggio_2[key].prenotazione = appoggio[key]
-				}
-			}
-			else if (event == "No" && listaTaglie[key].stock[j] == taglia) {
-				const index = appoggio[key].indexOf(taglia);
-				if (index > -1) {
-					appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
-				}
-				if (j == listaTaglie[key].stock.length - 1) {
-					appoggio_2[key].prenotazione = appoggio[key]
+				else if (event == "No" && listaTaglie[key].stock[j] == taglia) {
+					const index = appoggio[key].indexOf(taglia);
+					if (index > -1) {
+						appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
+					}
+					if (j == listaTaglie[key].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
 				}
 			}
+	
 		}
+		else { */
+			for (let j = 0; j < listaTaglie[key].stock.length; j++) {
+				if (event == "Si" && listaTaglie[key].stock[j] == taglia) {
+					presente = false
+					if (listaTaglie[key].prenotazione == undefined) {
+						//prima volta
+						appoggio[key].push(taglia)
+					} else {
+						if (listaTaglie[key].prenotazione.length == 0) {
+							appoggio[key].push(taglia)
+						} else {
+							for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
+	
+								if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
+									presente = true
+								}
+								if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
+									appoggio[key].push(taglia)
+								}
+							}
+						}
+	
+					}
+	
+					if (j == listaTaglie[key].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
+				}
+				else if (event == "No" && listaTaglie[key].stock[j] == taglia) {
+					const index = appoggio[key].indexOf(taglia);
+					if (index > -1) {
+						appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
+					}
+					if (j == listaTaglie[key].stock.length - 1) {
+						appoggio_2[key].prenotazione = appoggio[key]
+					}
+				}
+			}
+	
+		//}
 
 
 
@@ -2249,7 +2290,7 @@ const GeneralField = props => {
 											<Select className="w-100" placeholder="Prenotazione" onChange={(e) => onChangePrenotazione(e, key, key_2, taglia)} >
 												{
 													personalizzazione.map(elm => (
-														<Option value={elm}>{elm}</Option>
+														<Option key={key} value={elm}>{elm}</Option>
 													))
 												}
 											</Select>
@@ -2271,7 +2312,6 @@ const GeneralField = props => {
 
 						)
 					}
-					{/* 
 
 					{listaTaglie.length == 0 && props.listaTaglie.length != 0 &&
 						listaColori.map((colore, key) =>
@@ -2293,9 +2333,31 @@ const GeneralField = props => {
 								)
 								}
 
+								{props.listaTaglie[key].map((taglia, key_2) =>
+									<Form.Item name={"numColore" + key + "prenotazione" + taglia} label={"Prenotazione: " + taglia} rules={rules.numColori}>
+										<Select className="w-100" placeholder="Prenotazione" onChange={(e) => onChangePrenotazione(e, key, key_2, taglia)} >
+											{
+												personalizzazione.map(elm => (
+													<Option key={key} value={elm}>{elm}</Option>
+												))
+											}
+										</Select>
+									</Form.Item>
+								)
+								}
+
+								{props.listaTaglie[key].prenotazione != undefined && props.listaTaglie[key].prenotazione.map((nome_taglia, key_3) =>
+									<Form.Item name={"numColore" + key + "stock" + nome_taglia} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
+										<InputNumber
+											min={0}
+											className="w-100"
+										/>
+									</Form.Item>
+								)
+								}
 							</Form.Item>
 						)
-					} */}
+					}
 
 
 				</Card>
