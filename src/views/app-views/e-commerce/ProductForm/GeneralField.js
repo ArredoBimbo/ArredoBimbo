@@ -167,12 +167,32 @@ const GeneralField = props => {
 		let appoggio = prenota
 		let appoggio_2 = listaTaglie_dict
 		let presente = false
-		console.log("props.taglie", props.taglie)
-	/* 	
+		//console.log("props.taglie", props.taglie[key])
+		console.log("props.lista_taglie", props.listaTaglie)
+		console.log("props.taglie_totali", props.taglie_totali)
+		//console.log("props.taglie", props.taglie[key])
+		let appoggio_mio = []
+
 		if (listaTaglie.length == 0 && props.taglie.length != 0) {
-			for (let j = 0; j < props.taglie[key].stock.length; j++) {
-				if (event == "Si" && props.taglie[key].taglis == taglia) {
-					presente = false
+			appoggio = props.listaTaglie
+
+			
+			for (let i = 0; i < props.listaTaglie.length; i++) {
+				appoggio_mio = []
+				for (let j = 0; j < props.listaTaglie[i].length; j++) {
+					appoggio_mio.push(props.listaTaglie[i][j])
+					if (j == props.listaTaglie[i].length - 1) {
+						appoggio_2[i].stock = appoggio_mio
+					}
+				}
+			}
+
+
+
+			for (let j = 0; j < props.listaTaglie[key].length; j++) {
+				if (event == "Si" && props.listaTaglie[key][j] == taglia) {
+					appoggio[key].push(taglia)
+/* 					presente = false
 					if (listaTaglie[key].prenotazione == undefined) {
 						//prima volta
 						appoggio[key].push(taglia)
@@ -181,7 +201,7 @@ const GeneralField = props => {
 							appoggio[key].push(taglia)
 						} else {
 							for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
-	
+
 								if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
 									presente = true
 								}
@@ -190,38 +210,39 @@ const GeneralField = props => {
 								}
 							}
 						}
-	
+
 					}
-	
+
 					if (j == listaTaglie[key].stock.length - 1) {
 						appoggio_2[key].prenotazione = appoggio[key]
-					}
+					} */
 				}
-				else if (event == "No" && listaTaglie[key].stock[j] == taglia) {
+				else if (event == "No" && props.listaTaglie[key][j] == taglia) {
 					const index = appoggio[key].indexOf(taglia);
+					console.log("appoggio", appoggio)
+					console.log("appoggio[key]", appoggio[key])
 					if (index > -1) {
 						appoggio[key].splice(index, 1); // 2nd parameter means remove one item only
 					}
-					if (j == listaTaglie[key].stock.length - 1) {
+					if (j == props.listaTaglie[key].length - 1) {
 						appoggio_2[key].prenotazione = appoggio[key]
 					}
 				}
 			}
-	
 		}
-		else { */
+		else {
 			for (let j = 0; j < listaTaglie[key].stock.length; j++) {
 				if (event == "Si" && listaTaglie[key].stock[j] == taglia) {
 					presente = false
-					if (listaTaglie[key].prenotazione == undefined) {
+					if (listaTaglie[key]["prenotazione"] == undefined) {
 						//prima volta
 						appoggio[key].push(taglia)
 					} else {
-						if (listaTaglie[key].prenotazione.length == 0) {
+						if (listaTaglie[key]["prenotazione"].length == 0) {
 							appoggio[key].push(taglia)
 						} else {
 							for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
-	
+
 								if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
 									presente = true
 								}
@@ -230,9 +251,9 @@ const GeneralField = props => {
 								}
 							}
 						}
-	
+
 					}
-	
+
 					if (j == listaTaglie[key].stock.length - 1) {
 						appoggio_2[key].prenotazione = appoggio[key]
 					}
@@ -247,12 +268,12 @@ const GeneralField = props => {
 					}
 				}
 			}
+
+		}
+
+
+
 	
-		//}
-
-
-
-		console.log(appoggio)
 		setPrenota(appoggio)
 
 
@@ -264,7 +285,9 @@ const GeneralField = props => {
 				appoggio_3.push(appoggio_2[i])
 			}
 		}
-
+		console.log("appoggio-269",appoggio)
+		console.log("appoggio_2-270",appoggio_2)
+		console.log("appoggio_3-271",appoggio_3)
 		//console.log(appoggio_2)
 		setListaTaglie(appoggio_3)
 	}
@@ -490,7 +513,6 @@ const GeneralField = props => {
 			}
 		}
 	}
-
 
 	function tagRender(props) {
 		const { label, value, closable, onClose } = props;

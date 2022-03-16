@@ -137,7 +137,7 @@ const ProductForm = props => {
 			appoggio_taglie_disab = []
 			for (let j = 0; j < taglie[i].value.length; j++) {
 				if (taglie[i].value[j].taglia == 'tagliau') {
-					appoggio_taglie_disab.push("TAGLIA UNICA")
+					appoggio_taglie_disab.push("TAGLIA_UNICA")
 				} else {
 					appoggio_taglie_disab.push(taglie[i].value[j].taglia)
 				}
@@ -250,7 +250,7 @@ const ProductForm = props => {
 			appoggio_lista_taglie_totali.push(
 				[
 
-					"TAGLIA UNICA",
+					"TAGLIA_UNICA",
 
 					"XS",
 					"S",
@@ -313,21 +313,21 @@ const ProductForm = props => {
 				if (Object.keys(product.coloriDisp[i].size)[j] == "tagliau") {
 					if (product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione == "Si") {
 						appoggio_taglie.push({
-							"taglia": "TAGLIA UNICA",
+							"taglia": "TAGLIA_UNICA",
 							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
 							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione,
 							"giorni": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].giorni
 						})
 					} else {
 						appoggio_taglie.push({
-							"taglia": "TAGLIA UNICA",
+							"taglia": "TAGLIA_UNICA",
 							"stock": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].stock,
 							"prenotazione": product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione
 						})
 					}
 
-					appoggio_lista_taglie.push("TAGLIA UNICA")
-					appoggio_taglie_render.push("TAGLIA UNICA")
+					appoggio_lista_taglie.push("TAGLIA_UNICA")
+					appoggio_taglie_render.push("TAGLIA_UNICA")
 				} else {
 					if (product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione == "Si") {
 						appoggio_taglie.push({
@@ -403,10 +403,10 @@ const ProductForm = props => {
 				if (appoggio_taglie_disabilitate[i].value[j].taglia === 'tagliau') {
 					appoggio_render_3.push(
 						{
-							value: "TAGLIA UNICA",
+							value: "TAGLIA_UNICA",
 							disabled: true
 						})
-					appoggio_render_4.push("TAGLIA UNICA")
+					appoggio_render_4.push("TAGLIA_UNICA")
 
 				} else {
 					appoggio_render_3.push(
@@ -561,7 +561,7 @@ const ProductForm = props => {
 			for (let i = 0; i < values.Colori.length; i++) {
 				trovato_tagliau = false
 				for (let j = 0; j < values["numTaglia" + i].length; j++) {
-					if (values["numTaglia" + i][j] == "TAGLIA UNICA") {
+					if (values["numTaglia" + i][j] == "TAGLIA_UNICA") {
 						trovato_tagliau = true
 					}
 					//console.log("length taglia: ", values["numTaglia" + i].length)

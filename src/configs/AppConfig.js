@@ -31,7 +31,7 @@ export const personalizzazione = ['Si', 'No'];
 //aggiungere taglie_tutte a rigo 241 index.js di e-commerce
 export const taglie_tutte = [
 
-	"TAGLIA UNICA",
+	"TAGLIA_UNICA",
 
 	"XS",
 	"S",
