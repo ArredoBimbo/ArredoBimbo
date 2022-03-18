@@ -20,7 +20,7 @@ const GeneralField = props => {
 
 	const vettore_taglie = props.taglie_disabilitate
 	const vettore_numeri_disp = props.numColori
-
+	
 	let appoggio_taglie_mio = []
 	for (let i = props.taglie_disabilitate.length; i < 20; i++) {
 		appoggio_taglie_mio = []
@@ -39,7 +39,6 @@ const GeneralField = props => {
 	//AAAAAAAAAAAAAAAAAAAAAAAAAAA BACKUP
 	let appoggio_render_mio = []
 	//console.log("li", props.taglie_disabilitate)
-
 
 	//mettere qui la logica dei colori come fatto per le taglie!!!! MANUELLLLLLLLLLLL
 
@@ -134,7 +133,7 @@ const GeneralField = props => {
 
 		console.log("props.numColori", props.numColori)
 		console.log("listaTaglie", listaTaglie)
-		console.log("props.listaTaglie", props.taglie)
+		console.log("props.listaTaglie", props.listaTaglie)
 
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
@@ -167,8 +166,8 @@ const GeneralField = props => {
 		let appoggio = prenota
 		let appoggio_2 = listaTaglie_dict
 		let presente = false
-		//console.log("props.taglie", props.taglie[key])
-		console.log("props.lista_taglie", props.listaTaglie)
+		console.log("props.taglie", props.taglie[key])
+		console.log("props.listaTaglie", props.listaTaglie)
 		console.log("props.taglie_totali", props.taglie_totali)
 		//console.log("props.taglie", props.taglie[key])
 		let appoggio_mio = []
@@ -187,12 +186,22 @@ const GeneralField = props => {
 				}
 			}
 
+			for(let i=0; i<appoggio.length; i++) {
 
+			}
+
+			console.log("appoggio",appoggio)
 
 			for (let j = 0; j < props.listaTaglie[key].length; j++) {
 				if (event == "Si" && props.listaTaglie[key][j] == taglia) {
+					console.log("appoggio in FOR",appoggio)
+
+						/* 	
 					appoggio[key].push(taglia)
-/* 					presente = false
+							
+					console.log("appoggio",appoggio)
+
+	presente = false
 					if (listaTaglie[key].prenotazione == undefined) {
 						//prima volta
 						appoggio[key].push(taglia)
@@ -272,6 +281,7 @@ const GeneralField = props => {
 		}
 
 
+		console.log("appoggio",appoggio)
 
 	
 		setPrenota(appoggio)

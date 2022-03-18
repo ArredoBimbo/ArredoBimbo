@@ -243,10 +243,11 @@ const ProductForm = props => {
 		let appoggio_lista_taglie_totali = []
 
 
-		let appoggio_taglie = [] // NEWWW
 		
 		// AGGIUNGERE QUI LISTE UGUALI IN APPCONFIGS.JS
 		for (let i = 0; i < product.coloriDisp.length; i++) {
+			let appoggio_taglie = [] // NEWWW
+
 			appoggio_lista_taglie_totali.push(
 				[
 
@@ -309,8 +310,9 @@ const ProductForm = props => {
 			})
 
 			//
+			console.log("prima del for", product.coloriDisp[i])
 			for (let j = 0; j < Object.keys(product.coloriDisp[i].size).length; j++) {
-				if (Object.keys(product.coloriDisp[i].size)[j] == "tagliau") {
+				if (Object.keys(product.coloriDisp[i].size)[j] == "TAGLIA_UNICA") {
 					if (product.coloriDisp[i].size[Object.keys(product.coloriDisp[i].size)[j]].prenotazione == "Si") {
 						appoggio_taglie.push({
 							"taglia": "TAGLIA_UNICA",
