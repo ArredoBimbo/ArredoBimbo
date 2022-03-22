@@ -173,7 +173,6 @@ const GeneralField = props => {
 		let appoggio_mio = []
 
 		if (listaTaglie.length == 0 && props.taglie.length != 0) {
-			appoggio = props.listaTaglie
 
 			
 			for (let i = 0; i < props.listaTaglie.length; i++) {
@@ -186,22 +185,19 @@ const GeneralField = props => {
 				}
 			}
 
-			for(let i=0; i<appoggio.length; i++) {
-
-			}
-
 			console.log("appoggio",appoggio)
 
 			for (let j = 0; j < props.listaTaglie[key].length; j++) {
 				if (event == "Si" && props.listaTaglie[key][j] == taglia) {
 					console.log("appoggio in FOR",appoggio)
 
-						/* 	
+					
+						
 					appoggio[key].push(taglia)
-							
 					console.log("appoggio",appoggio)
+							/* 	
 
-	presente = false
+					presente = false
 					if (listaTaglie[key].prenotazione == undefined) {
 						//prima volta
 						appoggio[key].push(taglia)
@@ -245,6 +241,7 @@ const GeneralField = props => {
 					presente = false
 					if (listaTaglie[key]["prenotazione"] == undefined) {
 						//prima volta
+						console.log("PRIMA VOLTA")
 						appoggio[key].push(taglia)
 					} else {
 						if (listaTaglie[key]["prenotazione"].length == 0) {
@@ -306,20 +303,20 @@ const GeneralField = props => {
 	const handleChange = event => {
 		//console.log("ev", event)
 		setSottocat(sottocategorie[event])
-		//console.log("sott", sottocategorie)
-		//console.log(sottocategorie[event])
+		////console.lo("sott", sottocategorie)
+		////console.lo(sottocategorie[event])
 	}
 
 	function handleChange_colori(value) {
 		set_oneTime(false)
-		//console.log(`selected ${value}`);
+		////console.lo(`selected ${value}`);
 		setListaColori(value)
-		console.log("value", value)
+		//console.lo("value", value)
 		let appoggio = listaTaglie_dict
 		let appoggio_mio = []
 		if (listaTaglie.length == 0 && props.listaTaglie.length != 0) {
-			console.log("sonoQUIPROPS")
-			//console.log("listaTaglie.length",listaTaglie.length)
+			//console.lo("sonoQUIPROPS")
+			////console.lo("listaTaglie.length",listaTaglie.length)
 
 			for (let i = 0; i < props.listaTaglie.length; i++) {
 				appoggio_mio = []
@@ -335,7 +332,7 @@ const GeneralField = props => {
 			appoggio.push({ stock: ["MERDAPROPS"] })
 			//}
 
-			//console.log("appoggioPROPS", appoggio)
+			////console.lo("appoggioPROPS", appoggio)
 
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
@@ -344,16 +341,16 @@ const GeneralField = props => {
 					appoggio_2.push(appoggio[i])
 				}
 			}
-			//console.log(appoggio_2)
+			////console.lo(appoggio_2)
 
-			//console.log("appoggio_2", appoggio_2)
+			////console.lo("appoggio_2", appoggio_2)
 
 			setListaTaglie(appoggio_2)
 		}
 
 		else if (listaTaglie.length != 0) {
-			console.log("sonoQUISTATO")
-			//console.log("listaTaglie.length",listaTaglie.length)
+			//console.lo("sonoQUISTATO")
+			////console.lo("listaTaglie.length",listaTaglie.length)
 
 			//significa che: 1) c'è stata una modifica - 2) non ho mai toccato le taglie - 3) ho aggiunto già un nuovo colore
 			for (let i = 0; i < listaTaglie.length; i++) {
@@ -365,12 +362,12 @@ const GeneralField = props => {
 					}
 				}
 			}
-			//console.log("listaTaglie.length",listaTaglie.length)
-			//console.log("value.toString().split(",").length",value.toString().split(",").length)
+			////console.lo("listaTaglie.length",listaTaglie.length)
+			////console.lo("value.toString().split(",").length",value.toString().split(",").length)
 			for (let i = listaTaglie.length; i < value.toString().split(",").length; i++) {
 				appoggio[i].stock = []
 			}
-			//console.log("appoggio", appoggio)
+			////console.lo("appoggio", appoggio)
 
 			setListaTaglie_dict(appoggio)
 			let appoggio_2 = []
@@ -379,7 +376,7 @@ const GeneralField = props => {
 					appoggio_2.push(appoggio[i])
 				}
 			}
-			//console.log(appoggio_2)
+			////console.lo(appoggio_2)
 			setListaTaglie(appoggio_2)
 		}
 
@@ -387,14 +384,14 @@ const GeneralField = props => {
 
 	function handleChange_taglie(value, key) {
 		set_oneTime(false)
-		console.log("handleChange_taglie")
-		console.log("stato prenota", prenota)
+		//console.lo("handleChange_taglie")
+		//console.lo("stato prenota", prenota)
 
 
 
 		/*
-		console.log(value)
-		console.log(key)
+		//console.lo(value)
+		//console.log(key)
 		console.log("taglie", listaTaglie)
 		console.log("colori", listaColori)
 		console.log("props.listaTaglie", props.listaTaglie)
