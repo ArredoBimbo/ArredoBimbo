@@ -571,7 +571,7 @@ const ProductForm = props => {
 					if (j == values["numTaglia" + i].length - 1 && trovato_tagliau == true && values["numTaglia" + i].length > 1) {
 						errore_tagliau = true
 					} else if (j == values["numTaglia" + i].length - 1 && trovato_tagliau == true && values["numTaglia" + i].length == 1) {
-						values["numTaglia" + i] = ["tagliau"]
+						values["numTaglia" + i] = ["TAGLIA_UNICA"]
 					}
 				}
 			}
@@ -652,6 +652,7 @@ const ProductForm = props => {
 						updateArticolo(idArticolo, appoggio_foto, values, res => {
 							console.log("[RISPOSTA AXIOS UPDATE] articolo:", res)
 							if (res.status === 200) {
+								console.log("alessandrissimo 200")
 								set_disabilita_bottone(true)
 								let appoggio_colori = []
 								let appoggio_foto = []
