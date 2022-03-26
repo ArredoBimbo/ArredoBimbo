@@ -36,6 +36,7 @@ const ProductForm = props => {
 	const [listaColori, setListaColori] = useState([])
 	const [listaTaglie, setListaTaglie] = useState([])
 
+	const [prenotazioni,setPrenotazioni] = useState([])
 	const [disable, setDisable] = useState(false)
 	const [colori_disabilitati, setColori_disabilitati] = useState([])
 	const [taglie_disabilitate, setTaglie_disabilitate] = useState([])
@@ -209,6 +210,8 @@ const ProductForm = props => {
 	}, [form, mode, param, props]);
 
 	const setProdotto = (product, res_all_prodotti) => {
+		//MODIFICA ALE PER PRENOTAZIONE
+		let vect_prenotazioni = []
 		let lista_colori_totali = list_all_colors
 		let lista_taglie_totali = list_all_taglie
 		let correlati
@@ -247,6 +250,9 @@ const ProductForm = props => {
 		// AGGIUNGERE QUI LISTE UGUALI IN APPCONFIGS.JS
 		for (let i = 0; i < product.coloriDisp.length; i++) {
 			let appoggio_taglie = [] // NEWWW
+			//MODIFICA ALE PER PRENOTAZIONE
+			vect_prenotazioni.push(product.coloriDisp[i].size)
+			setPrenotazioni(vect_prenotazioni)
 
 			appoggio_lista_taglie_totali.push(
 				[
@@ -479,7 +485,7 @@ const ProductForm = props => {
 		setColori(appoggio_colori)
 		setidArticolo(product.idArticolo)
 		setCorrelati(correlati)
-
+		
 		if (product.ultimiArrivi) {
 			setUltimiArrivi("Si")
 		} else {
@@ -752,7 +758,8 @@ const ProductForm = props => {
 
 									listaColori={listaColori}
 									listaTaglie={listaTaglie}
-
+									prenotazioni={prenotazioni}
+									
 									numColori={numColori}
 									numUltimiArrivi={numUltimiArrivi}
 									ultimiArrivi={ultimiArrivi}

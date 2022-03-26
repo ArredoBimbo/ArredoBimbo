@@ -134,7 +134,7 @@ const GeneralField = props => {
 		console.log("props.numColori", props.numColori)
 		console.log("listaTaglie", listaTaglie)
 		console.log("props.listaTaglie", props.listaTaglie)
-
+		FunzioneDiPrenotazione(props.listaTaglie,listaColori,props.prenotazioni)
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
@@ -142,9 +142,25 @@ const GeneralField = props => {
 		setProdottiPersonalizzazione(appoggio)
 	}, []);
 
+	
 
+	const FunzioneDiPrenotazione = (inputListaTaglie,inputListaColori,inputPrenotazioni) =>{
 
-
+		for(let k=0;k<inputListaColori.length;k++){
+			for(let j=0;j<inputListaTaglie[k].length;j++){
+				
+						if(inputPrenotazioni[k][inputListaTaglie[k][j]].prenotazione=="No"){
+							
+							onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
+							onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
+						}
+						else{
+							onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
+							onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
+						}
+			}
+		}
+	}
 
 	const onChangeUltimiArrivi = event => {
 		setUltimoArrivo(!ultimoArrivo)
