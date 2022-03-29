@@ -20,7 +20,7 @@ const GeneralField = props => {
 
 	const vettore_taglie = props.taglie_disabilitate
 	const vettore_numeri_disp = props.numColori
-	
+
 	let appoggio_taglie_mio = []
 	for (let i = props.taglie_disabilitate.length; i < 20; i++) {
 		appoggio_taglie_mio = []
@@ -134,7 +134,7 @@ const GeneralField = props => {
 		console.log("props.numColori", props.numColori)
 		console.log("listaTaglie", listaTaglie)
 		console.log("props.listaTaglie", props.listaTaglie)
-		FunzioneDiPrenotazione(props.listaTaglie,listaColori,props.prenotazioni)
+		FunzioneDiPrenotazione(props.listaTaglie, listaColori, props.prenotazioni)
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
 			appoggio.push(props.all_prodotti[i].nomeArticolo)
@@ -142,22 +142,22 @@ const GeneralField = props => {
 		setProdottiPersonalizzazione(appoggio)
 	}, []);
 
-	
 
-	const FunzioneDiPrenotazione = (inputListaTaglie,inputListaColori,inputPrenotazioni) =>{
 
-		for(let k=0;k<inputListaColori.length;k++){
-			for(let j=0;j<inputListaTaglie[k].length;j++){
-				
-						if(inputPrenotazioni[k][inputListaTaglie[k][j]].prenotazione=="No"){
-							
-							onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
-							onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
-						}
-						else{
-							onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
-							onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
-						}
+	const FunzioneDiPrenotazione = (inputListaTaglie, inputListaColori, inputPrenotazioni) => {
+
+		for (let k = 0; k < inputListaColori.length; k++) {
+			for (let j = 0; j < inputListaTaglie[k].length; j++) {
+
+				if (inputPrenotazioni[k][inputListaTaglie[k][j]].prenotazione == "No") {
+
+					onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
+					onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
+				}
+				else {
+					onChangePrenotazione("No", k, j, inputListaTaglie[k][j])
+					onChangePrenotazione("Si", k, j, inputListaTaglie[k][j])
+				}
 			}
 		}
 	}
@@ -190,7 +190,7 @@ const GeneralField = props => {
 
 		if (listaTaglie.length == 0 && props.taglie.length != 0) {
 
-			
+
 			for (let i = 0; i < props.listaTaglie.length; i++) {
 				appoggio_mio = []
 				for (let j = 0; j < props.listaTaglie[i].length; j++) {
@@ -201,42 +201,42 @@ const GeneralField = props => {
 				}
 			}
 
-			console.log("appoggio",appoggio)
+			console.log("appoggio", appoggio)
 
 			for (let j = 0; j < props.listaTaglie[key].length; j++) {
 				if (event == "Si" && props.listaTaglie[key][j] == taglia) {
-					console.log("appoggio in FOR",appoggio)
+					console.log("appoggio in FOR", appoggio)
 
-					
-						
+
+
 					appoggio[key].push(taglia)
-					console.log("appoggio",appoggio)
-							/* 	
+					console.log("appoggio", appoggio)
+					/* 	
 
-					presente = false
-					if (listaTaglie[key].prenotazione == undefined) {
-						//prima volta
-						appoggio[key].push(taglia)
-					} else {
-						if (listaTaglie[key].prenotazione.length == 0) {
-							appoggio[key].push(taglia)
-						} else {
-							for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
+			presente = false
+			if (listaTaglie[key].prenotazione == undefined) {
+				//prima volta
+				appoggio[key].push(taglia)
+			} else {
+				if (listaTaglie[key].prenotazione.length == 0) {
+					appoggio[key].push(taglia)
+				} else {
+					for (let i = 0; i < listaTaglie[key].prenotazione.length; i++) {
 
-								if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
-									presente = true
-								}
-								if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
-									appoggio[key].push(taglia)
-								}
-							}
+						if (listaTaglie[key].stock[j] == listaTaglie[key].prenotazione[i]) {
+							presente = true
 						}
-
+						if (i == listaTaglie[key].prenotazione.length - 1 && !presente) {
+							appoggio[key].push(taglia)
+						}
 					}
+				}
 
-					if (j == listaTaglie[key].stock.length - 1) {
-						appoggio_2[key].prenotazione = appoggio[key]
-					} */
+			}
+
+			if (j == listaTaglie[key].stock.length - 1) {
+				appoggio_2[key].prenotazione = appoggio[key]
+			} */
 				}
 				else if (event == "No" && props.listaTaglie[key][j] == taglia) {
 					const index = appoggio[key].indexOf(taglia);
@@ -294,9 +294,9 @@ const GeneralField = props => {
 		}
 
 
-		console.log("appoggio",appoggio)
+		console.log("appoggio", appoggio)
 
-	
+
 		setPrenota(appoggio)
 
 
@@ -308,9 +308,9 @@ const GeneralField = props => {
 				appoggio_3.push(appoggio_2[i])
 			}
 		}
-		console.log("appoggio-269",appoggio)
-		console.log("appoggio_2-270",appoggio_2)
-		console.log("appoggio_3-271",appoggio_3)
+		console.log("appoggio-269", appoggio)
+		console.log("appoggio_2-270", appoggio_2)
+		console.log("appoggio_3-271", appoggio_3)
 		//console.log(appoggio_2)
 		setListaTaglie(appoggio_3)
 	}
@@ -2345,10 +2345,10 @@ const GeneralField = props => {
 
 									{listaTaglie[key].prenotazione != undefined && listaTaglie[key].prenotazione.map((nome_taglia, key_3) =>
 										<Form.Item name={"numColore" + key + "stock" + nome_taglia} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
-											<InputNumber
-												min={0}
-												className="w-100"
-											/>
+											
+											
+												<Input  />
+											
 										</Form.Item>
 									)
 									}
