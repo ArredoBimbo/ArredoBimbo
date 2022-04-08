@@ -86,14 +86,14 @@ export const categorie = ['A-spasso', 'Bagnetto', 'arredamento', 'sicurezza', 'g
 
 export const sottocategorie = {
 	'A-spasso':
-		['passeggini-trio-e-duo', 'passeggini-leggeri', 'accessori-per-passeggiare', 'passeggini-gemellari', 'seggiolini-auto', 'lettini-da-campeggio', 'Carrozzine-e-navicelle', 'marsupi-borse-nascita-e-borse-da-viaggio'],
+		['passeggini-trio-e-duo', 'passeggini-leggeri', 'accessori-per-passeggiare', 'passeggini-gemellari', 'lettini-da-campeggio', 'Carrozzine-e-navicelle', 'marsupi-borse-nascita-e-borse-da-viaggio'],
 
 	'Bagnetto': ['fasciatoio-e-bagnetti', 'vaschette-da-bagno', 'salute-e-benessere', 'igiene'],
 
 	'arredamento': ['Culle-per-neonati', 'lettini', 'armadietti', 'complementi-d-arredo', 'accessori-camerette', 'lettini-neonati',
 		'cassettiere', 'materassi-e-cuscini', 'accessori-culla', 'fiocchi-nascita'],
 
-	'sicurezza': ['cancelletti', 'zanzariere', 'barriere-da-letto', 'paraspigoli', 'solari'],
+	'sicurezza': ['cancelletti', 'zanzariere', 'barriere-da-letto', 'paraspigoli', 'solari','seggiolini-auto'],
 
 	'gioco-e-relax': ['giocattoli', 'box-e-recinti', 'girelli', 'biciclette', 'altalene-e-dondoli', 'palestrine', 'sdraiette'],
 
