@@ -259,7 +259,8 @@ const Orders = () => {
               </p>
             </TabPane>
             <TabPane tab={"Descrizione profilo acquirente"} key={2}>
-              <p> <b> Nome e cognome del destinatario: </b>{carrelloSelezionato.articoloCompleto.name} </p>
+              {console.log("test-ale",carrelloSelezionato)}
+              <p> <b> Nome e cognome del destinatario: </b>{carrelloSelezionato.articoloCompleto.nome} {carrelloSelezionato.articoloCompleto.cognome} </p>
               <p> <b> Città: </b>{carrelloSelezionato.articoloCompleto.città} </p>
               <p> <b> Provincia: </b>{carrelloSelezionato.articoloCompleto.provincia} </p>
               <p> <b> CAP: </b>{carrelloSelezionato.articoloCompleto.cap} </p>
