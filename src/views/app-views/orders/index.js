@@ -169,7 +169,8 @@ const Orders = () => {
     form.validateFields().then(values => {
 
       console.log("tracking", values.tracking)
-      updateTracking(values.tracking, id, res => {
+      console.log("dopo-log", values.vendortracking)
+      updateTracking(values.tracking,values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
           getAcquisti(lista_prodotti, (acquisti) => {
@@ -196,7 +197,7 @@ const Orders = () => {
     form.validateFields().then(values => {
 
       console.log("tracking", values.tracking)
-      updateTracking(values.tracking, id, res => {
+      updateTracking(values.tracking,values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
           getAcquisti(lista_prodotti, (acquisti) => {
@@ -439,6 +440,9 @@ const Orders = () => {
                         <Form.Item id={prodottoSelezionato.id + "tracking"} name="tracking" label="Inserire Tracking" rules={rules_tracking.tracking}>
                           <Input placeholder="Numero tracking" defaultValue={''} />
                         </Form.Item>
+                        <Form.Item id={prodottoSelezionato.id + "vendortracking"} name="vendortracking" label="Inserire Fornitore" rules={rules_tracking.tracking}>
+                          <Input placeholder="Es DHL, GLS, Poste Italiane,..." defaultValue={''} />
+                        </Form.Item>
                       </Col>
 
                       <Col xs={10} sm={10} md={5}>
@@ -450,16 +454,24 @@ const Orders = () => {
                     </Row>
 
                   }
-
+                  {console.log("dopo-log-vendor",prodottoSelezionato.articoloCompleto.vendortracking)}
                   {prodottoSelezionato.orderStatus == "spedito" &&
                     <Row>
                       <Col xs={10} sm={10} md={15}>
                         Tracking corrente: {prodottoSelezionato.tracking}
                       </Col>
+                      <Col xs={10} sm={10} md={15}>
+                        Fornitore tracking corrente: {prodottoSelezionato.articoloCompleto.vendortracking}
+                      </Col>
                       <Row gutter={20}>
                         <Col xs={10} sm={10} md={15}>
                           <Form.Item id="tracking" name="tracking" label="Inserire Tracking">
                             <Input placeholder="Numero tracking" />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={10} sm={10} md={15}>
+                          <Form.Item id="vendortracking" name="vendortracking" label="Inserire Fornitore Spedizione">
+                            <Input placeholder="Fornitore Spedizione" />
                           </Form.Item>
                         </Col>
                         <Col xs={10} sm={10} md={5}>

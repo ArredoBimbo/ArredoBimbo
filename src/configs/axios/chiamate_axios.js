@@ -199,9 +199,9 @@ const topAcquisti = async function (all_prodotti, data, callback) {
     })
 }
 
-const updateTracking = async function (track, id, callback) {
+const updateTracking = async function (track, vendor,id, callback) {
     const header = await createToken();
-    axios.put(IP + '/update-tracking', { tracking: track, indice: id }, header).then(response => {
+    axios.put(IP + '/update-tracking', { tracking: track,vendortracking: vendor,indice: id }, header).then(response => {
         callback(response);
     }).catch(err => {
         console.log(err);
