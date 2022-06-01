@@ -118,6 +118,14 @@ const Orders = () => {
     })
   }, []);
 
+  const getFormattedDate = (date) => {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return day + '/' + month + '/' + year;
+}
+
   const costruisciCarrello = (acquisti) => {
     let appoggio = []
     let dict = []
@@ -140,13 +148,13 @@ const Orders = () => {
                            console.log("2", new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2)
                            console.log("3", new Date().setHours(new Date(acquisti[j].articoloCompleto.data_acquisto).getHours() + 2)) */
             var d = new Date(acquisti[j].date)
-            var date = new Date();
-            date.setDate(d.getDate() + 1);
-            my_data = date.toDateString()
+            d.setDate(d.getDate()+1)
+            let myData = getFormattedDate(d)
+            
             if (unique[z] == acquisti[j].idordine) {
               dict[z].id = z
               dict[z].nome_carrello = unique[z]
-              dict[z].data = my_data
+              dict[z].data = myData
               dict[z].utente = acquisti[j].name
               dict[z].totale = acquisti[j].articoloCompleto.totale_carrello
               dict[z].metodo_pagamento = acquisti[j].articoloCompleto.metodo_pagamento
@@ -170,11 +178,12 @@ const Orders = () => {
 
       //console.log("tracking", values.tracking)
       //console.log("dopo-log", values.vendortracking)
-      updateTracking(values.tracking,values.vendortracking, id, res => {
+      //console.log(values)
+      updateTracking(values.tracking, values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
           getAcquisti(lista_prodotti, (acquisti) => {
-            console.log("lista-acquisti: ", acquisti)
+            //console.log("lista-acquisti: ", acquisti)
             let dict = costruisciCarrello(acquisti)
             set_lista_carrello(dict)
             OrderListData = acquisti
@@ -196,12 +205,12 @@ const Orders = () => {
   const setTrackingComplete = (id) => {
     form.validateFields().then(values => {
 
-     // console.log("tracking", values.tracking)
-      updateTracking(values.tracking,values.vendortracking, id, res => {
+      // console.log("tracking", values.tracking)
+      updateTracking(values.tracking, values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
           getAcquisti(lista_prodotti, (acquisti) => {
-           // console.log("lista-acquisti: ", acquisti)
+            // console.log("lista-acquisti: ", acquisti)
             let dict = costruisciCarrello(acquisti)
             set_lista_carrello(dict)
             OrderListData = acquisti
@@ -213,7 +222,7 @@ const Orders = () => {
             'success'
           )
         }
-       // console.log("risposta-update-tracking", res)
+        // console.log("risposta-update-tracking", res)
       })
     }).catch(info => {
       message.error('Per favore, inserisci tutti i cambi obbligatori ');
@@ -225,7 +234,7 @@ const Orders = () => {
         setList([])
 
         getAcquisti(lista_prodotti, (acquisti) => {
-         // console.log("lista-acquisti: ", acquisti)
+          // console.log("lista-acquisti: ", acquisti)
           let dict = costruisciCarrello(acquisti)
           set_lista_carrello(dict)
           OrderListData = acquisti
@@ -237,7 +246,7 @@ const Orders = () => {
           'success'
         )
       }
-    //  console.log("risposta-conferma-tracking", res)
+      //  console.log("risposta-conferma-tracking", res)
     })
   }
 
@@ -453,7 +462,7 @@ const Orders = () => {
                     </Row>
 
                   }
-                  {console.log("dopo-log-vendor",prodottoSelezionato.articoloCompleto.vendortracking)}
+                  {console.log("dopo-log-vendor", prodottoSelezionato.articoloCompleto.vendortracking)}
                   {prodottoSelezionato.orderStatus == "spedito" &&
                     <Row>
                       <Col xs={10} sm={10} md={15}>
