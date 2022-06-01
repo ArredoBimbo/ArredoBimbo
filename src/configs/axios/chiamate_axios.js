@@ -19,7 +19,7 @@ const uploadFoto = async function (id, indice, vettore_url, callback) {
     const header = await createToken();
     axios.post(IP + "/uploadFoto", { url: vettore_url, id: id, indice: indice }, header)
         .then(response => {
-            console.log("vettore_url",vettore_url)
+            //console.log("vettore_url",vettore_url)
             callback(response.data, vettore_url);
         }).catch(err => {
             console.log(err);
@@ -62,7 +62,7 @@ const getAcquisti = async function (all_prodotti, callback) {
         for (let i = 0; i < res.data.length; i++) {
             for (let j = 0; j < all_prodotti.length; j++) {
                 if (all_prodotti[j].idArticolo == res.data[i].idArticoloAcquistato) {
-                    console.log(res.data[i])
+                    //console.log(res.data[i])
                     filtraggio.push({
                         id: res.data[i].idAcquisto,
                         name: res.data[i].nome + " " + res.data[i].cognome,

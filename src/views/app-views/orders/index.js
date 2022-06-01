@@ -157,7 +157,7 @@ const Orders = () => {
             }
           }
         }
-        console.log("dict", dict)
+        //console.log("dict", dict)
       }
     }
 
@@ -168,8 +168,8 @@ const Orders = () => {
     //console.log(id)
     form.validateFields().then(values => {
 
-      console.log("tracking", values.tracking)
-      console.log("dopo-log", values.vendortracking)
+      //console.log("tracking", values.tracking)
+      //console.log("dopo-log", values.vendortracking)
       updateTracking(values.tracking,values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
@@ -186,7 +186,7 @@ const Orders = () => {
             'success'
           )
         }
-        console.log("risposta-update-tracking", res)
+        //console.log("risposta-update-tracking", res)
       })
     }).catch(info => {
       message.error('Per favore, inserisci tutti i cambi obbligatori ');
@@ -196,12 +196,12 @@ const Orders = () => {
   const setTrackingComplete = (id) => {
     form.validateFields().then(values => {
 
-      console.log("tracking", values.tracking)
+     // console.log("tracking", values.tracking)
       updateTracking(values.tracking,values.vendortracking, id, res => {
         if (res.status == 200) {
           setList([])
           getAcquisti(lista_prodotti, (acquisti) => {
-            console.log("lista-acquisti: ", acquisti)
+           // console.log("lista-acquisti: ", acquisti)
             let dict = costruisciCarrello(acquisti)
             set_lista_carrello(dict)
             OrderListData = acquisti
@@ -213,7 +213,7 @@ const Orders = () => {
             'success'
           )
         }
-        console.log("risposta-update-tracking", res)
+       // console.log("risposta-update-tracking", res)
       })
     }).catch(info => {
       message.error('Per favore, inserisci tutti i cambi obbligatori ');
@@ -225,7 +225,7 @@ const Orders = () => {
         setList([])
 
         getAcquisti(lista_prodotti, (acquisti) => {
-          console.log("lista-acquisti: ", acquisti)
+         // console.log("lista-acquisti: ", acquisti)
           let dict = costruisciCarrello(acquisti)
           set_lista_carrello(dict)
           OrderListData = acquisti
@@ -237,7 +237,7 @@ const Orders = () => {
           'success'
         )
       }
-      console.log("risposta-conferma-tracking", res)
+    //  console.log("risposta-conferma-tracking", res)
     })
   }
 
@@ -260,7 +260,6 @@ const Orders = () => {
               </p>
             </TabPane>
             <TabPane tab={"Descrizione profilo acquirente"} key={2}>
-              {console.log("test-ale",carrelloSelezionato)}
               <p> <b> Nome e cognome del destinatario: </b>{carrelloSelezionato.articoloCompleto.nome} {carrelloSelezionato.articoloCompleto.cognome} </p>
               <p> <b> Città: </b>{carrelloSelezionato.articoloCompleto.città} </p>
               <p> <b> Provincia: </b>{carrelloSelezionato.articoloCompleto.provincia} </p>
@@ -278,7 +277,7 @@ const Orders = () => {
   const content = (id) => {
 
     if (prodottoSelezionato.length != 0) {
-      console.log(prodottoSelezionato)
+      //console.log(prodottoSelezionato)
 
 
       let appoggio = []
@@ -586,7 +585,7 @@ const Orders = () => {
           <AvatarStatus size={30} src={record.image} name={record.utente} />
         </div>
       ),
-      sorter: (a, b) => utils.antdTableSorter(a, b, 'name')
+      sorter: (a, b) => utils.antdTableSorter(a, b, 'utente')
     },
     {
       title: 'Data di acquisto',
@@ -594,12 +593,12 @@ const Orders = () => {
       render: (_, record) => (
         <span>{record.data}</span>
       ),
-      sorter: (a, b) => utils.antdTableSorter(a, b, 'date')
+      sorter: (a, b) => utils.antdTableSorter(a, b, 'data')
     },
     {
       title: 'Prezzo totale',
       dataIndex: 'totale',
-      sorter: (a, b) => utils.antdTableSorter(a, b, 'amount')
+      sorter: (a, b) => utils.antdTableSorter(a, b, 'totale')
     },
     {
       title: '',
@@ -628,12 +627,12 @@ const Orders = () => {
   }
 
   const expandedRowRender = (row, id, we) => {
-    console.log(row)
-    console.log(id)
-    console.log(we)
+    //console.log(row)
+    //console.log(id)
+    //console.log(we)
     let accesso = lista_carrello[id].nome_carrello
-    console.log("dentro", lista_carrello[id][accesso])
-    console.log(lista_carrello[id].nome_carrello)
+    //console.log("dentro", lista_carrello[id][accesso])
+    //console.log(lista_carrello[id].nome_carrello)
 
 
     const columns = [
