@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Input, Row, Col, Card, Form, InputNumber, Alert, Select, Tag } from 'antd';
+import { Input, Row, Col, Card, Form, InputNumber, Alert, Select, Tag, Descriptions } from 'antd';
 import { rules, sottocategorie, categorie, ultimiArrivi, gratis, personalizzazione, colori, taglie_tutte } from 'configs/AppConfig'
 
 const { Option } = Select;
 
 const GeneralField = props => {
+
 	const [sottocat, setSottocat] = useState([])
 	const [listaColori, setListaColori] = useState(props.listaColori)
 	const [listaTaglie, setListaTaglie] = useState([])
@@ -321,6 +322,12 @@ const GeneralField = props => {
 		setSottocat(sottocategorie[event])
 		////console.lo("sott", sottocategorie)
 		////console.lo(sottocategorie[event])
+	}
+
+	
+
+	function handleChange_sconto(value) {
+		console.log(value)
 	}
 
 	function handleChange_colori(value) {
@@ -2187,8 +2194,9 @@ const GeneralField = props => {
 							</Form.Item>
 						</Col>
 						<Col xs={24} sm={24} md={12}>
-							<Form.Item name="sconto" label="Sconto del prodotto" rules={rules.sconto}>
+							<Form.Item id="sconto" name="sconto" label="Sconto del prodotto" rules={rules.sconto}>
 								<InputNumber
+									onChange={handleChange_sconto}
 									defaultValue={0}
 									min={0}
 									max={100}
@@ -2225,6 +2233,14 @@ const GeneralField = props => {
 									}
 								</Select>
 							</Form.Item>
+						</Col>
+					</Row>
+					<Row gutter={16}>
+						<Col xs={24} sm={24} md={12}>
+								<Form.Item name="prezzoScontato" label="Prezzo scontato" rules={rules.prezzoScontato}>
+									<Descriptions.Item label="prezzoScontato"> </Descriptions.Item>
+								</Form.Item>
+								
 						</Col>
 					</Row>
 				</Card>
@@ -2345,10 +2361,10 @@ const GeneralField = props => {
 
 									{listaTaglie[key].prenotazione != undefined && listaTaglie[key].prenotazione.map((nome_taglia, key_3) =>
 										<Form.Item name={"numColore" + key + "stock" + nome_taglia} label={"Giorni di prenotazione per : " + nome_taglia} rules={rules.numColori}>
-											
-											
-												<Input  />
-											
+
+
+											<Input />
+
 										</Form.Item>
 									)
 									}

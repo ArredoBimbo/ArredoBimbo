@@ -93,7 +93,7 @@ export const sottocategorie = {
 	'arredamento': ['Culle-per-neonati', 'lettini', 'armadietti', 'complementi-d-arredo', 'accessori-camerette', 'lettini-neonati',
 		'cassettiere', 'materassi-e-cuscini', 'accessori-culla', 'fiocchi-nascita'],
 
-	'sicurezza': ['cancelletti', 'zanzariere', 'barriere-da-letto', 'paraspigoli','baby-monitor','seggioliniauto'],
+	'sicurezza': ['cancelletti', 'zanzariere', 'barriere-da-letto', 'paraspigoli', 'baby-monitor', 'seggioliniauto'],
 
 	'gioco-e-relax': ['giocattoli', 'box-e-recinti', 'girelli', 'biciclette', 'altalene-e-dondoli', 'palestrine', 'sdraiette'],
 
@@ -101,7 +101,7 @@ export const sottocategorie = {
 
 	'marchi': ['Non disponibile'],
 
-	'abbigliamento': ['Asciugamani','Tutine-Body','Copertine-Carrozzine'],
+	'abbigliamento': ['Asciugamani', 'Tutine-Body', 'Copertine-Carrozzine'],
 
 	'pappa': ['allattamento', 'seggiolini-pappa', 'sediolini-da-tavolo', 'alazasedia', 'accessori-per-sediolini', 'accessori-per-la-pappa',
 		'alimentazione', 'accessori-per-la-dentizione']
@@ -209,6 +209,12 @@ export const rules = {
 		{
 			required: true,
 			message: 'Inserisci la possibilità di personalizzare o meno il prodotto',
+		}
+	],
+
+	prezzoScontato: [
+		{
+			required: false
 		}
 	],
 	correlati: [

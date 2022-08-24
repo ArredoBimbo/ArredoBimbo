@@ -69,6 +69,8 @@ const ProductForm = props => {
 		my_json["materiale"] = product.schedaTecnica[0].materiale
 		my_json["sconto"] = product.offerta
 		my_json["descrizione_personalizzazione"] = product.descrizione_personalizzazione
+		//my_json["prezzoScontato"] = product.prezzo + product.offerta
+
 		//console.log("my_json", my_json)
 
 		//console.log("stringa_taglia", stringa_taglia)
@@ -756,6 +758,8 @@ const ProductForm = props => {
 									colori={colori}
 									taglie={taglie}
 
+
+									form={form}
 									listaColori={listaColori}
 									listaTaglie={listaTaglie}
 									prenotazioni={prenotazioni}
