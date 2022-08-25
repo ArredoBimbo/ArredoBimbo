@@ -18,6 +18,8 @@ const EDIT = 'EDIT'
 const ProductForm = props => {
 	const { mode = ADD, param } = props
 
+	var productJSON = {}
+	
 	const [form] = Form.useForm();
 	const [submitLoading, setSubmitLoading] = useState(false)
 
@@ -43,6 +45,10 @@ const ProductForm = props => {
 
 	const [colori_totali, setColori_totali] = useState([])
 	const [taglie_totali, setTaglie_totali] = useState([])
+
+	const [prezzo, setPrezzo] = useState(0)
+	const [sconto, setSconto] = useState(0)
+
 
 	const [all_prodotti, set_all_prodotti] = useState([])
 	const [disabilita_bottone, set_disabilita_bottone] = useState(false)
@@ -76,6 +82,8 @@ const ProductForm = props => {
 		//console.log("stringa_taglia", stringa_taglia)
 		//console.log("listaColori", listaColori)
 		form.setFieldsValue(my_json);
+
+		productJSON = my_json
 		//console.log("form", form.getFieldsValue())
 	}
 
@@ -487,7 +495,11 @@ const ProductForm = props => {
 		setColori(appoggio_colori)
 		setidArticolo(product.idArticolo)
 		setCorrelati(correlati)
-		
+
+		setPrezzo(product.prezzo)
+		setSconto(product.offerta)
+
+
 		if (product.ultimiArrivi) {
 			setUltimiArrivi("Si")
 		} else {
@@ -737,6 +749,7 @@ const ProductForm = props => {
 									taglie={taglie}
 									listaColori={listaColori}
 									listaTaglie={listaTaglie}
+									productJSON={productJSON}
 
 									numColori={numColori}
 									numUltimiArrivi={numUltimiArrivi}
@@ -748,6 +761,11 @@ const ProductForm = props => {
 
 									all_prodotti={all_prodotti}
 									correlati={correlati}
+
+									prezzo = {0}
+									sconto = {0}
+
+									mode = {mode}
 								/>
 							</TabPane>
 						}
@@ -759,7 +777,7 @@ const ProductForm = props => {
 									taglie={taglie}
 
 
-									form={form}
+									productJSON={productJSON}
 									listaColori={listaColori}
 									listaTaglie={listaTaglie}
 									prenotazioni={prenotazioni}
@@ -778,6 +796,13 @@ const ProductForm = props => {
 									all_prodotti={all_prodotti}
 									correlati={correlati}
 									personalizzazione={personalizzazione}
+
+
+									prezzo = {prezzo}
+									sconto = {sconto}
+
+									mode = {mode}
+
 								/>
 							</TabPane>
 						}

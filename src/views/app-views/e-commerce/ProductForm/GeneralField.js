@@ -15,6 +15,11 @@ const GeneralField = props => {
 	const [prenota, setPrenota] = useState([[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []])
 	const [prodottiPersonalizzazione, setProdottiPersonalizzazione] = useState([])
 
+
+
+	const [prezzo, setPrezzo] = useState(0)
+	const [sconto, setSconto] = useState(0)
+
 	const [oneTime, set_oneTime] = useState(true)
 
 	const vettore_colori = props.colori_disabilitati
@@ -90,13 +95,10 @@ const GeneralField = props => {
 		}
 	}
 	else {
-		console.log("oneTime", oneTime)
 		if (oneTime) {
-			console.log("qui")
 			for (let i = 0; i < colori.length; i++) {
 				vettore_colori.push({ value: `${colori[i]}` })
 				if (i == colori.length - 1) {
-					console.log(vettore_colori)
 					set_oneTime(false)
 				}
 			}
@@ -105,7 +107,6 @@ const GeneralField = props => {
 	}
 
 	if (props.taglie.length != 0) {
-		console.log("props.taglie.length", props.taglie)
 		if (oneTime) {
 			for (let i = 0; i < props.taglie_totali.length; i++) {
 				if (props.taglie_totali[i].length == 1) {
@@ -132,9 +133,9 @@ const GeneralField = props => {
 
 	useEffect(() => {
 
-		console.log("props.numColori", props.numColori)
+		/* console.log("props.numColori", props.numColori)
 		console.log("listaTaglie", listaTaglie)
-		console.log("props.listaTaglie", props.listaTaglie)
+		console.log("props.listaTaglie", props.listaTaglie) */
 		FunzioneDiPrenotazione(props.listaTaglie, listaColori, props.prenotazioni)
 		let appoggio = []
 		for (let i = 0; i < props.all_prodotti.length; i++) {
@@ -328,6 +329,13 @@ const GeneralField = props => {
 
 	function handleChange_sconto(value) {
 		console.log(value)
+		setSconto(value)
+	}
+
+	
+	function handleChange_prezzo(value) {
+		console.log(value)
+		setPrezzo(value)
 	}
 
 	function handleChange_colori(value) {
@@ -2190,6 +2198,7 @@ const GeneralField = props => {
 									className="w-100"
 									formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 									parser={value => value.replace(/\€\s?|(,*)/g, '')}
+									onChange={handleChange_prezzo}
 								/>
 							</Form.Item>
 						</Col>
@@ -2235,10 +2244,65 @@ const GeneralField = props => {
 							</Form.Item>
 						</Col>
 					</Row>
-					<Row gutter={16}>
-						<Col xs={24} sm={24} md={12}>
+					<Row gutter={20}>
+						<Col xs={24} sm={24} md={20}>
 								<Form.Item name="prezzoScontato" label="Prezzo scontato" rules={rules.prezzoScontato}>
 									<Descriptions.Item label="prezzoScontato"> </Descriptions.Item>
+									{props.mode == "EDIT"  ?
+										<div>
+
+									{prezzo == 0 && sconto == 0 &&
+									
+										<div>
+									<Alert message={props.prezzo-(props.prezzo*props.sconto/100)} type="info" showIcon />
+
+									 
+
+									</div>
+
+										}
+
+									{prezzo != 0 && sconto == 0 &&
+
+									<div>
+									<Alert message={prezzo-(prezzo*props.sconto/100)} type="info" showIcon />
+								</div>
+
+									
+									}
+
+									
+{prezzo == 0 && sconto != 0 &&
+
+<div>
+<Alert message={props.prezzo-(props.prezzo*sconto/100)} type="info" showIcon />
+</div>
+
+
+}
+
+								{prezzo != 0 && sconto != 0 &&
+
+									<div>
+									<Alert message={prezzo-(prezzo*sconto/100)} type="info" showIcon />
+								</div>
+
+									
+									}
+
+									
+										</div>
+
+										:
+
+										<div>
+
+
+								<Alert message={prezzo-(prezzo*sconto/100)} type="info" showIcon />
+
+										</div>
+
+									}
 								</Form.Item>
 								
 						</Col>
